@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  * Clase que implementa las acciones comunes a todos los agentes. 
  * 
  * 
- * @author Alberto Meana
+ * @author Alberto Meana,Andrés Ortiz
  */
 public class Ship extends SingleAgent{
     
@@ -20,7 +20,12 @@ public class Ship extends SingleAgent{
     private ACLMessage in = new ACLMessage();
     
     private JsonObject key, answer, msg;
+    private Role role; //role of agent
     
+    
+   /* 
+    * @author Alberto Meana
+    */
     public Ship( AgentID id ) throws Exception{
     
         super( id );
@@ -32,7 +37,10 @@ public class Ship extends SingleAgent{
         
         this.in = null;
     }
-    
+        
+   /* 
+    * @author Alberto Meana
+    */
     private void subscribe(){
     
         //Composición de Json de subscripcion.
@@ -48,7 +56,10 @@ public class Ship extends SingleAgent{
         this.receiveKey();
         
     }
-    
+        
+   /* 
+    * @author Alberto Meana
+    */
     private void receiveKey(){
     
         this.in = null;
@@ -74,7 +85,10 @@ public class Ship extends SingleAgent{
         }
     
     }
-    
+        
+   /* 
+    * @author Alberto Meana,Andrés Ortiz
+    */
     private void register(){
         
         this.msg = new JsonObject();
@@ -105,12 +119,15 @@ public class Ship extends SingleAgent{
             
                 case( 0 ):
                     System.out.println( this.getName() + " dice: Soy un Xwing (mosca)!" ); 
+                    this.role=new XWing();
                     break;
                 case( 1 ):
                     System.out.println( this.getName() + " dice: Soy un Ywing pajaro!" ); 
+                    this.role=new YWing();
                     break;
                 case( 2 ):
                     System.out.println( this.getName() + " dice: Soy un Halcon Milenariooo!" ); 
+                    this.role=new MillenniumFalcon();
                     break;
             }
             
@@ -122,6 +139,10 @@ public class Ship extends SingleAgent{
         
     }
     
+        
+   /* 
+    * @author Alberto Meana
+    */
     private void cancel(){
         
         this.msg = new JsonObject();
@@ -134,6 +155,10 @@ public class Ship extends SingleAgent{
     
     }
     
+        
+   /* 
+    * @author Alberto Meana
+    */
     private void sendACK( String name ){
     
         this.out.setReceiver( new AgentID( name ) );
@@ -143,6 +168,10 @@ public class Ship extends SingleAgent{
     
     }
     
+        
+   /* 
+    * @author Alberto Meana
+    */
     private void receiveACK(){
     
         this.in = null;
@@ -168,6 +197,10 @@ public class Ship extends SingleAgent{
     
     }
     
+        
+   /* 
+    * @author Alberto Meana
+    */
     @Override
     public void execute(){
     
@@ -183,25 +216,25 @@ public class Ship extends SingleAgent{
         
         switch( this.getName() ){
         
-            case( "rojoLider" ):
-                this.sendKey( "rojo1" );
+            case( AgentsNames.leaderShip ):
+                this.sendKey( AgentsNames.ship2 );
                 this.receiveACK();
                 break;
-            case( "rojo1" ):
-                this.sendKey( "rojo2" );
+            case( AgentsNames.ship2 ):
+                this.sendKey( AgentsNames.ship3 );
                 break;
-            case( "rojo2" ):
-                this.sendKey( "rojo3" );
+            case( AgentsNames.ship3 ):
+                this.sendKey( AgentsNames.ship4 );
                 break;
-            case( "rojo3" ):
-                this.sendACK( "rojoLider" );
+            case( AgentsNames.ship4 ):
+                this.sendACK( AgentsNames.leaderShip );
                 break;
         
         }
         
         this.register();
         
-        if( this.getName().equals( "rojoLider" )){
+        if( this.getName().equals( AgentsNames.leaderShip )){
         
             this.cancel();
             

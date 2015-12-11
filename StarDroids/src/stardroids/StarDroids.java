@@ -2,6 +2,7 @@
 package stardroids;
 
 import Agents.Ship;
+import Agents.AgentsNames;
 import es.upv.dsic.gti_ia.core.AgentID;
 import es.upv.dsic.gti_ia.core.AgentsConnection;
 
@@ -15,10 +16,10 @@ public class StarDroids {
 
         AgentsConnection.connect("isg2.ugr.es", 6000, "Furud", "Canmaior", "Ishiguro", false);
         
-        Ship ship1 = new Ship( new AgentID( "rojoLider" ) );
-        Ship ship2 = new Ship( new AgentID( "rojo1" ) );
-        Ship ship3 = new Ship( new AgentID( "rojo2" ) );
-        Ship ship4 = new Ship( new AgentID( "rojo3" ) );
+        Ship ship1 = new Ship( new AgentID( AgentsNames.leaderShip ) );
+        Ship ship2 = new Ship( new AgentID( AgentsNames.ship2 ) );
+        Ship ship3 = new Ship( new AgentID( AgentsNames.ship3 ) );
+        Ship ship4 = new Ship( new AgentID( AgentsNames.ship4 ) );
         
         ship1.start();
         ship2.start();
