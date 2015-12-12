@@ -1,12 +1,25 @@
 package Agents;
 
+
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import es.upv.dsic.gti_ia.core.ACLMessage;
 import es.upv.dsic.gti_ia.core.AgentID;
 import es.upv.dsic.gti_ia.core.SingleAgent;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+import org.json.simple.parser.ContainerFactory;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.json.simple.JSONArray;
+import org.json.simple.*;
 
 /**
  * Clase que implementa las acciones comunes a todos los agentes. 
@@ -23,6 +36,9 @@ public class Ship extends SingleAgent{
     private Role role; //role of agent
     
     private AgentID nextAgent;
+    Sensors datos = new Sensors();
+    
+    int tipo;
     
    /* 
     * @author Alberto Meana,Andrés Ortiz
@@ -122,14 +138,18 @@ public class Ship extends SingleAgent{
                 case( 0 ):
                     System.out.println( this.getName() + " dice: Soy un Xwing (mosca)!" ); 
                     this.role=new XWing();
+                    tipo = 0;
                     break;
                 case( 1 ):
                     System.out.println( this.getName() + " dice: Soy un Ywing pajaro!" ); 
                     this.role=new YWing();
+                    tipo = 1;
                     break;
                 case( 2 ):
                     System.out.println( this.getName() + " dice: Soy un Halcon Milenariooo!" ); 
                     this.role=new MillenniumFalcon();
+                    tipo = 2;
+                    
                     break;
             }
             
@@ -199,7 +219,133 @@ public class Ship extends SingleAgent{
     
     }
     
+    
+    /**
+     * 
+     * @autor Rafael Ruiz
+     * 
+     * @throws InterruptedException 
+     */
+    public void receiveMessage() throws InterruptedException{
         
+        
+        
+        this.in = null;
+        
+        try {
+            
+            this.in = this.receiveACLMessage();
+            
+        } catch (InterruptedException ex) {
+            
+            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        
+        System.out.println("PERFORMATIVA " + in.getPerformative());
+        
+        System.out.println("Mensaje de: " + this.getName());
+        System.out.println(in.getContent());
+        
+        
+        JSONObject message = null;
+        int n = 0;
+        try {
+            
+        message = new JSONObject(in.getContent());
+        
+        } catch (JSONException ex) {
+            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //METO DATOS
+        
+        
+        try {
+            n = message.getJSONObject("result").getInt("battery");
+            System.out.println("BATERIAAAA " + n);
+        } catch (JSONException ex) {
+            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        int x ,y;
+        
+        try {
+            x = message.getJSONObject("result").getInt("x");
+            y = message.getJSONObject("result").getInt("y");
+            
+            System.out.println("x: " + x + " y: " + y);
+            
+        } catch (JSONException ex) {
+            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        switch( tipo ){
+        
+            case( 0 ):
+                int [][] radar = new int[3][3];
+                
+        {
+            try {
+                JSONArray m = message.getJSONObject("result").getJSONArray("sensor");
+            } catch (JSONException ex) {
+                Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+                
+                break;
+            case( 1 ):
+                this.sendKey( AgentsNames.ship3 );
+                break;
+            case( 2 ):
+                this.sendKey( AgentsNames.ship4 );
+                break;
+        
+        }
+        
+        
+        
+        
+        
+      /*
+       JsonObject message = Json.parse( this.receiveACLMessage().getContent() ).asObject();
+       
+       
+       //ESTUDIO EL TIPO DE MENSAJE
+       
+       this.datos.setBattery((int) message.getInt("battery", 0));
+       
+       //this.battery= (int) message.getFloat("battery", -1); //in case of problem, battery is one
+
+       //JsonObject gpsObject=message.get("gps").asObject();
+       //this.gps.first= gpsObject.getInt("x",gps.first);
+       //this.gps.second= gpsObject.getInt("y",gps.second);
+       
+       
+       this.datos.setPosition((int) message.getInt("x", 0), (int) message.getInt("y", 0));
+       
+       JSONArray rad = new JSONArray();
+       int j=0,i2=0;
+       
+       for(int i=0;i<rad.size();i++){
+           this.datos.setRadar(j, i2, rad.get(i).asInt());
+           i2++;
+           if(i2==5){
+               j++;
+               i2=0;
+           }
+       }
+       
+        this.datos.setEnergy((int) message.getInt("energy", 0));
+        
+        this.datos.setGoal((boolean) message.getBoolean("goal", false));
+       
+       
+        this.datos.Show(); 
+        
+        */
+    }    
+    
    /* 
     * @author Alberto Meana
     */
@@ -236,11 +382,32 @@ public class Ship extends SingleAgent{
         
         this.register();
         
-        if( this.getName().equals( AgentsNames.leaderShip )){
         
+        
+        //Enviamos algo de prueba
+        
+            this.msg = new JsonObject();
+            this.msg.add( "key" , key.get( "result" ).asString() );
+
+            this.out.setPerformative( ACLMessage.QUERY_REF );
+            this.out.setReceiver( new AgentID( "Furud" ) );
+            this.out.setContent( this.msg.toString() );
+            this.send( this.out );
+        
+        
+        try {
+            this.receiveMessage();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+            
+            if( this.getName().equals( AgentsNames.leaderShip )){
+            
             this.cancel();
             
-        }
+            }
+             
     }
     
             

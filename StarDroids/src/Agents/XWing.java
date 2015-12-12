@@ -11,8 +11,12 @@ package Agents;
  */
 public class XWing extends Role {
     //Or fly(mosca)
+    
+    private int[][] radar;
+    
     public XWing(){
         super();
+        this.radar = new int[3][3];
         
     }
 

@@ -12,8 +12,11 @@ package Agents;
 public class MillenniumFalcon extends Role{
     //Millennium Falcon or Falcon (Halcon) obviously
     
+    private int[][] radar;
+    
     public MillenniumFalcon(){
         super();
+        this.radar = new int[11][11];
     }
     @Override
     public void firstLogic() {
