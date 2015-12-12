@@ -2,6 +2,24 @@ StarDroids
 ==========
 The Empire is searching for 3CPO and R2D2 in Tattoine but these aren't the droids you're looking for...
 
+```
+            .          .
+  .          .                  .          .              .
+        +.           _____  .        .        + .                    .
+    .        .   ,-~"     "~-.                                +
+               ,^ ___         ^. +                  .    .       .
+              / .^   ^.         \         .      _ .
+             Y  l  o  !          Y  .         __CL\H--.
+     .       l_ `.___.'        _,[           L__/_\H' \\--_-          +
+             |^~"-----------""~ ^|       +    __L_(=): ]-_ _-- -
+   +       . !                   !     .     T__\ /H. //---- -       .
+          .   \                 /               ~^-H--'
+               ^.             .^            .      "       +.
+                 "-.._____.,-" .                    .
+          +           .                .   +                       .
+   +          .             +                                  .
+```
+
 
 ```
          _.-'~~~~~~`-._                                                    
@@ -20,3 +38,4 @@ The Empire is searching for 3CPO and R2D2 in Tattoine but these aren't the droid
           |    `'    |          
           
 ```
+
