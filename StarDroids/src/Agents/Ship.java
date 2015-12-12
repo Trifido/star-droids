@@ -22,11 +22,12 @@ public class Ship extends SingleAgent{
     private JsonObject key, answer, msg;
     private Role role; //role of agent
     
+    private AgentID nextAgent;
     
    /* 
-    * @author Alberto Meana
+    * @author Alberto Meana,Andrés Ortiz
     */
-    public Ship( AgentID id ) throws Exception{
+    public Ship( AgentID id , AgentID nextId) throws Exception{
     
         super( id );
         this.out.setSender( this.getAid() );
@@ -36,6 +37,7 @@ public class Ship extends SingleAgent{
         this.msg = new JsonObject();
         
         this.in = null;
+        this.nextAgent=nextId;
     }
         
    /* 
@@ -239,5 +241,22 @@ public class Ship extends SingleAgent{
             this.cancel();
             
         }
+    }
+    
+            
+   /* 
+    * @author Alberto Meana
+    */    
+    protected void sendToken(){
+         ACLMessage out = new ACLMessage();
+   // private ACLMessage in = new ACLMessage();
+        out.setReceiver( nextAgent );
+       // this.out.setContent( this.key.toString() ); //this should be token
+        this.out.setPerformative( ACLMessage.INFORM );
+        this.send( out );
+        
+    }
+    protected void waitToken(){
+        
     }
 }
