@@ -11,8 +11,13 @@ package Agents;
  */
 public class YWing extends Role{
     //YWing or bird (pajaro)
+    
+    private int[][] radar;
+    
+    
     public YWing(){
         super();
+        this.radar = new int[5][5];
     }
     @Override
     public void firstLogic() {
