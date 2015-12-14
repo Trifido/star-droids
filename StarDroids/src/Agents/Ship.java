@@ -9,9 +9,7 @@ import es.upv.dsic.gti_ia.core.SingleAgent;
 import java.awt.Frame;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
+import org.codehaus.jettison.json.*;
 
 /**
  * Clase que implementa las acciones comunes a todos los agentes.
