@@ -368,7 +368,7 @@ public class Ship extends SingleAgent {
 
         }
 
-         switch( this.getName() ){
+        /* switch( this.getName() ){
 
          case( AgentsNames.leaderShip ):
          this.sendKey( AgentsNames.ship2 );
@@ -382,7 +382,7 @@ public class Ship extends SingleAgent {
          break;
          case( AgentsNames.ship4 ):
          this.sendACK( AgentsNames.leaderShip);
-         break;
+         break;*/
 
         
         this.sendACK(this.nextAgent); //same as before, but with store nextAgent
@@ -410,7 +410,7 @@ public class Ship extends SingleAgent {
 
         }
 
-    }
+    
     }
     /* 
      * @author Andrés Ortiz
