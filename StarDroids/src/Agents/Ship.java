@@ -1,12 +1,17 @@
 package Agents;
 
+import GUI.WinnerDialog;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import es.upv.dsic.gti_ia.core.ACLMessage;
 import es.upv.dsic.gti_ia.core.AgentID;
 import es.upv.dsic.gti_ia.core.SingleAgent;
+import java.awt.Frame;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 /**
  * Clase que implementa las acciones comunes a todos los agentes.
@@ -149,7 +154,7 @@ public class Ship extends SingleAgent {
 
     }
 
-    /* 
+    /** 
      * @author Alberto Meana
      */
     private void cancel() {
@@ -161,6 +166,9 @@ public class Ship extends SingleAgent {
         this.out.setReceiver(new AgentID("Furud"));
         this.out.setPerformative(ACLMessage.CANCEL);
         this.send(this.out);
+        
+        // Test del jdialog de ganar.
+        // WinnerDialog winrar = new WinnerDialog( new Frame(), true );
 
     }
 
@@ -194,7 +202,13 @@ public class Ship extends SingleAgent {
         }
 
     }
-
+    /**
+     * clase que abstrae el envio de la key entre agentes
+     * 
+     * 
+     * @param name Nombre de a quien se envia la key
+     * @author Alberto Meana
+     */
     private void sendKey(String name) {
 
         this.out.setReceiver(new AgentID(name));
@@ -318,73 +332,71 @@ public class Ship extends SingleAgent {
        
        
          this.datos.Show(); 
-        
-         }   
+        */
+    }   
     
-         /* 
-         * @author Alberto Meana
-         */
-        @Override
-        public void execute
+    /* 
+    * @author Alberto Meana
+    */
+    @Override
+    public void execute(){
         
-            (){
-    
         if (this.getName().equals("rojoLider")) {
 
-                this.subscribe();
+            this.subscribe();
 
-            } else {
+        } else {
 
-                this.receiveKey();
-
-            }
-
-            /*   switch( this.getName() ){
-        
-             case( AgentsNames.leaderShip ):
-             this.sendKey( AgentsNames.ship2 );
-             this.receiveACK();
-             break;
-             case( AgentsNames.ship2 ):
-             this.sendKey( AgentsNames.ship3 );
-             break;
-             case( AgentsNames.ship3 ):
-             this.sendKey( AgentsNames.ship4 );
-             break;
-             case( AgentsNames.ship4 ):
-             this.sendACK( AgentsNames.leaderShip );
-             break;
-        
-             }*/
-            this.sendACK(this.nextAgent); //same as before, but with store nextAgent
-
-            this.register();
-
-        //Enviamos algo de prueba
-            this.msg = new JsonObject();
-            this.msg.add("key", key.get("result").asString());
-
-            this.out.setPerformative(ACLMessage.QUERY_REF);
-            this.out.setReceiver(new AgentID("Furud"));
-            this.out.setContent(this.msg.toString());
-            this.send(this.out);
-
-            try {
-                this.receiveMessage();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (this.getName().equals(AgentsNames.leaderShip)) {
-
-                this.cancel();
-
-            }
+            this.receiveKey();
 
         }
-        /* 
-         * @author Andrés Ortiz
-         */    
+
+        /*   switch( this.getName() ){
+
+         case( AgentsNames.leaderShip ):
+         this.sendKey( AgentsNames.ship2 );
+         this.receiveACK();
+         break;
+         case( AgentsNames.ship2 ):
+         this.sendKey( AgentsNames.ship3 );
+         break;
+         case( AgentsNames.ship3 ):
+         this.sendKey( AgentsNames.ship4 );
+         break;
+         case( AgentsNames.ship4 ):
+         this.sendACK( AgentsNames.leaderShip );
+         break;
+
+         }*/
+        this.sendACK(this.nextAgent); //same as before, but with store nextAgent
+
+        this.register();
+
+    //Enviamos algo de prueba
+        this.msg = new JsonObject();
+        this.msg.add("key", key.get("result").asString());
+
+        this.out.setPerformative(ACLMessage.QUERY_REF);
+        this.out.setReceiver(new AgentID("Furud"));
+        this.out.setContent(this.msg.toString());
+        this.send(this.out);
+
+        try {
+            this.receiveMessage();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (this.getName().equals(AgentsNames.leaderShip)) {
+
+            this.cancel();
+
+        }
+
+    }
+    /* 
+     * @author Andrés Ortiz
+     */    
     protected void sendToken() {
         ACLMessage out = new ACLMessage();
         out.setReceiver(nextAgent);
