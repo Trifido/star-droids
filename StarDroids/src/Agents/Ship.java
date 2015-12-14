@@ -236,7 +236,26 @@ public class Ship extends SingleAgent {
             Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
 
         }
-
+        
+        if (in.getPerformativeInt() == ACLMessage.INFORM)
+        {
+            System.out.println("PERFORMATIVA " + in.getPerformative());
+            
+        }else if(in.getPerformativeInt() == ACLMessage.NOT_UNDERSTOOD)
+        {
+            System.out.println("PERFORMATIVA " + in.getPerformative());
+            
+        }else if(in.getPerformativeInt() == ACLMessage.FAILURE)
+        {
+            System.out.println("PERFORMATIVA " + in.getPerformative());
+            
+        }else if(in.getPerformativeInt() == ACLMessage.REFUSE)
+        {
+            System.out.println("PERFORMATIVA " + in.getPerformative());
+            
+        }
+        
+/*
         System.out.println("PERFORMATIVA " + in.getPerformative());
 
         System.out.println("Mensaje de: " + this.getName());
@@ -294,7 +313,7 @@ public class Ship extends SingleAgent {
                 break;
 
         }
-
+*/
         /*
          JsonObject message = Json.parse( this.receiveACLMessage().getContent() ).asObject();
        
@@ -349,7 +368,7 @@ public class Ship extends SingleAgent {
 
         }
 
-        /*   switch( this.getName() ){
+         switch( this.getName() ){
 
          case( AgentsNames.leaderShip ):
          this.sendKey( AgentsNames.ship2 );
@@ -362,10 +381,10 @@ public class Ship extends SingleAgent {
          this.sendKey( AgentsNames.ship4 );
          break;
          case( AgentsNames.ship4 ):
-         this.sendACK( AgentsNames.leaderShip );
+         this.sendACK( AgentsNames.leaderShip);
          break;
 
-         }*/
+        
         this.sendACK(this.nextAgent); //same as before, but with store nextAgent
 
         this.register();
@@ -391,6 +410,7 @@ public class Ship extends SingleAgent {
 
         }
 
+    }
     }
     /* 
      * @author Andrés Ortiz
