@@ -12,7 +12,6 @@ import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
 import org.newdawn.slick.opengl.*;
 import org.newdawn.slick.util.ResourceLoader;
-
 /**
  * Clase que gestiona la creación de la interfaz gráfica
  * 

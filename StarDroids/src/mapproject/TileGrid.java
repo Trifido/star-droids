@@ -2,7 +2,6 @@ package mapproject;
 
 import static helpers.Artist.*;
 import org.newdawn.slick.opengl.Texture;
-
 /**
  * Clase que contiene el mapa del mundo
  *

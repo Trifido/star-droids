@@ -27,9 +27,6 @@ public class Ship extends SingleAgent {
 
     private AgentID nextAgent;
     private Token token;
-    Sensors datos = new Sensors();
-
-    int tipo;
 
     /*
      * @author Alberto Meana,Andrés Ortiz
@@ -101,17 +98,14 @@ public class Ship extends SingleAgent {
             case(0):
                 System.out.println(this.getName() + " dice: Soy un Xwing (mosca)!");
                 this.role = new XWing();
-                tipo = 0;
                 break;
             case(1):
                 System.out.println(this.getName() + " dice: Soy un Ywing pajaro!");
                 this.role = new YWing();
-                tipo = 1;
                 break;
             case(2):
                 System.out.println(this.getName() + " dice: Soy un Halcon Milenariooo!");
                 this.role = new MillenniumFalcon();
-                tipo = 2;
                 break;
             }
         }
@@ -164,7 +158,11 @@ public class Ship extends SingleAgent {
      * @author Alberto Meana
      */
     private void sendKey(String name) {
-        this.out.setReceiver(new AgentID(name));
+        this.sendKey(new AgentID(name));
+        
+    }
+    private void sendKey(AgentID id){
+         this.out.setReceiver(id);
         this.out.setContent(this.key.toString());
         this.out.setPerformative(ACLMessage.INFORM);
         this.send(this.out);
@@ -299,7 +297,7 @@ public class Ship extends SingleAgent {
     */
     @Override
     public void execute() {
-        if(this.getName().equals("rojoLider")) {
+        if(this.getName().equals(AgentsNames.leaderShip)) {
             this.subscribe();
         }
         else {
@@ -320,7 +318,10 @@ public class Ship extends SingleAgent {
          case( AgentsNames.ship4 ):
          this.sendACK( AgentsNames.leaderShip);
          break;*/
-        this.sendACK(this.nextAgent); //same as before, but with store nextAgent
+         if(this.nextAgent==new AgentID(AgentsNames.leaderShip))
+            this.sendACK(this.nextAgent); //same as before, but with store nextAgent
+         else this.sendKey(this.nextAgent);
+      
         this.register();
         //Enviamos algo de prueba
         this.msg = new JsonObject();
