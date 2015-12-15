@@ -9,12 +9,12 @@ package Agents;
  *
  * @author Andrés Ortiz
  */
-public class MillenniumFalcon extends Role{
+public class MillenniumFalcon extends Role {
     //Millennium Falcon or Falcon (Halcon) obviously
-    
+
     private int[][] radar;
-    
-    public MillenniumFalcon(){
+
+    public MillenniumFalcon() {
         super();
         this.radar = new int[11][11];
     }
@@ -27,5 +27,5 @@ public class MillenniumFalcon extends Role{
     public void secondLogic() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

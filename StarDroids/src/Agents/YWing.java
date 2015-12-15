@@ -9,13 +9,13 @@ package Agents;
  *
  * @author Andrés Ortiz
  */
-public class YWing extends Role{
+public class YWing extends Role {
     //YWing or bird (pajaro)
-    
+
     private int[][] radar;
-    
-    
-    public YWing(){
+
+
+    public YWing() {
         super();
         this.radar = new int[5][5];
     }
@@ -28,5 +28,5 @@ public class YWing extends Role{
     public void secondLogic() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

@@ -11,17 +11,17 @@ package Agents;
  */
 public abstract class Role {
     //Data (if any)
-    
+
     Sensors datos;
-    
+
     //Constructor
-    public Role(){
+    public Role() {
         this.datos = new Sensors();
     }
-    
+
     //basic logic classes, implement here if common
     public abstract void firstLogic();
     public abstract void secondLogic();
-    
-    
+
+
 }

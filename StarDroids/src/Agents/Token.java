@@ -39,7 +39,6 @@ public class Token {
         res.add(AgentsNames.ship2, this.ship2Data);
         res.add(AgentsNames.ship3, this.ship3Data);
         res.add(AgentsNames.ship4, this.ship4Data);
-
         return res;
     }
 

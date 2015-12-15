@@ -10,52 +10,43 @@ package Agents;
  * @author Rafael Ruiz
  */
 public class Sensors {
-    
+
     private int battery;
     private int x, y;
     private int energy;
     private boolean goal;
-    
-    public Sensors()
-    {
+
+    public Sensors() {
         this.battery = 0;
         this.x = 0;
         this.y = 0;
         this.energy = 0;
         this.goal = false;
     }
-    
-    public void setBattery(int i)
-    {
+
+    public void setBattery(int i) {
         this.battery = i;
     }
-    
-    public void setPosition(int x, int y)
-    {
+
+    public void setPosition(int x, int y) {
         this.x = x;
-        
         this.y = y;
     }
-    
-    public void setRadar(int x, int y, int valor)
-    {
+
+    public void setRadar(int x, int y, int valor) {
         //this.radar[x][y] = valor;
     }
-    
-    public void setEnergy(int n)
-    {
+
+    public void setEnergy(int n) {
         this.energy = n;
     }
-    
-    public void setGoal(boolean valor)
-    {
+
+    public void setGoal(boolean valor) {
         this.goal = valor;
     }
-    
-    public void Show()
-    {
+
+    public void Show() {
         System.out.println("Datos");
         System.out.println("Battery " + this.battery);
-        
     }
 }

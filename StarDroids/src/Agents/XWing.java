@@ -11,13 +11,12 @@ package Agents;
  */
 public class XWing extends Role {
     //Or fly(mosca)
-    
+
     private int[][] radar;
-    
-    public XWing(){
+
+    public XWing() {
         super();
         this.radar = new int[3][3];
-        
     }
 
     @Override
@@ -29,5 +28,5 @@ public class XWing extends Role {
     public void secondLogic() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

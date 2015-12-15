@@ -14,15 +14,11 @@ import es.upv.dsic.gti_ia.core.AgentsConnection;
  * @author Alberto Meana
  */
 public class Resurrection {
-    
-    public static void main(String[] args) throws Exception {
 
+    public static void main(String[] args) throws Exception {
         AgentsConnection.connect("isg2.ugr.es", 6000, "test", "Canmaior", "Ishiguro", false);
-        
-        Yoda yoda = new Yoda( new AgentID( "Yoda1" ) );
-        
+        Yoda yoda = new Yoda(new AgentID("Yoda1"));
         yoda.start();
-        
     }
-    
+
 }
