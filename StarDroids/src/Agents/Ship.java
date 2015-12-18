@@ -118,6 +118,7 @@ public class Ship extends SingleAgent {
      * @author Alberto Meana
      */
     private void cancel() {
+        System.out.println( "Cancel sent" );
         this.msg = new JsonObject();
         this.msg.add("key", this.key.get("result").asString());
         this.out.setContent(this.msg.toString());
@@ -132,6 +133,7 @@ public class Ship extends SingleAgent {
      * @author Alberto Meana,Andrés Ortiz
      */
     private void sendACK(AgentID id) {
+        System.out.println( "I'm " + this.getName() + " sending ACK to " + id.getLocalName() );
         this.out.setReceiver(id);
         this.out.setContent("ACK");
         this.out.setPerformative(ACLMessage.INFORM);
@@ -318,25 +320,30 @@ public class Ship extends SingleAgent {
          case( AgentsNames.ship4 ):
          this.sendACK( AgentsNames.leaderShip);
          break;*/
-         if(this.nextAgent==new AgentID(AgentsNames.leaderShip))
+         if(this.nextAgent.getLocalName().equals( "rojoLider") )
             this.sendACK(this.nextAgent); //same as before, but with store nextAgent
-         else this.sendKey(this.nextAgent);
-      
+         else{
+             this.sendKey(this.nextAgent);
+             this.sendACK(this.nextAgent);
+         }
         this.register();
         //Enviamos algo de prueba
-        this.msg = new JsonObject();
+        /*this.msg = new JsonObject();
         this.msg.add("key", key.get("result").asString());
         this.out.setPerformative(ACLMessage.QUERY_REF);
         this.out.setReceiver(new AgentID("Furud"));
         this.out.setContent(this.msg.toString());
-        this.send(this.out);
+        this.send(this.out);*/
         try {
+            System.out.println( this.getAid().getLocalName() + " wololoooo!");
             this.receiveMessage();
+            System.out.println( this.getAid().getLocalName() + " oleeeee!");
         }
         catch(InterruptedException ex) {
             Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
         }
         if(this.getName().equals(AgentsNames.leaderShip)) {
+            
             this.cancel();
         }
     }

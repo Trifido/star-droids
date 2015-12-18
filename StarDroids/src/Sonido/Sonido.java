@@ -1,13 +1,9 @@
 package Sonido;
-
+/*
 import java.io.*;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
-/**
- *
- * @author Nikolai Giovanni González López
- */
 
 public class Sonido {
     private String ruta;
@@ -50,3 +46,4 @@ public class Sonido {
     }
 }
 
+*/
