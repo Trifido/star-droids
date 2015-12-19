@@ -13,10 +13,12 @@ public abstract class Role {
     //Data (if any)
 
     Sensors datos;
+    AgentAction action; //almacena los valores de la heurística
 
     //Constructor
     public Role() {
         this.datos = new Sensors();
+        this.action=new AgentAction();
     }
 
     //basic logic classes, implement here if common

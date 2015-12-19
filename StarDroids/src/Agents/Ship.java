@@ -373,10 +373,10 @@ public class Ship extends SingleAgent {
         System.out.println(this.getName() + " send token");
         this.send(out);
     }
+    
     /*
      * @author Andrés Ortiz
      */
-
     protected void waitToken() throws InterruptedException {
         ACLMessage in = new ACLMessage();
         this.in = this.receiveACLMessage();
