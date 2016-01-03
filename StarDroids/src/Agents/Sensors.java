@@ -15,6 +15,7 @@ public class Sensors {
     private int x, y;
     private int energy;
     private boolean goal;
+    //Poner aqui el worldmap¿?
 
     public Sensors() {
         this.battery = 0;
@@ -48,5 +49,14 @@ public class Sensors {
     public void Show() {
         System.out.println("Datos");
         System.out.println("Battery " + this.battery);
+    }
+  /**
+ * @author Andrés Ortiz
+ */
+    public int getBattery(){
+        return battery;
+    }
+    public boolean inGoal(){
+        return goal;
     }
 }

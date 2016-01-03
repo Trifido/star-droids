@@ -385,4 +385,11 @@ public class Ship extends SingleAgent {
             System.out.println(this.getName() + " received token");
         }
     }
+    /**
+     * @author Andrés Ortiz
+     */
+    private void executeAction(){
+        ActionsEnum action=role.getAction();
+        //execute(action)
+    }
 }
