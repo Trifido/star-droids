@@ -45,21 +45,88 @@ public abstract class Role {
      * 
      * @param in 
      */
-    public void fillSensors(ACLMessage in)
+    public void fillSensors(ACLMessage in, Role role)
     {
         //Datos {"result":{"battery":100,"x":83,"y":99,"sensor":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2],"energy":1000,"goal":false}} 
         JsonObject message = new JsonObject();
         
         message = Json.parse(in.getContent()).asObject().get("result").asObject();
         
+        JsonArray sensor = Json.parse(in.getContent()).asObject().get("result").asObject().get("sensor").asArray();
+        
         this.datos.setFuel(message.getInt("battery", 0));
         this.datos.setGlobalFuel(message.getInt("energy", 0));
         this.datos.setGoal(message.getBoolean("goal", false));
         this.datos.setPosition(message.getInt("x", 0), message.getInt("y",0));
-        this.datos.setShipPosition(0, 0, 0);
-        this.datos.setWorldMap(0, 0, 0);
+        //this.datos.setShipPosition(0, 0, 0); // AUN NO SE QUE ES ESTO
         
+        
+        //relleno mapa de datos segun lo que es
+        if(role.getClass().equals(XWing.class))
+        {
+            fillDates(1, 2, sensor);
+            
+        }else if (role.getClass().equals(YWing.class))
+        {
+            fillDates(2, 3, sensor);
+            
+        }else if (role.getClass().equals(MillenniumFalcon.class))
+        {
+            fillDates(5, 6, sensor);
+        }
         this.datos.Show();
+    }
+
+    
+    
+    /**
+     * 
+     * @author Rafael Ruiz
+     * 
+     * @param a
+     * @param b
+     * @param sensor 
+     */
+    
+    private void fillDates(int a, int b, JsonArray sensor)
+    {
+        int x = (Integer) this.datos.getPosition().first;
+            
+            if(x-a < 0)
+            {
+                x = x + a;
+                
+            }else if(x+b > 500)
+            {
+                x = 500 - b;
+            }
+                
+            
+            int y = (Integer) this.datos.getPosition().second;
+            
+            if(y-a < 0)
+            {
+                y = y + a;
+                
+            }else if(y+b > 500)
+            {
+                y = 500 - b;
+            }
+            
+            int index = 0;
+             
+            
+            for(int i = x-a ; i < x+b; i++)
+            {
+                for(int j = y-a ; j < y+b; j++)
+                {
+                    this.datos.setWorldMap(i, j, sensor.get(index).asInt());
+                    
+                    index++;
+             
+                }
+            }
+        
     }
 
 }
