@@ -8,8 +8,8 @@ import es.upv.dsic.gti_ia.core.ACLMessage;
 public abstract class Role {
     //Data (if any)
 
-    Sensors datos;
-    AgentAction action; //almacena los valores de la heurística
+    protected Sensors datos;
+    protected AgentAction action; //almacena los valores de la heurística
 
     //Constructor
     public Role() {
@@ -62,7 +62,8 @@ public abstract class Role {
         
         
         //relleno mapa de datos segun lo que es
-        if(role.getClass().equals(XWing.class))
+        fillDatesRole(sensor);
+       /* if(role.getClass().equals(XWing.class))
         {
             fillDates(1, 2, sensor);
             
@@ -73,11 +74,11 @@ public abstract class Role {
         }else if (role.getClass().equals(MillenniumFalcon.class))
         {
             fillDates(5, 6, sensor);
-        }
+        }*/
         this.datos.Show();
     }
 
-    
+    protected abstract void fillDatesRole(JsonArray sensor); //rellena los datos dependiendo del rol
     
     /**
      * 
@@ -88,7 +89,7 @@ public abstract class Role {
      * @param sensor 
      */
     
-    private void fillDates(int a, int b, JsonArray sensor)
+    protected void fillDates(int a, int b, JsonArray sensor)
     {
         int x = (Integer) this.datos.getPosition().first;
             

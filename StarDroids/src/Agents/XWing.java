@@ -5,6 +5,8 @@
  */
 package Agents;
 
+import com.eclipsesource.json.JsonArray;
+
 /**
  *
  * @author Andrés Ortiz
@@ -27,6 +29,11 @@ public class XWing extends Role {
     @Override
     public void secondLogic() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void fillDatesRole(JsonArray sensor) {
+       fillDates(1, 2, sensor);
     }
 
 }
