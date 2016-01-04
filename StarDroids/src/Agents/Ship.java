@@ -179,7 +179,7 @@ public class Ship extends SingleAgent {
         
     }
     private void sendKey(AgentID id){
-         this.out.setReceiver(id);
+        this.out.setReceiver(id);
         this.out.setContent(this.key.toString());
         this.out.setPerformative(ACLMessage.INFORM);
         this.send(this.out);
@@ -201,8 +201,6 @@ public class Ship extends SingleAgent {
             Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
-        System.out.println("Datos " + in.getContent());
         
         if(in.getPerformativeInt() == ACLMessage.INFORM && !in.getContent().equals("ACK")) // DANGER DANGER ACK RARO!!
         {
@@ -352,9 +350,43 @@ public class Ship extends SingleAgent {
             
         }else
         {
-            
             this.msg = new JsonObject();
-            this.msg.add("command", msg);
+            
+            if(action == ActionsEnum.moveN)
+            {
+                this.msg.add("command", "moveN");
+                
+            }else if(action == ActionsEnum.moveS)
+            {
+                this.msg.add("command", "moveS");
+                  
+            }else if(action == ActionsEnum.moveE)
+            {
+                this.msg.add("command", "moveE");
+                
+            }else if(action == ActionsEnum.moveW)
+            {
+                this.msg.add("command", "moveW");
+                
+            }else if(action == ActionsEnum.moveNE)
+            {
+                this.msg.add("command", "moveNE");
+                
+            }else if(action == ActionsEnum.moveNW)
+            {
+                this.msg.add("command", "moveNW");
+                
+            }else if(action == ActionsEnum.moveSW)
+            {
+                this.msg.add("command", "moveSW");
+                
+            }else if(action == ActionsEnum.moveSE)
+            {
+                this.msg.add("command", "moveSE");
+                
+            }
+            
+            
             this.msg.add("key", key.get("result").asString());
             this.out.setPerformative(ACLMessage.REQUEST);
             this.out.setReceiver(new AgentID("Furud"));
