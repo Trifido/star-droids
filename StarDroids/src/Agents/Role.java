@@ -77,7 +77,11 @@ public abstract class Role {
         }*/
         this.datos.Show();
     }
-
+  
+    /**
+     * 
+     * @author Andrés Ortiz
+     */
     protected abstract void fillDatesRole(JsonArray sensor); //rellena los datos dependiendo del rol
     
     /**
