@@ -48,12 +48,13 @@ public class Ship extends SingleAgent {
         
         this.fuelLevel = 100;
         this.myPosition = new Pair(-1,-1);
+        this.dronesPosition = new Pair[3];
         for (int i = 0; i < 3 ; i++)
             this.dronesPosition[i] = new Pair(-1,-1);
+        this.worldMap = new Integer[500][500];
         for(int i = 0; i < 500; i++)
             for(int j = 0; j < 500; j++)
-                this.worldMap[i][j] = -1; //unknown
-        
+                this.worldMap[i][j] = -1; //unknown 
     }
 
     /*
