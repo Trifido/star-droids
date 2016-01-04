@@ -1,5 +1,7 @@
 package Agents;
 
+import com.eclipsesource.json.*;
+import es.upv.dsic.gti_ia.core.ACLMessage;
 /**
  * @author Andres Ortiz
  */
@@ -36,6 +38,28 @@ public abstract class Role {
     public ActionsEnum getAction(){
        return action.getAction();
     }
-
+    
+    
+    /**
+     * @author Rafael Ruiz
+     * 
+     * @param in 
+     */
+    public void fillSensors(ACLMessage in)
+    {
+        //Datos {"result":{"battery":100,"x":83,"y":99,"sensor":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2],"energy":1000,"goal":false}} 
+        JsonObject message = new JsonObject();
+        
+        message = Json.parse(in.getContent()).asObject().get("result").asObject();
+        
+        this.datos.setFuel(message.getInt("battery", 0));
+        this.datos.setGlobalFuel(message.getInt("energy", 0));
+        this.datos.setGoal(message.getBoolean("goal", false));
+        this.datos.setPosition(message.getInt("x", 0), message.getInt("y",0));
+        this.datos.setShipPosition(0, 0, 0);
+        this.datos.setWorldMap(0, 0, 0);
+        
+        this.datos.Show();
+    }
 
 }
