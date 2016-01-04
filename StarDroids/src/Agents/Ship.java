@@ -357,11 +357,16 @@ public class Ship extends SingleAgent {
         catch(InterruptedException ex) {
             Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
         if(this.getName().equals(AgentsNames.leaderShip)) {
             
             this.cancel();
         }
     }
+    
+    
+    
     /*
      * @author Andrés Ortiz
      */
@@ -392,4 +397,45 @@ public class Ship extends SingleAgent {
         ActionsEnum action=role.getAction();
         //execute(action)
     }
+    
+    
+    /**
+     * @author Rafael Ruiz
+     * 
+     * @param msg 
+     */
+    public void sendMessage(String msg)
+    {
+        if(msg == "refuel")
+        {
+            this.msg = new JsonObject();
+            this.msg.add("command", "refuel");
+            this.msg.add("key", key.get("result").asString());
+            this.out.setPerformative(ACLMessage.REQUEST);
+            this.out.setReceiver(new AgentID("Furud"));
+            this.out.setContent(this.msg.toString());
+            this.send(this.out);
+            
+        }else if(msg == key.get("result").asString())
+        {
+        
+            this.msg = new JsonObject();
+            this.msg.add("key", key.get("result").asString());
+            this.out.setPerformative(ACLMessage.QUERY_REF);
+            this.out.setReceiver(new AgentID("Furud"));
+            this.out.setContent(this.msg.toString());
+            this.send(this.out);
+            
+        }else
+        {
+            this.msg = new JsonObject();
+            this.msg.add("command", msg);
+            this.msg.add("key", key.get("result").asString());
+            this.out.setPerformative(ACLMessage.REQUEST);
+            this.out.setReceiver(new AgentID("Furud"));
+            this.out.setContent(this.msg.toString());
+            this.send(this.out);
+        }
+    }
+    
 }
