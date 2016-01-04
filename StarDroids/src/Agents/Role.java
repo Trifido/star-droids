@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Agents;
 
 /**
@@ -30,7 +25,9 @@ public abstract class Role {
  */
     private void basicLogic(){
         if(datos.inGoal()) action.multiplyAction(ActionsEnum.sleep, 10); //Si esta en el objetivo, esperar
-        if(datos.getBattery()==0) action.multiplyAction(ActionsEnum.battery,2); //recargar si esta sin bateria
+        // Si es 0, tenemos crash, asi que he corregido esta tonteria -Alberto
+        //if( datos.getFuel() == 0 ) action.multiplyAction(ActionsEnum.battery,2); //recargar si esta sin bateria
+        if( datos.getFuel() == 1 ) action.multiplyAction(ActionsEnum.battery,2); //recargar si esta sin bateria
     }
     /**
  * @author Andres Ortiz

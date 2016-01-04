@@ -1,16 +1,13 @@
 package Agents;
 
-import GUI.WinnerDialog;
 import helpers.Pair;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import es.upv.dsic.gti_ia.core.ACLMessage;
 import es.upv.dsic.gti_ia.core.AgentID;
 import es.upv.dsic.gti_ia.core.SingleAgent;
-import java.awt.Frame;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.codehaus.jettison.json.*;
 
 /**
  * Clase que implementa las acciones comunes a todos los agentes.
@@ -29,10 +26,10 @@ public class Ship extends SingleAgent {
     private AgentID nextAgent;
     private Token token;
     
-    private Integer[][] worldMap;
-    private int fuelLevel;
-    private Pair<Integer,Integer> myPosition; //my current position
-    private Pair<Integer,Integer>[] dronesPosition; //current position of other drones
+    //private Integer[][] worldMap;
+    //private int fuelLevel;
+    //private Pair<Integer,Integer> myPosition; //my current position
+    //private Pair<Integer,Integer>[] dronesPosition; //current position of other drones
 
     /*
      * @author Alberto Meana,Andrés Ortiz,Alba Ríos
@@ -46,15 +43,16 @@ public class Ship extends SingleAgent {
         this.in = null;
         this.nextAgent = nextId;
         
-        this.fuelLevel = 100;
-        this.myPosition = new Pair(-1,-1);
-        this.dronesPosition = new Pair[3];
-        for (int i = 0; i < 3 ; i++)
+        //this.fuelLevel = 100;
+        //this.myPosition = new Pair(-1,-1);
+        //this.dronesPosition = new Pair[3];
+        /*for (int i = 0; i < 3 ; i++)
             this.dronesPosition[i] = new Pair(-1,-1);
         this.worldMap = new Integer[500][500];
         for(int i = 0; i < 500; i++)
             for(int j = 0; j < 500; j++)
                 this.worldMap[i][j] = -1; //unknown 
+        */
     }
 
     /*
