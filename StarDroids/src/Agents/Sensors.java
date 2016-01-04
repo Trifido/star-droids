@@ -137,7 +137,11 @@ public class Sensors {
     public void Show() {
         
         System.out.println("Datos");
-        System.out.println("Combustible " + this.myFuel);
+        System.out.println("Combustible: " + this.myFuel);
+        System.out.println("Global Energy: " + this.globalFuel);
+        System.out.println("Goal: " + this.goal);
+        System.out.println("X: " + this.myPosition.first + " Y: " + this.myPosition.second );
+        
         
     }
 }
