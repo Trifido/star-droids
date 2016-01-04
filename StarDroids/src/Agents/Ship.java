@@ -207,7 +207,7 @@ public class Ship extends SingleAgent {
         if(in.getPerformativeInt() == ACLMessage.INFORM && !in.getContent().equals("ACK")) // DANGER DANGER ACK RARO!!
         {
             System.out.println("PERFORMATIVA " + in.getPerformative());
-            this.role.fillSensors(in);
+            this.role.fillSensors(in, role);
         
         }
         else if(in.getPerformativeInt() == ACLMessage.NOT_UNDERSTOOD) {

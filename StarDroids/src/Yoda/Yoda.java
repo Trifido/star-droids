@@ -1,10 +1,10 @@
 package Yoda;
 
 import GUI.YodaPanel;
+import com.eclipsesource.json.JsonObject;
 import es.upv.dsic.gti_ia.core.ACLMessage;
 import es.upv.dsic.gti_ia.core.AgentID;
 import es.upv.dsic.gti_ia.core.SingleAgent;
-import com.eclipsesource.json.JsonObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

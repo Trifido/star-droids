@@ -142,6 +142,14 @@ public class Sensors {
         System.out.println("Goal: " + this.goal);
         System.out.println("X: " + this.myPosition.first + " Y: " + this.myPosition.second );
         
+        for(int i = 0 ; i < 500 ; i++)
+        {
+            for(int j = 0 ; j < 500; j++)
+            {
+                System.out.print(this.worldMap[i][j] + " ");
+            }
+            System.out.println();
+        }
         
     }
 }
