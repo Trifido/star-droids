@@ -8,6 +8,7 @@ import es.upv.dsic.gti_ia.core.AgentID;
 import es.upv.dsic.gti_ia.core.SingleAgent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.codehaus.jettison.json.JSONException;
 
 /**
  * Clase que implementa las acciones comunes a todos los agentes.
@@ -191,7 +192,7 @@ public class Ship extends SingleAgent {
      * @throws InterruptedException
      */
     //COMMENTED UNTIL WORKING
-    public void receiveMessage() throws InterruptedException {
+    public void receiveMessage() throws InterruptedException{
         this.in = null;
         try {
             this.in = this.receiveACLMessage();
@@ -199,8 +200,15 @@ public class Ship extends SingleAgent {
         catch(InterruptedException ex) {
             Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(in.getPerformativeInt() == ACLMessage.INFORM) {
+        
+        
+        System.out.println("Datos " + in.getContent());
+        
+        if(in.getPerformativeInt() == ACLMessage.INFORM && !in.getContent().equals("ACK")) // DANGER DANGER ACK RARO!!
+        {
             System.out.println("PERFORMATIVA " + in.getPerformative());
+            this.role.fillSensors(in);
+        
         }
         else if(in.getPerformativeInt() == ACLMessage.NOT_UNDERSTOOD) {
             System.out.println("PERFORMATIVA " + in.getPerformative());
@@ -211,101 +219,7 @@ public class Ship extends SingleAgent {
         else if(in.getPerformativeInt() == ACLMessage.REFUSE) {
             System.out.println("PERFORMATIVA " + in.getPerformative());
         }
-        /*
-                System.out.println("PERFORMATIVA " + in.getPerformative());
-
-                System.out.println("Mensaje de: " + this.getName());
-                System.out.println(in.getContent());
-
-                JSONObject message = null;
-                int n = 0;
-                try {
-
-                    message = new JSONObject(in.getContent());
-
-                } catch (JSONException ex) {
-                    Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                //METO DATOS
-                try {
-                    n = message.getJSONObject("result").getInt("battery");
-                    System.out.println("BATERIAAAA " + n);
-                } catch (JSONException ex) {
-                    Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                int x, y;
-
-                try {
-                    x = message.getJSONObject("result").getInt("x");
-                    y = message.getJSONObject("result").getInt("y");
-
-                    System.out.println("x: " + x + " y: " + y);
-
-                } catch (JSONException ex) {
-                    Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                switch (tipo) {
-
-                    case (0):
-                        int[][] radar = new int[3][3];
-
-                         {
-                            try {
-                                JSONArray m = message.getJSONObject("result").getJSONArray("sensor");
-                            } catch (JSONException ex) {
-                                Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-
-                        break;
-                    case (1):
-                        this.sendKey(AgentsNames.ship3);
-                        break;
-                    case (2):
-                        this.sendKey(AgentsNames.ship4);
-                        break;
-
-                }
-        */
-        /*
-         JsonObject message = Json.parse( this.receiveACLMessage().getContent() ).asObject();
-
-
-         //ESTUDIO EL TIPO DE MENSAJE
-
-         this.datos.setBattery((int) message.getInt("battery", 0));
-
-         //this.battery= (int) message.getFloat("battery", -1); //in case of problem, battery is one
-
-         //JsonObject gpsObject=message.get("gps").asObject();
-         //this.gps.first= gpsObject.getInt("x",gps.first);
-         //this.gps.second= gpsObject.getInt("y",gps.second);
-
-
-         this.datos.setPosition((int) message.getInt("x", 0), (int) message.getInt("y", 0));
-
-         JSONArray rad = new JSONArray();
-         int j=0,i2=0;
-
-         for(int i=0;i<rad.size();i++){
-         this.datos.setRadar(j, i2, rad.get(i).asInt());
-         i2++;
-         if(i2==5){
-         j++;
-         i2=0;
-         }
-         }
-
-         this.datos.setEnergy((int) message.getInt("energy", 0));
-
-         this.datos.setGoal((boolean) message.getBoolean("goal", false));
-
-
-         this.datos.Show();
-        */
+        
     }
 
     /*
@@ -348,15 +262,27 @@ public class Ship extends SingleAgent {
         this.out.setReceiver(new AgentID("Furud"));
         this.out.setContent(this.msg.toString());
         this.send(this.out);*/
+
+        
         try {
-            System.out.println( this.getAid().getLocalName() + " wololoooo!");
+            
             this.receiveMessage();
-            System.out.println( this.getAid().getLocalName() + " oleeeee!");
         }
         catch(InterruptedException ex) {
             Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        
+        // Testing lo sensores y envio de mensajes!!!
+        this.sendMessage(ActionsEnum.information);
+        
+        try {
+            
+            this.receiveMessage();
+        }
+        catch(InterruptedException ex) {
+            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         if(this.getName().equals(AgentsNames.leaderShip)) {
             
@@ -403,9 +329,9 @@ public class Ship extends SingleAgent {
      * 
      * @param msg 
      */
-    public void sendMessage(String msg)
+    public void sendMessage(ActionsEnum action)
     {
-        if(msg == "refuel")
+        if(action.equals(ActionsEnum.battery))
         {
             this.msg = new JsonObject();
             this.msg.add("command", "refuel");
@@ -415,9 +341,8 @@ public class Ship extends SingleAgent {
             this.out.setContent(this.msg.toString());
             this.send(this.out);
             
-        }else if(msg == key.get("result").asString())
+        }else if(action == ActionsEnum.information)
         {
-        
             this.msg = new JsonObject();
             this.msg.add("key", key.get("result").asString());
             this.out.setPerformative(ACLMessage.QUERY_REF);
@@ -427,6 +352,7 @@ public class Ship extends SingleAgent {
             
         }else
         {
+            
             this.msg = new JsonObject();
             this.msg.add("command", msg);
             this.msg.add("key", key.get("result").asString());
