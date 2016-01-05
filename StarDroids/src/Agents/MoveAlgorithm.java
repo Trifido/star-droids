@@ -18,46 +18,50 @@ public class MoveAlgorithm {
     private Queue<Pair<Integer,Integer>> cola;
     private Set<Pair<Integer,Integer>> activos;
     
+    private boolean isObstacle(Pair<Integer,Integer> pos, Pair<Integer,Integer>[][]world){
+        return ((world[pos.first][pos.second].first == 1) || (world[pos.first][pos.second].first == 2));
+    }
+    
     private void calcularAdyacentes(Pair<Integer,Integer> pos, Pair<Integer,Integer>[][]world){
         
         if((pos.first!=0 || pos.first!=499) && (pos.second!=0 || pos.second!=499)){
             
-            if( (world[pos.first-1][pos.second-1].first != 1 /*obstaculo*/) && (!activos.contains(new Pair(pos.first-1, pos.second-1))) ){
+            if( (isObstacle(new Pair(pos.first-1,pos.second-1), world)) && (!activos.contains(new Pair(pos.first-1, pos.second-1))) ){
                 world[pos.first-1][pos.second-1].second= world[pos.first][pos.second].second + 1;
                 cola.add(world[pos.first-1][pos.second-1]);
                 activos.add(world[pos.first-1][pos.second-1]);
             }
-            if( (world[pos.first][pos.second-1].first != 1 /*obstaculo*/) && (!activos.contains(new Pair(pos.first, pos.second-1))) ){
+            if( (isObstacle(new Pair(pos.first,pos.second-1), world)) && (!activos.contains(new Pair(pos.first, pos.second-1))) ){
                 world[pos.first][pos.second-1].second= world[pos.first][pos.second].second + 1;
                 cola.add(world[pos.first][pos.second-1]);
                 activos.add(world[pos.first][pos.second-1]);
             }
-            if( (world[pos.first-1][pos.second].first != 1 /*obstaculo*/) && (!activos.contains(new Pair(pos.first-1, pos.second))) ){
+            if( (isObstacle(new Pair(pos.first-1,pos.second), world)) && (!activos.contains(new Pair(pos.first-1, pos.second))) ){
                 world[pos.first-1][pos.second].second= world[pos.first][pos.second].second + 1;
                 cola.add(world[pos.first-1][pos.second]);
                 activos.add(world[pos.first-1][pos.second]);
             }
-            if( (world[pos.first+1][pos.second+1].first != 1 /*obstaculo*/) && (!activos.contains(new Pair(pos.first+1, pos.second+1))) ){
+            if( (isObstacle(new Pair(pos.first+1,pos.second+1), world)) && (!activos.contains(new Pair(pos.first+1, pos.second+1))) ){
                 world[pos.first+1][pos.second+1].second= world[pos.first][pos.second].second + 1;
                 cola.add(world[pos.first+1][pos.second+1]);
                 activos.add(world[pos.first+1][pos.second+1]);
             }
-            if( (world[pos.first][pos.second+1].first != 1 /*obstaculo*/) && (!activos.contains(new Pair(pos.first, pos.second+1))) ){
+            if( (isObstacle(new Pair(pos.first,pos.second+1), world)) && (!activos.contains(new Pair(pos.first, pos.second+1))) ){
                 world[pos.first][pos.second+1].second= world[pos.first][pos.second].second + 1;
                 cola.add(world[pos.first][pos.second+1]);
                 activos.add(world[pos.first][pos.second+1]);
             }
-            if( (world[pos.first+1][pos.second].first != 1 /*obstaculo*/) && (!activos.contains(new Pair(pos.first+1, pos.second))) ){
+            if( (isObstacle(new Pair(pos.first+1,pos.second), world)) && (!activos.contains(new Pair(pos.first+1, pos.second))) ){
                 world[pos.first+1][pos.second].second= world[pos.first][pos.second].second + 1;
                 cola.add(world[pos.first+1][pos.second]);
                 activos.add(world[pos.first+1][pos.second]);
             }
-            if( (world[pos.first+1][pos.second-1].first != 1 /*obstaculo*/) && (!activos.contains(new Pair(pos.first+1, pos.second-1))) ){
+            if( (isObstacle(new Pair(pos.first+1,pos.second-1), world)) && (!activos.contains(new Pair(pos.first+1, pos.second-1))) ){
                 world[pos.first+1][pos.second-1].second= world[pos.first][pos.second].second + 1;
                 cola.add(world[pos.first+1][pos.second-1]);
                 activos.add(world[pos.first+1][pos.second-1]);
             }
-            if( (world[pos.first-1][pos.second+1].first != 1 /*obstaculo*/) && (!activos.contains(new Pair(pos.first-1, pos.second+1))) ){
+            if( (isObstacle(new Pair(pos.first-1,pos.second+1), world)) && (!activos.contains(new Pair(pos.first-1, pos.second+1))) ){
                 world[pos.first-1][pos.second+1].second= world[pos.first][pos.second].second + 1;
                 cola.add(world[pos.first-1][pos.second+1]);
                 activos.add(world[pos.first-1][pos.second+1]);
