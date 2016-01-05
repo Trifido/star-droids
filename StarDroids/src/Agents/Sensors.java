@@ -40,7 +40,7 @@ public class Sensors {
         
         for(int i = 0; i < 500; i++)
             for(int j = 0; j < 500; j++)
-                this.worldMap[i][j].first = -1; //unknown
+                this.worldMap[i][j] = new Pair(-1,0); //unknown
         
         this.myPosition = new Pair(-1,-1);
         this.shipsPosition = new Pair[3];
@@ -157,7 +157,7 @@ public class Sensors {
         {
             for(int j = 0 ; j < 500; j++)
             {
-                System.out.print(this.worldMap[i][j] + " ");
+                System.out.print(this.worldMap[i][j].second + " ");
             }
             System.out.println();
         }
