@@ -8,6 +8,8 @@ import helpers.Pair;
  */
 public class Sensors {
     
+    
+    private MoveAlgorithm test;
     // Combustible de la nave
     private int myFuel;
     // Combustible total
@@ -47,6 +49,8 @@ public class Sensors {
         
         for (int i = 0; i < 3 ; i++)
             this.shipsPosition[i] = new Pair(-1,-1);
+        
+        
         
     }
     
@@ -153,11 +157,20 @@ public class Sensors {
         System.out.println("Goal: " + this.goal);
         System.out.println("X: " + this.myPosition.first + " Y: " + this.myPosition.second );
         
+        Pair<Integer,Integer> posFinal = new Pair(499,499);
+        
+        test = new MoveAlgorithm(posFinal,this.myPosition,this.worldMap);
+        
+        
+        posFinal = new Pair(0,0);
+        
+        test.calcularMap(posFinal);
+        
         for(int i = 0 ; i < 500 ; i++)
         {
             for(int j = 0 ; j < 500; j++)
             {
-                System.out.print(this.worldMap[i][j].second + " ");
+                System.out.print(this.worldMap[i][j].second);
             }
             System.out.println();
         }
