@@ -4,7 +4,7 @@ import helpers.Pair;
 
 /**
  *
- * @author Rafael Ruiz, Alberto Meana
+ * @author Rafael Ruiz, Alberto Meana, Vicente Martínez
  */
 public class Sensors {
     
@@ -21,6 +21,8 @@ public class Sensors {
     private Pair<Integer,Integer> myPosition;
     // Posición del resto de naves
     private Pair<Integer,Integer>[] shipsPosition;
+    // Posición del objetivo
+    private Pair<Integer,Integer> goalPosition;
     
     /////////////////
     
@@ -127,6 +129,15 @@ public class Sensors {
         
         return goal;
         
+    }
+    
+    public void setGoalPosition(int x, int y){
+        this.goalPosition.first = x;
+        this.goalPosition.second = y;
+    }
+    
+    public Pair getGoalPosition(){
+        return this.goalPosition;
     }
     
     
