@@ -15,11 +15,12 @@ public class YWing extends Role {
     //YWing or bird (pajaro)
 
     private int[][] radar;
-
+    private MoveAlgorithm heuristica;
 
     public YWing() {
         super();
         this.radar = new int[5][5];
+        heuristica= new MoveAlgorithm(super.getGoalPosition(),super.getPosition(),super.getMap());
     }
     @Override
     public void firstLogic() {
@@ -28,7 +29,7 @@ public class YWing extends Role {
 
     @Override
     public void secondLogic() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String result= ((MoveAlgorithmFly)heuristica).heuristic();
     }
 
     @Override

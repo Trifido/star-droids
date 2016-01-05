@@ -15,10 +15,12 @@ public class XWing extends Role {
     //Or fly(mosca)
 
     private int[][] radar;
+    private MoveAlgorithm heuristica;
 
     public XWing() {
         super();
         this.radar = new int[3][3];
+        heuristica= new MoveAlgorithmFly(super.getGoalPosition(),super.getPosition(),super.getMap());
     }
 
     @Override
@@ -28,7 +30,7 @@ public class XWing extends Role {
 
     @Override
     public void secondLogic() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String result= ((MoveAlgorithmFly)heuristica).heuristic();
     }
 
     @Override

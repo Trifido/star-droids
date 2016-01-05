@@ -105,6 +105,10 @@ public class Sensors {
     
     }
     
+    public Pair<Integer,Integer>[][] getWorldMap(){
+        return this.worldMap;
+    }
+    
     public int getMapPosition( int x, int y ){
     
         return this.worldMap[x][y].first;

@@ -4,7 +4,7 @@ import com.eclipsesource.json.*;
 import es.upv.dsic.gti_ia.core.ACLMessage;
 import helpers.Pair;
 /**
- * @author Andres Ortiz
+ * @author Andres Ortiz, Vicente Martínez
  */
 public abstract class Role {
     //Data (if any)
@@ -123,41 +123,52 @@ public abstract class Role {
     {
         int x = (Integer) this.datos.getPosition().first;
             
-            if(x-a < 0)
+        if(x-a < 0)
+        {
+            x = x + a;
+
+        }else if(x+b > 500)
+        {
+            x = 500 - b;
+        }
+
+
+        int y = (Integer) this.datos.getPosition().second;
+
+        if(y-a < 0)
+        {
+            y = y + a;
+
+        }else if(y+b > 500)
+        {
+            y = 500 - b;
+        }
+
+        int index = 0;
+
+
+        for(int i = x-a ; i < x+b; i++)
+        {
+            for(int j = y-a ; j < y+b; j++)
             {
-                x = x + a;
-                
-            }else if(x+b > 500)
-            {
-                x = 500 - b;
+                this.datos.setWorldMap(i, j, sensor.get(index).asInt());
+
+                index++;
+
             }
-                
-            
-            int y = (Integer) this.datos.getPosition().second;
-            
-            if(y-a < 0)
-            {
-                y = y + a;
-                
-            }else if(y+b > 500)
-            {
-                y = 500 - b;
-            }
-            
-            int index = 0;
-             
-            
-            for(int i = x-a ; i < x+b; i++)
-            {
-                for(int j = y-a ; j < y+b; j++)
-                {
-                    this.datos.setWorldMap(i, j, sensor.get(index).asInt());
-                    
-                    index++;
-             
-                }
-            }
-        
+        }  
+    }
+    
+    public Pair<Integer,Integer> getPosition(){
+        return this.datos.getPosition();
+    }
+    
+    public Pair<Integer,Integer> getGoalPosition(){
+        return this.datos.getGoalPosition();
+    }
+    
+    public Pair<Integer,Integer>[][] getMap(){
+        return this.datos.getWorldMap();
     }
 
 }

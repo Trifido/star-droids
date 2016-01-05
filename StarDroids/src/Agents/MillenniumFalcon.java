@@ -15,10 +15,12 @@ public class MillenniumFalcon extends Role {
     //Millennium Falcon or Falcon (Halcon) obviously
 
     private int[][] radar;
+    private MoveAlgorithm heuristica;
 
     public MillenniumFalcon() {
         super();
         this.radar = new int[11][11];
+        heuristica= new MoveAlgorithm(super.getGoalPosition(),super.getPosition(),super.getMap());
     }
     @Override
     public void firstLogic() {
@@ -27,7 +29,7 @@ public class MillenniumFalcon extends Role {
 
     @Override
     public void secondLogic() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String result= heuristica.heuristic();
     }
 
     @Override
