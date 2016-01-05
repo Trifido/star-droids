@@ -16,7 +16,7 @@ public class Sensors {
     private boolean goal;
     
     // El mapa
-    private Integer[][] worldMap;
+    private Pair<Integer,Integer>[][] worldMap;
     // Posición de la nave
     private Pair<Integer,Integer> myPosition;
     // Posición del resto de naves
@@ -36,11 +36,11 @@ public class Sensors {
         this.globalFuel = 0;
         this.goal = false;
         
-        this.worldMap = new Integer[500][500];
+        this.worldMap = new Pair[500][500];
         
         for(int i = 0; i < 500; i++)
             for(int j = 0; j < 500; j++)
-                this.worldMap[i][j] = -1; //unknown
+                this.worldMap[i][j].first = -1; //unknown
         
         this.myPosition = new Pair(-1,-1);
         this.shipsPosition = new Pair[3];
@@ -97,13 +97,13 @@ public class Sensors {
     
     public void setWorldMap(int x, int y, int valor) {
         
-        this.worldMap[x][y] = valor;
+        this.worldMap[x][y].first = valor;
     
     }
     
     public int getMapPosition( int x, int y ){
     
-        return this.worldMap[x][y];
+        return this.worldMap[x][y].first;
     
     }
     
