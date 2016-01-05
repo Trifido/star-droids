@@ -2,6 +2,7 @@ package Agents;
 
 import com.eclipsesource.json.*;
 import es.upv.dsic.gti_ia.core.ACLMessage;
+import helpers.Pair;
 /**
  * @author Andres Ortiz
  */
@@ -25,12 +26,37 @@ public abstract class Role {
  * @author Andres Ortiz
  * @description ejemplo de logica básica
  */
-    private void basicLogic(){
+    protected void basicLogic(){
         if(datos.inGoal()) action.multiplyAction(ActionsEnum.sleep, 10); //Si esta en el objetivo, esperar
         // Si es 0, tenemos crash, asi que he corregido esta tonteria -Alberto
-        //if( datos.getFuel() == 0 ) action.multiplyAction(ActionsEnum.battery,2); //recargar si esta sin bateria
         if( datos.getFuel() == 1 ) action.multiplyAction(ActionsEnum.battery,2); //recargar si esta sin bateria
+        checkShips();
     }
+        /**
+ * @author Andres Ortiz
+ * @description Comprueba naves adyacentes
+ */
+    protected void checkShips(){
+        Pair<Integer,Integer> myPos=datos.getPosition();
+        Pair<Integer,Integer>[] ships=datos.getAllShips();
+        for(Pair<Integer,Integer> pos : ships){
+            int x=myPos.first,y=myPos.second;
+            int x2=pos.first,y2=pos.second;
+            //No estoy seguro de que es el norte en el mapa, esto puede fallar?
+            if(x==x2-1 && y==y2-1) action.setToZero(ActionsEnum.moveNW);
+            if(x==x2-1 && y==y2) action.setToZero(ActionsEnum.moveW);
+            if(x==x2-1 && y==y2+1) action.setToZero(ActionsEnum.moveSW);
+            if(x==x2 && y==y2-1) action.setToZero(ActionsEnum.moveN);
+            if(x==x2 && y==y2+1) action.setToZero(ActionsEnum.moveS);
+            if(x==x2+1 && y==y2-1) action.setToZero(ActionsEnum.moveNE);
+            if(x==x2+1 && y==y2) action.setToZero(ActionsEnum.moveE);
+            if(x==x2+1 && y==y2+1) action.setToZero(ActionsEnum.moveSE);
+        }
+        
+        
+    }
+    
+    
     /**
  * @author Andres Ortiz
  * @description devuelve la accion a realizar
