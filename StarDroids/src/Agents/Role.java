@@ -11,6 +11,7 @@ public abstract class Role {
 
     protected Sensors datos;
     protected AgentAction action; //almacena los valores de la heurística
+    protected ActionsEnum direction = ActionsEnum.moveS; //Aux para basic logic
 
     //Constructor
     public Role() {
@@ -23,26 +24,48 @@ public abstract class Role {
     public abstract void secondLogic();
     
     /**
- * @author Andres Ortiz
- * @description ejemplo de logica básica
- */
+    * @author Andres Ortiz, Alba Rios
+    * @description ejemplo de logica básica
+    */
     protected void basicLogic(){
+        Pair<Integer,Integer> myPos = datos.getPosition();
+        int x = myPos.first; int y = myPos.second;
+        
         if(datos.inGoal()) action.multiplyAction(ActionsEnum.sleep, 10); //Si esta en el objetivo, esperar
-        // Si es 0, tenemos crash, asi que he corregido esta tonteria -Alberto
-        if( datos.getFuel() == 1 ) action.multiplyAction(ActionsEnum.battery,2); //recargar si esta sin bateria
+
+        if(datos.getFuel() == 1) action.multiplyAction(ActionsEnum.battery, 2); //recargar si esta sin bateria
+
+        //Moverse abajo-derecha o arriba-derecha
+        if (direction == ActionsEnum.moveS){
+            if (datos.getMapPosition(x, y-1) != 1) action.multiplyAction(ActionsEnum.moveS, 2);
+            else{
+                action.multiplyAction(ActionsEnum.moveE, 2);
+                direction = ActionsEnum.moveN;
+            }
+        }
+        if (direction == ActionsEnum.moveN){
+            if (datos.getMapPosition(x, y+1) != 1) action.multiplyAction(ActionsEnum.moveN, 2);
+            else{
+                action.multiplyAction(ActionsEnum.moveE, 2);
+                direction = ActionsEnum.moveS;
+            }
+        }
+        
         checkShips();
+        updateObstacles();
     }
-        /**
- * @author Andres Ortiz
- * @description Comprueba naves adyacentes
- */
+    
+    /**
+     * @author Andres Ortiz
+     * @description Comprueba naves adyacentes
+     */
     protected void checkShips(){
         Pair<Integer,Integer> myPos=datos.getPosition();
         Pair<Integer,Integer>[] ships=datos.getAllShips();
+        int x=myPos.first,y=myPos.second; //Esto puede ir fuera?
         for(Pair<Integer,Integer> pos : ships){
-            int x=myPos.first,y=myPos.second;
             int x2=pos.first,y2=pos.second;
-            //No estoy seguro de que es el norte en el mapa, esto puede fallar?
+
             if(x==x2-1 && y==y2-1) action.setToZero(ActionsEnum.moveNW);
             if(x==x2-1 && y==y2) action.setToZero(ActionsEnum.moveW);
             if(x==x2-1 && y==y2+1) action.setToZero(ActionsEnum.moveSW);
@@ -52,17 +75,33 @@ public abstract class Role {
             if(x==x2+1 && y==y2) action.setToZero(ActionsEnum.moveE);
             if(x==x2+1 && y==y2+1) action.setToZero(ActionsEnum.moveSE);
         }
-        
-        
     }
     
+    /**
+     * @author Alba Rios
+     * @description Evita el movimiento hacia obstaculos
+     */
+    protected void updateObstacles(){
+        Pair<Integer,Integer> myPos = datos.getPosition();
+        int x = myPos.first; int y = myPos.second;
+        
+        //Obstaculo == 1
+        if (datos.getMapPosition(x-1, y-1) == 1) action.setToZero(ActionsEnum.moveNW);
+        if (datos.getMapPosition(x, y-1) == 1) action.setToZero(ActionsEnum.moveN);
+        if (datos.getMapPosition(x+1, y-1) == 1) action.setToZero(ActionsEnum.moveNE);
+        if (datos.getMapPosition(x-1, y) == 1) action.setToZero(ActionsEnum.moveW);
+        if (datos.getMapPosition(x+1, y) == 1) action.setToZero(ActionsEnum.moveE);
+        if (datos.getMapPosition(x-1, y+1) == 1) action.setToZero(ActionsEnum.moveSW);
+        if (datos.getMapPosition(x, y+1) == 1) action.setToZero(ActionsEnum.moveS);
+        if (datos.getMapPosition(x+1, y+1) == 1) action.setToZero(ActionsEnum.moveSE);
+    }
     
     /**
- * @author Andres Ortiz
- * @description devuelve la accion a realizar
- */ 
+     * @author Andres Ortiz
+     * @description devuelve la accion a realizar
+     */ 
     public ActionsEnum getAction(){
-       return action.getAction();
+        return action.getAction();
     }
     
     
@@ -118,7 +157,6 @@ public abstract class Role {
      * @param b
      * @param sensor 
      */
-    
     protected void fillDates(int a, int b, JsonArray sensor)
     {
         int x = (Integer) this.datos.getPosition().first;
