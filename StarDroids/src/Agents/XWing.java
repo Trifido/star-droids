@@ -6,6 +6,7 @@
 package Agents;
 
 import com.eclipsesource.json.JsonArray;
+import helpers.Pair;
 
 /**
  *
@@ -24,8 +25,25 @@ public class XWing extends Role {
     }
 
     @Override
-    public void firstLogic() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void firstLogic() {        
+        Pair<Integer,Integer> myPos = datos.getPosition();
+        int x = myPos.first; int y = myPos.second;
+        
+        //Moverse abajo-derecha o arriba-derecha
+        if (direction == ActionsEnum.moveS){
+            if (datos.getMapPosition(x, y-1) != 2) action.multiplyAction(ActionsEnum.moveS, 2);
+            else{
+                action.multiplyAction(ActionsEnum.moveE, 2);
+                direction = ActionsEnum.moveN;
+            }
+        }
+        if (direction == ActionsEnum.moveN){
+            if (datos.getMapPosition(x, y+1) != 2) action.multiplyAction(ActionsEnum.moveN, 2);
+            else{
+                action.multiplyAction(ActionsEnum.moveE, 2);
+                direction = ActionsEnum.moveS;
+            }
+        }
     }
 
     @Override

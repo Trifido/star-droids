@@ -28,31 +28,12 @@ public abstract class Role {
     * @description ejemplo de logica básica
     */
     protected void basicLogic(){
-        Pair<Integer,Integer> myPos = datos.getPosition();
-        int x = myPos.first; int y = myPos.second;
-        
+
         if(datos.inGoal()) action.multiplyAction(ActionsEnum.sleep, 10); //Si esta en el objetivo, esperar
 
         if(datos.getFuel() == 1) action.multiplyAction(ActionsEnum.battery, 2); //recargar si esta sin bateria
-
-        //Moverse abajo-derecha o arriba-derecha
-        if (direction == ActionsEnum.moveS){
-            if (datos.getMapPosition(x, y-1) != 1) action.multiplyAction(ActionsEnum.moveS, 2);
-            else{
-                action.multiplyAction(ActionsEnum.moveE, 2);
-                direction = ActionsEnum.moveN;
-            }
-        }
-        if (direction == ActionsEnum.moveN){
-            if (datos.getMapPosition(x, y+1) != 1) action.multiplyAction(ActionsEnum.moveN, 2);
-            else{
-                action.multiplyAction(ActionsEnum.moveE, 2);
-                direction = ActionsEnum.moveS;
-            }
-        }
         
         checkShips();
-        updateObstacles();
     }
     
     /**

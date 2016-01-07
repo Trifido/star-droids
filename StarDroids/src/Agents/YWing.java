@@ -24,7 +24,8 @@ public class YWing extends Role {
     }
     @Override
     public void firstLogic() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        updateObstacles();
+        action.multiplyAction(ActionsEnum.sleep, 10); //Pa q duerman
     }
 
     @Override
