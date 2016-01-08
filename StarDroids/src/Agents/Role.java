@@ -4,19 +4,19 @@ import com.eclipsesource.json.*;
 import es.upv.dsic.gti_ia.core.ACLMessage;
 import helpers.Pair;
 /**
- * @author Andres Ortiz, Vicente Martínez
+ * @author Andres Ortiz, Vicente Martínez, Alba Rios
  */
 public abstract class Role {
     //Data (if any)
 
     protected Sensors datos;
     protected AgentAction action; //almacena los valores de la heurística
-    protected ActionsEnum direction = ActionsEnum.moveS; //Aux para basic logic
+    protected ActionsEnum lastAction; //ultima accion realizada
 
     //Constructor
     public Role() {
         this.datos = new Sensors();
-        this.action=new AgentAction();
+        this.action = new AgentAction();
     }
 
     //basic logic classes, implement here if common
@@ -66,7 +66,7 @@ public abstract class Role {
         Pair<Integer,Integer> myPos = datos.getPosition();
         int x = myPos.first; int y = myPos.second;
         
-        //Obstaculo == 1
+        //Obstaculo == 1 
         if (datos.getMapPosition(x-1, y-1) == 1) action.setToZero(ActionsEnum.moveNW);
         if (datos.getMapPosition(x, y-1) == 1) action.setToZero(ActionsEnum.moveN);
         if (datos.getMapPosition(x+1, y-1) == 1) action.setToZero(ActionsEnum.moveNE);
@@ -78,13 +78,32 @@ public abstract class Role {
     }
     
     /**
-     * @author Andres Ortiz
+     * @author Alba Rios
+     * @description Evita el movimiento hacia los bordes
+     */
+    protected void updateBorders(){
+        Pair<Integer,Integer> myPos = datos.getPosition();
+        int x = myPos.first; int y = myPos.second;
+        
+        //Borde == 2
+        if (datos.getMapPosition(x-1, y-1) == 2) action.setToZero(ActionsEnum.moveNW);
+        if (datos.getMapPosition(x, y-1) == 2) action.setToZero(ActionsEnum.moveN);
+        if (datos.getMapPosition(x+1, y-1) == 2) action.setToZero(ActionsEnum.moveNE);
+        if (datos.getMapPosition(x-1, y) == 2) action.setToZero(ActionsEnum.moveW);
+        if (datos.getMapPosition(x+1, y) == 2) action.setToZero(ActionsEnum.moveE);
+        if (datos.getMapPosition(x-1, y+1) == 2) action.setToZero(ActionsEnum.moveSW);
+        if (datos.getMapPosition(x, y+1) == 2) action.setToZero(ActionsEnum.moveS);
+        if (datos.getMapPosition(x+1, y+1) == 2) action.setToZero(ActionsEnum.moveSE);
+    }
+    
+    /**
+     * @author Andres Ortiz, Alba Rios
      * @description devuelve la accion a realizar
      */ 
     public ActionsEnum getAction(){
-        return action.getAction();
+        lastAction = action.getAction();
+        return lastAction;
     }
-    
     
     /**
      * @author Rafael Ruiz

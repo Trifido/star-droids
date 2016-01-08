@@ -10,24 +10,28 @@ import helpers.Pair;
 
 /**
  *
- * @author Andrés Ortiz
+ * @author Andrés Ortiz, Alba Rios
  */
 public class XWing extends Role {
     //Or fly(mosca)
 
     private int[][] radar;
     private MoveAlgorithm heuristica;
+    private ActionsEnum direction; //Aux para basic logic
 
     public XWing() {
         super();
         this.radar = new int[3][3];
         heuristica= new MoveAlgorithmFly(super.getGoalPosition(),super.getPosition(),super.getMap());
+        direction = ActionsEnum.moveS;
     }
 
     @Override
     public void firstLogic() {        
         Pair<Integer,Integer> myPos = datos.getPosition();
         int x = myPos.first; int y = myPos.second;
+        
+        updateBorders();
         
         //Moverse abajo-derecha o arriba-derecha
         if (direction == ActionsEnum.moveS){
