@@ -153,7 +153,7 @@ public class Sensors {
      * funcion para mostrar cierta información por consola
      * 
      */
-    public void Show() {
+    public void show() {
         
         System.out.println("Datos");
         System.out.println("Combustible: " + this.myFuel);

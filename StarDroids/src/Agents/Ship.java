@@ -1,6 +1,5 @@
 package Agents;
 
-import helpers.Pair;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import es.upv.dsic.gti_ia.core.ACLMessage;
@@ -8,7 +7,6 @@ import es.upv.dsic.gti_ia.core.AgentID;
 import es.upv.dsic.gti_ia.core.SingleAgent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.codehaus.jettison.json.JSONException;
 
 /**
  * Clase que implementa las acciones comunes a todos los agentes.
@@ -27,11 +25,6 @@ public class Ship extends SingleAgent {
     private AgentID nextAgent;
     private Token token;
     
-    //private Integer[][] worldMap;
-    //private int fuelLevel;
-    //private Pair<Integer,Integer> myPosition; //my current position
-    //private Pair<Integer,Integer>[] dronesPosition; //current position of other drones
-
     /*
      * @author Alberto Meana,Andrés Ortiz,Alba Ríos
      */
@@ -44,16 +37,6 @@ public class Ship extends SingleAgent {
         this.in = null;
         this.nextAgent = nextId;
         
-        //this.fuelLevel = 100;
-        //this.myPosition = new Pair(-1,-1);
-        //this.dronesPosition = new Pair[3];
-        /*for (int i = 0; i < 3 ; i++)
-            this.dronesPosition[i] = new Pair(-1,-1);
-        this.worldMap = new Integer[500][500];
-        for(int i = 0; i < 500; i++)
-            for(int j = 0; j < 500; j++)
-                this.worldMap[i][j] = -1; //unknown 
-        */
     }
 
     /*
@@ -231,46 +214,41 @@ public class Ship extends SingleAgent {
         else {
             this.receiveKey();
         }
-        /* switch( this.getName() ){
 
-         case( AgentsNames.leaderShip ):
-         this.sendKey( AgentsNames.ship2 );
-         this.receiveACK();
-         break;
-         case( AgentsNames.ship2 ):
-         this.sendKey( AgentsNames.ship3 );
-         break;
-         case( AgentsNames.ship3 ):
-         this.sendKey( AgentsNames.ship4 );
-         break;
-         case( AgentsNames.ship4 ):
-         this.sendACK( AgentsNames.leaderShip);
-         break;*/
-         if(this.nextAgent.getLocalName().equals( "rojoLider") )
-            this.sendACK(this.nextAgent); //same as before, but with store nextAgent
+        if(this.nextAgent.getLocalName().equals( "rojoLider") )
+            this.sendKey(this.nextAgent); //same as before, but with store nextAgent
          else{
              this.sendKey(this.nextAgent);
-             this.sendACK(this.nextAgent);
+             //this.sendACK(this.nextAgent);
          }
+         
         this.register();
-        //Enviamos algo de prueba
-        /*this.msg = new JsonObject();
-        this.msg.add("key", key.get("result").asString());
-        this.out.setPerformative(ACLMessage.QUERY_REF);
-        this.out.setReceiver(new AgentID("Furud"));
-        this.out.setContent(this.msg.toString());
-        this.send(this.out);*/
-
         
-        try {
+        while( !this.role.inGoal() ){
             
-            this.receiveMessage();
-        }
-        catch(InterruptedException ex) {
-            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+            if( this.role.getClass().equals(XWing.class) ){
+                
+                this.sendMessage(ActionsEnum.information);
+                
+                try {
+                    
+                    this.receiveMessage();
+                }
+                catch(InterruptedException ex) {
+                    Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }else{
+            
+                while( true ){}
+            
+            }
+            
         }
         
+        this.cancel();
         
+        /*
         // Testing lo sensores y envio de mensajes!!!
         this.sendMessage(ActionsEnum.information);
         
@@ -286,6 +264,7 @@ public class Ship extends SingleAgent {
             
             this.cancel();
         }
+        */
     }
     
     
@@ -385,7 +364,6 @@ public class Ship extends SingleAgent {
                 this.msg.add("command", "moveSE");
                 
             }
-            
             
             this.msg.add("key", key.get("result").asString());
             this.out.setPerformative(ACLMessage.REQUEST);

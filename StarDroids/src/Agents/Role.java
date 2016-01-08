@@ -4,7 +4,7 @@ import com.eclipsesource.json.*;
 import es.upv.dsic.gti_ia.core.ACLMessage;
 import helpers.Pair;
 /**
- * @author Andres Ortiz, Vicente Martínez, Alba Rios
+ * @author Andres Ortiz, Vicente Martínez, Alba Rios, Alberto Meana
  */
 public abstract class Role {
     //Data (if any)
@@ -22,6 +22,17 @@ public abstract class Role {
     //basic logic classes, implement here if common
     public abstract void firstLogic();
     public abstract void secondLogic();
+    
+    
+    //////////////////////
+    
+    public boolean inGoal(){
+    
+        return this.datos.inGoal();
+    
+    }
+    
+    //////////////////////
     
     /**
     * @author Andres Ortiz, Alba Rios
@@ -102,6 +113,7 @@ public abstract class Role {
      */ 
     public ActionsEnum getAction(){
         lastAction = action.getAction();
+        this.datos.show();
         return lastAction;
     }
     
@@ -140,7 +152,7 @@ public abstract class Role {
         {
             fillDates(5, 6, sensor);
         }*/
-        this.datos.Show();
+        this.datos.show();
     }
   
     /**

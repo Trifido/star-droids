@@ -15,9 +15,9 @@ import es.upv.dsic.gti_ia.core.AgentID;
 //"Static" class with agents names
 public class AgentsNames {
     public static final String leaderShip="rojoLider";
-    public static final String ship2="rojo1";
-    public static final String ship3="rojo2";
-    public static final String ship4="rojo3";
+    public static final String ship2="rojo11";
+    public static final String ship3="rojo22";
+    public static final String ship4="rojo33";
     public static AgentID getId(String name) {
         return new AgentID(name);
     }
