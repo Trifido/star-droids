@@ -46,7 +46,7 @@ public class Token {
      *
      * @author Andrés Ortiz Corrales
      */
-    private void parse(JsonObject json) {
+    public void parse(JsonObject json) {
         this.meta = json.get("meta").asObject();
         this.ship1Data = json.get(AgentsNames.leaderShip).asObject();
         this.ship2Data = json.get(AgentsNames.ship2).asObject();

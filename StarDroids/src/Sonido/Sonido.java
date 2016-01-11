@@ -4,7 +4,12 @@ import java.io.*;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
-
+/**
+ *
+ * @author Nikolai Giovanni González López
+ * @description Clase Sonido que reproduce MP3 en una hebra por debajo del programa principal
+ */
+/*
 public class Sonido {
     private String ruta;
     private Player player;

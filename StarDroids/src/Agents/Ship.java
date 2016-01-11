@@ -371,6 +371,112 @@ public class Ship extends SingleAgent {
             this.out.setContent(this.msg.toString());
             this.send(this.out);
         }
+        this.actualiceToken(action);
+    }
+    
+    /**
+     * 
+     * @author Nikolai Giovanni González López
+     */
+    private void actualiceToken(ActionsEnum action)
+    {
+        JsonObject msgToken = new JsonObject();
+        
+        if(action.equals(ActionsEnum.battery))
+        {
+            if (this.getAid().name==AgentsNames.leaderShip)
+            {
+                msgToken.add(AgentsNames.leaderShip,"refuel");
+                this.token.parse(msgToken);
+            }else if (this.getAid().name==AgentsNames.ship2)
+            {
+                msgToken.add(AgentsNames.ship2,"refuel");
+                this.token.parse(msgToken);
+            }else if (this.getAid().name==AgentsNames.ship3)
+            {
+                msgToken.add(AgentsNames.ship3,"refuel");
+                this.token.parse(msgToken);
+            }else if (this.getAid().name==AgentsNames.ship4)
+            {
+                msgToken.add(AgentsNames.ship4,"refuel");
+                this.token.parse(msgToken);
+            }
+            
+        }else if(action == ActionsEnum.information)
+        {
+            if (this.getAid().name==AgentsNames.leaderShip)
+            {
+                msgToken.add(AgentsNames.leaderShip,"key");
+                this.token.parse(msgToken);
+            }else if (this.getAid().name==AgentsNames.ship2)
+            {
+                msgToken.add(AgentsNames.ship2,"key");
+                this.token.parse(msgToken);
+            }else if (this.getAid().name==AgentsNames.ship3)
+            {
+                msgToken.add(AgentsNames.ship3,"key");
+                this.token.parse(msgToken);
+            }else if (this.getAid().name==AgentsNames.ship4)
+            {
+                msgToken.add(AgentsNames.ship4,"key");
+                this.token.parse(msgToken);
+            }
+            
+        }else
+        {
+            String accion = new String();
+            if(action == ActionsEnum.moveN)
+            {
+                accion = "moveN";
+                
+            }else if(action == ActionsEnum.moveS)
+            {
+                accion = "moveS";
+                  
+            }else if(action == ActionsEnum.moveE)
+            {
+                accion = "moveE";
+                
+            }else if(action == ActionsEnum.moveW)
+            {
+                accion = "moveW";
+                
+            }else if(action == ActionsEnum.moveNE)
+            {
+                accion = "moveNE";
+                
+            }else if(action == ActionsEnum.moveNW)
+            {
+                accion = "moveNW";
+                
+            }else if(action == ActionsEnum.moveSW)
+            {
+                accion = "moveSW";
+                
+            }else if(action == ActionsEnum.moveSE)
+            {
+                accion = "moveSE";
+                
+            }
+        
+            if (this.getAid().name==AgentsNames.leaderShip)
+            {
+                msgToken.add(AgentsNames.leaderShip,accion);
+                this.token.parse(msgToken);
+            }else if (this.getAid().name==AgentsNames.ship2)
+            {
+                msgToken.add(AgentsNames.ship2,accion);
+                this.token.parse(msgToken);
+            }else if (this.getAid().name==AgentsNames.ship3)
+            {
+                msgToken.add(AgentsNames.ship3,accion);
+                this.token.parse(msgToken);
+            }else if (this.getAid().name==AgentsNames.ship4)
+            {
+                msgToken.add(AgentsNames.ship4,accion);
+                this.token.parse(msgToken);
+            }
+        }
     }
     
 }
