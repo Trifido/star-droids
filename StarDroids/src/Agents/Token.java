@@ -27,6 +27,23 @@ public class Token {
     public Token(JsonObject json) {
         this.parse(json);
     }
+    public Token(){
+        this.ship1Data=new JsonObject();
+        this.ship2Data=new JsonObject();
+        this.ship3Data=new JsonObject();
+        this.ship4Data=new JsonObject();
+        this.meta=new JsonObject();
+    }
+    public void setToken(String name,JsonObject data){
+        if(name.equals(AgentsNames.leaderShip)) this.ship1Data=data;
+        if(name.equals(AgentsNames.ship2)) this.ship1Data=data;
+        if(name.equals(AgentsNames.ship3)) this.ship1Data=data;
+        if(name.equals(AgentsNames.ship4)) this.ship1Data=data;
+    }
+    public void setMeta(JsonObject data){
+        this.meta=data;
+    }
+    
 
     /**
      *

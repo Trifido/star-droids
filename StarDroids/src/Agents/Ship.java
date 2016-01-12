@@ -145,6 +145,7 @@ public class Ship extends SingleAgent {
         this.in = null;
         try {
             this.in = this.receiveACLMessage();
+            System.out.println("ACK received");
         }
         catch(InterruptedException ex) {
             Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
@@ -158,6 +159,7 @@ public class Ship extends SingleAgent {
      * @author Alberto Meana
      */
     private void sendKey(String name) {
+        System.out.println(this.getName()+" Send Key");
         this.sendKey(new AgentID(name));
         
     }
@@ -204,27 +206,32 @@ public class Ship extends SingleAgent {
     }
 
     /*
-    * @author Alberto Meana
+    * @author Alberto Meana,Andrés Ortiz
     */
     @Override
     public void execute() {
         if(this.getName().equals(AgentsNames.leaderShip)) {
             this.subscribe();
+             this.token=new Token(); //creamos el token
         }
         else {
             this.receiveKey();
         }
 
-        if(this.nextAgent.getLocalName().equals( "rojoLider") )
-            this.sendKey(this.nextAgent); //same as before, but with store nextAgent
-         else{
+        if(this.nextAgent.getLocalName().equals( AgentsNames.leaderShip) ){
+            //this.sendKey(this.nextAgent); //same as before, but with store nextAgent
+            this.sendACK(this.nextAgent);
+        }else{
              this.sendKey(this.nextAgent);
              //this.sendACK(this.nextAgent);
          }
          
         this.register();
+        if(this.getName().equals(AgentsNames.leaderShip)){
+            receiveACK();
+        }
         
-        while( !this.role.inGoal() ){
+       /* while( !this.role.inGoal() ){
             
             if( this.role.getClass().equals(XWing.class) ){
                 
@@ -238,15 +245,32 @@ public class Ship extends SingleAgent {
                     Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-            }else{
+            }else{*/
+                int count=0;
+                while( true ){
+                    try {
+                        if(!(this.getName().equals(AgentsNames.leaderShip)) || count!=0) waitToken();
+                        //this. token should have all data (one token for each 
+                        //Logic Here
+                        //Action Here
+                        JsonObject updatedData=new JsonObject();
+                        //TODO: update updatedjson with sensor data
+                        
+                        this.token.setToken(this.getName(), updatedData);
+                        //this.token.setMeta(/*json object here*/); //if metadata, set here in token
+                        sendToken(); //sends token to next agent
+                            
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    count++;
+                }
             
-                while( true ){}
+      //      }
             
-            }
-            
-        }
+       // }
         
-        this.cancel();
+      //  this.cancel();
         
         /*
         // Testing lo sensores y envio de mensajes!!!
@@ -275,9 +299,9 @@ public class Ship extends SingleAgent {
     protected void sendToken() {
         ACLMessage out = new ACLMessage();
         out.setReceiver(nextAgent);
-        this.out.setContent(this.token.toJson().toString()); //this should be token
-        this.out.setPerformative(ACLMessage.INFORM);
-        System.out.println(this.getName() + " send token");
+        out.setContent(this.token.toJson().toString()); //this should be token
+        out.setPerformative(ACLMessage.INFORM);
+        System.out.println(this.getName() + " send token to "+ nextAgent.name);
         this.send(out);
     }
     
@@ -285,8 +309,9 @@ public class Ship extends SingleAgent {
      * @author Andrés Ortiz
      */
     protected void waitToken() throws InterruptedException {
+        System.out.println(this.getName() + " Waiting token");
         ACLMessage in = new ACLMessage();
-        this.in = this.receiveACLMessage();
+        in = this.receiveACLMessage();
         if(in.getPerformativeInt() == ACLMessage.INFORM) {
             this.token = new Token(Json.parse(in.getContent()).asObject());
             System.out.println(this.getName() + " received token");
