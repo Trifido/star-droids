@@ -122,7 +122,7 @@ public abstract class Role {
      * 
      * @param in 
      */
-    public void fillSensors(ACLMessage in, Role role)
+    public JsonObject fillSensors(ACLMessage in, Role role)
     {
         //Datos {"result":{"battery":100,"x":83,"y":99,"sensor":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2],"energy":1000,"goal":false}} 
         JsonObject message = new JsonObject();
@@ -152,7 +152,9 @@ public abstract class Role {
         {
             fillDates(5, 6, sensor);
         }*/
-        this.datos.show();
+        System.out.println("Hello");
+        //this.datos.show();
+        return message;
     }
   
     /**

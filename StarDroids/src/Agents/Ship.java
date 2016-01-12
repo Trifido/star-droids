@@ -185,7 +185,8 @@ public class Ship extends SingleAgent {
         if (in.getPerformativeInt() == ACLMessage.INFORM && !in.getContent().equals("ACK")) // DANGER DANGER ACK RARO!!
         {
             System.out.println("PERFORMATIVA " + in.getPerformative());
-            this.role.fillSensors(in, role);
+            JsonObject message = this.role.fillSensors(in, role); //Adds message to token
+            this.token.setToken(this.getName(), message); //stores message in token
 
         } else if (in.getPerformativeInt() == ACLMessage.NOT_UNDERSTOOD) {
             System.out.println("PERFORMATIVA " + in.getPerformative());
@@ -231,25 +232,21 @@ public class Ship extends SingleAgent {
                 //this. token should have all data (one token for each ship)
                 //TODO:Logic Here
                 //TODO: Action Here
-                
-                //This fails in something
+
+                //Simple example
                /* if (this.role.getClass().equals(XWing.class)) {
-                    this.sendMessage(ActionsEnum.information);
-                    try {
+                 this.sendMessage(ActionsEnum.information);
+                 try {
 
-                        this.receiveMessage();
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                 this.receiveMessage();
+                 } catch (InterruptedException ex) {
+                 Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+                 }
 
-                } else {
-                    // while( true ){ }
+                 } else {
+                 // while( true ){ }
 
-                }*/
-                JsonObject updatedData = new JsonObject();
-                //TODO: update updatedjson with sensor data
-
-                this.token.setToken(this.getName(), updatedData);
+                 }*/
                 //this.token.setMeta(/*json object here*/); //if metadata, set here in token
                 sendToken(); //sends token to next agent
 
@@ -262,9 +259,9 @@ public class Ship extends SingleAgent {
 
         this.cancel();
 
-        /*
+        
          // Testing lo sensores y envio de mensajes!!!
-         this.sendMessage(ActionsEnum.information);
+         /*this.sendMessage(ActionsEnum.information);
         
          try {
             
@@ -277,8 +274,8 @@ public class Ship extends SingleAgent {
          if(this.getName().equals(AgentsNames.leaderShip)) {
             
          this.cancel();
-         }
-         */
+         }*/
+         
     }
 
     /*
@@ -372,7 +369,7 @@ public class Ship extends SingleAgent {
             this.out.setContent(this.msg.toString());
             this.send(this.out);
         }
-        this.actualiceToken(action);
+    //    this.actualiceToken(action);
     }
 
     /**
