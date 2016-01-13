@@ -208,8 +208,7 @@ public abstract class Role {
                 index++;
 
             }
-        }  
-        this.datos.show();
+        }
     }
     
     public Pair<Integer,Integer> getPosition(){
