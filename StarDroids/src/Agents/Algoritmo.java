@@ -17,7 +17,8 @@ import java.util.Map;
 public class Algoritmo {
     private Pair<Integer,Integer> posFinal;
     private Pair<Integer,Integer> posActual;
-    private int radar[][], scanner[][];
+    private int radar[][]; 
+    private double scanner[][];
     private int battery;
     private double minValueFind;
     private double []finalPoint;
@@ -32,6 +33,7 @@ public class Algoritmo {
         this.posActual= posActual;
         this.world= world;
         radar= new int[3][3];
+        scanner= new double [3][3];
         initHeu2= true;
         finalPoint= new double[2];
         String actionAnterior= "";
@@ -111,6 +113,206 @@ public class Algoritmo {
     }
 
     
+    /**
+     * Actualiar matriz radar
+     * @author Vicente
+     */
+    private void updateRadar(){
+        for(int i=0; i<3; i++){
+            for(int j=0; j<3; j++){
+                radar[i][j]= world[posActual.first-1+i][posActual.second-1+j];
+            }
+        }
+    }
+    
+    /**
+     * Actualizar matriz scanner
+     * @author Vicente
+     */
+    private void updateScanner(){
+        for(int i=0; i<3; i++){
+            for(int j=0; j<3; j++){
+                scanner[i][j]= calcularDistancia(new Pair(posActual.first-1+i,posActual.second-1+j), posFinal);
+            }
+        }
+    }
+    
+    /**
+     * Método que actualiza las matrices de los sensores.
+     * @author Vicente
+     */
+    private void updateMatrixSensor(){
+        updateRadar();
+        updateScanner();
+    }
+    
+    /**
+     * Funcion heuristica2 algortimo basado en el algoritmo de la mano derecha, es usada
+     * cuando initHeuristic2() es true, dependiendo de las casillas adyacentes 
+     * el bot se moverá a una u otra direccion.
+     * 
+     * @return String Con la acción elegida.
+     * @author Vicente Martínez
+     */
+    public String heuristic2(){
+        String act= new String();
+        boolean accionElegida=false;
+        
+        if(!isMovE() && !isMovW() && !accionElegida){
+            if(actionAnterior=="moveSE" || actionAnterior=="moveS" || actionAnterior=="moveSW"){
+               if(isMovSW()){
+                  act= "moveSW";
+                  accionElegida=true;
+               }
+               else if(isMovS()){
+                  act= "moveS";
+                  accionElegida=true;
+               }
+            }
+            else if(actionAnterior=="moveNE" || actionAnterior=="moveN" || actionAnterior=="moveNW"){
+                if(isMovNE()){
+                  act= "moveNE";
+                  accionElegida=true;
+               }
+               else if(isMovN()){
+                  act= "moveN";
+                  accionElegida=true;
+               }
+            }
+        }
+        
+        if(!isMovN() && !isMovS() && !accionElegida){ 
+            if(actionAnterior=="moveSE" || actionAnterior=="moveE" || actionAnterior=="moveNE"){
+               if(isMovSE()){
+                  act= "moveSE";
+                  accionElegida=true;
+               }
+               else if(isMovE()){
+                  act= "moveE";
+                  accionElegida=true;
+               }
+            }
+            else if(actionAnterior=="moveSW" || actionAnterior=="moveW" || actionAnterior=="moveNW"){
+                if(isMovSW()){
+                  act= "moveSW";
+                  accionElegida=true;
+               }
+               else if(isMovW()){
+                  act= "moveW";
+                  accionElegida=true;
+               }
+            }
+        }
+        
+        if(!isMovE() && !accionElegida){
+            if(isMovNE()){
+                act= "moveNE";
+                accionElegida=true;
+            }
+            else if(isMovN()){
+                act= "moveN";
+                accionElegida=true;
+            }
+        }
+        if(!isMovN() && !accionElegida){
+            if(isMovNW()){
+                act= "moveNW";
+                accionElegida=true;
+            }
+            else if(isMovW()){
+                act= "moveW";
+                accionElegida=true;
+            }
+        }
+        if(!isMovW() && !accionElegida){
+            if(isMovSW()){
+                act= "moveSW";
+                accionElegida=true;
+            }
+            else if(isMovS()){
+                act= "moveS";
+                accionElegida=true;
+            }
+        }
+        if(!isMovS() && !accionElegida){
+            if(isMovSE()){
+                act= "moveSE";
+                accionElegida=true;
+            }
+            else if(isMovE()){
+                act= "moveE";
+                accionElegida=true;
+            }
+        }
+        if(!isMovSE() && !accionElegida){
+            if(isMovE()){
+                act= "moveE";
+                accionElegida=true;
+            }
+            else if(isMovNE()){
+                act= "moveNE";
+                accionElegida=true;
+            }
+        }
+        if(!isMovSW() && !accionElegida){
+            if(isMovS()){
+                act= "moveS";
+                accionElegida=true;
+            }
+            else if(isMovSE()){
+                act= "moveSE";
+                accionElegida=true;
+            }
+        }
+        if(!isMovNW() && !accionElegida){
+            if(isMovW()){
+                act= "moveW";
+                accionElegida=true;
+            }
+            else if(isMovSW()){
+                act= "moveSW";
+                accionElegida=true;
+            }
+        }
+        if(!accionElegida){
+            if(isMovN())
+                act= "moveN";
+            else if(isMovNW())
+                act= "moveNW";
+        }
+        
+        return act;
+    }
+    
+    /**
+     * Funciones encargadas de comprobar si es posible moverse a una dirección. 
+     * @author Vicente Martínez
+     * @return Presenta o no obstaculo.
+     */
+    public boolean isMovS(){
+        return radar[2][1]!=1;
+    }
+    public boolean isMovSW(){
+        return radar[2][0]!=1;
+    }
+    public boolean isMovSE(){
+        return radar[2][2]!=1;
+    }
+    public boolean isMovE(){
+        return radar[1][2]!=1;
+    }
+    public boolean isMovNE(){
+        return radar[0][2]!=1;
+    }
+    public boolean isMovN(){
+        return radar[0][1]!=1;
+    }
+    public boolean isMovNW(){
+        return radar[0][0]!=1; 
+    }
+    public boolean isMovW(){
+        return radar[1][0]!=1;
+    }
     
     /**
      * Funcion encargada de comprobar si se inicia heuristica 2 o 1, usará heuristica1
@@ -123,6 +325,8 @@ public class Algoritmo {
     public boolean initHeuristic2(){
         double minObst= Double.POSITIVE_INFINITY;
         double minVoid= Double.POSITIVE_INFINITY;
+        
+        updateMatrixSensor();
         
         for(int i=1; i<4; i++){
             for(int j=1; j<4; j++){
@@ -185,7 +389,7 @@ public class Algoritmo {
                 finalPoint[1]= posActual.second;
                 initHeu2= false;
             }
-            actionAnterior= heuristic2();
+           // actionAnterior= heuristic2();
             return actionAnterior;
         }
         else{
