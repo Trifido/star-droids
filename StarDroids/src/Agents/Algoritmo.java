@@ -389,7 +389,7 @@ public class Algoritmo {
                 finalPoint[1]= posActual.second;
                 initHeu2= false;
             }
-           // actionAnterior= heuristic2();
+            actionAnterior= heuristic2();
             return actionAnterior;
         }
         else{
