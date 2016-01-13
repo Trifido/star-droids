@@ -23,12 +23,12 @@ public class Algoritmo {
     private double minValueFind;
     private double []finalPoint;
     private boolean initHeu2;
-    private Pair<Integer,Integer>[][]world;
+    private Integer [][]world;
     private String actionAnterior;
     private String action;
     private double minValue;
     
-    public Algoritmo(Pair<Integer,Integer> posFinal, Pair<Integer,Integer> posActual, Pair<Integer,Integer>[][]world){
+    public Algoritmo(Pair<Integer,Integer> posFinal, Pair<Integer,Integer> posActual, Integer[][]world){
         this.posFinal= posFinal;
         this.posActual= posActual;
         this.world= world;
@@ -46,7 +46,7 @@ public class Algoritmo {
      * @author Vicente
      */
     private boolean isObstacle(Pair<Integer,Integer> pos){
-        return ((world[pos.first][pos.second].first == 1) || (world[pos.first][pos.second].first == 2));
+        return ((world[pos.first][pos.second] == 1) || (world[pos.first][pos.second] == 2));
     }
     
     /**
