@@ -93,7 +93,7 @@ public class Sensors {
     
     }
     
-    public Pair [] getAllShips(){
+    public Pair<Integer,Integer> [] getAllShips(){
     
         return this.shipsPosition;
     

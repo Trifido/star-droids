@@ -222,6 +222,10 @@ public abstract class Role {
         return this.datos.getGoalPosition();
     }
     
+    public Pair<Integer,Integer> [] getShipsPosition(){
+        return this.datos.getAllShips();
+    }
+    
     public Integer[][] getMap(){
         return this.datos.getWorldMap();
     }

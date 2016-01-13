@@ -5,6 +5,7 @@ import com.eclipsesource.json.JsonObject;
 import es.upv.dsic.gti_ia.core.ACLMessage;
 import es.upv.dsic.gti_ia.core.AgentID;
 import es.upv.dsic.gti_ia.core.SingleAgent;
+import helpers.Pair;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,6 +25,7 @@ public class Ship extends SingleAgent {
 
     private AgentID nextAgent;
     private Token token;
+    private boolean start= false;
 
     /*
      * @author Alberto Meana,Andrés Ortiz,Alba Ríos
@@ -185,8 +187,12 @@ public class Ship extends SingleAgent {
         if (in.getPerformativeInt() == ACLMessage.INFORM && !in.getContent().equals("ACK")) // DANGER DANGER ACK RARO!!
         {
             System.out.println("PERFORMATIVA " + in.getPerformative());
-            JsonObject message = this.role.fillSensors(in, role); //Adds message to token
-            this.token.setToken(this.getName(), message); //stores message in token
+            
+            if(in.getContent().length() != 15)
+            {
+                JsonObject message = this.role.fillSensors(in, role); //Adds message to token
+                this.token.setToken(this.getName(), message); //stores message in token
+            }
 
         } else if (in.getPerformativeInt() == ACLMessage.NOT_UNDERSTOOD) {
             System.out.println("PERFORMATIVA " + in.getPerformative());
@@ -233,9 +239,23 @@ public class Ship extends SingleAgent {
                 
                 parseToken();
                 
+                /*if(start){
                 //TODO:Logic Here
-                //TODO: Action Here
+                    Algoritmo alg= new Algoritmo(new Pair(50,50), this.role.getPosition(), this.role.getMap(), this.role.getShipsPosition());
+                    ActionsEnum n = actionEnum(alg.heuristic());
+                    //TODO: Action Here
+                    
+                    System.out.println("MUESTRAAAAAAAA " + n);
+                    
+                    this.sendMessage(n);
+                
+                    try {
 
+                     this.receiveMessage();
+                     } catch (InterruptedException ex) {
+                     Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+                     }
+                }*/
                 //Simple example
                  this.sendMessage(ActionsEnum.information);
                  try {
@@ -249,6 +269,7 @@ public class Ship extends SingleAgent {
                 sendToken(); //sends token to next agent
 
                 count++;
+                start= true;
             } catch (InterruptedException ex) {
                 Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -376,6 +397,30 @@ public class Ship extends SingleAgent {
     //    this.actualiceToken(action);
     }
 
+    private ActionsEnum actionEnum(String act)
+    {
+        if (act == "moveN")
+            return ActionsEnum.moveN;
+        else if (act == "moveS" )
+            return ActionsEnum.moveS;
+        else if (act == "moveE")
+            return ActionsEnum.moveE;
+        else if (act == "moveW") 
+            return ActionsEnum.moveW;
+        else if (act == "moveNE")
+            return ActionsEnum.moveNE;
+        else if (act == "moveNW") 
+            return ActionsEnum.moveNW;
+        else if (act == "moveSW") 
+            return ActionsEnum.moveSW;
+        else if (act == "refuel") 
+            return ActionsEnum.battery;
+        else 
+            return ActionsEnum.moveSE;
+        
+    }
+    
+    
     /**
      *
      * @author Nikolai Giovanni González López
