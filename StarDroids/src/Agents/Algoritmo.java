@@ -17,6 +17,7 @@ import java.util.Map;
 public class Algoritmo {
     private Pair<Integer,Integer> posFinal;
     private Pair<Integer,Integer> posActual;
+    private Pair<Integer, Integer> shipsPosition[];
     private int radar[][]; 
     private double scanner[][];
     private int battery;
@@ -28,12 +29,13 @@ public class Algoritmo {
     private String action;
     private double minValue;
     
-    public Algoritmo(Pair<Integer,Integer> posFinal, Pair<Integer,Integer> posActual, Integer[][]world){
+    public Algoritmo(Pair<Integer,Integer> posFinal, Pair<Integer,Integer> posActual, Integer[][]world, Pair<Integer,Integer> ships[]){
         this.posFinal= posFinal;
         this.posActual= posActual;
         this.world= world;
         radar= new int[3][3];
         scanner= new double [3][3];
+        shipsPosition= ships;
         initHeu2= true;
         finalPoint= new double[2];
         String actionAnterior= "";
@@ -114,13 +116,20 @@ public class Algoritmo {
 
     
     /**
-     * Actualiar matriz radar
+     * Actualiar matriz radar y control por si hay un dron cercano
      * @author Vicente
      */
     private void updateRadar(){
         for(int i=0; i<3; i++){
             for(int j=0; j<3; j++){
-                radar[i][j]= world[posActual.first-1+i][posActual.second-1+j];
+                if( (shipsPosition[0].first == (posActual.first-1+i)) && (shipsPosition[0].second == (posActual.second-1+j)) )
+                    radar[i][j]= 2;
+                else if( (shipsPosition[1].first == (posActual.first-1+i)) && (shipsPosition[1].second == (posActual.second-1+j)) )
+                    radar[i][j]= 2;
+                else if( (shipsPosition[2].first == (posActual.first-1+i)) && (shipsPosition[2].second == (posActual.second-1+j)) )
+                    radar[i][j]= 2;
+                else
+                    radar[i][j]= world[posActual.first-1+i][posActual.second-1+j];
             }
         }
     }
