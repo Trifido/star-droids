@@ -22,7 +22,6 @@ public class MillenniumFalcon extends Role {
     public MillenniumFalcon() {
         super();
         this.radar = new int[11][11];
-        heuristica = new MoveAlgorithm(super.getGoalPosition(),super.getPosition(),super.getMap());
         collided = false;
     }
     

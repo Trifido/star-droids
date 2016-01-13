@@ -230,11 +230,13 @@ public class Ship extends SingleAgent {
                     waitToken();
                 }
                 //this. token should have all data (one token for each ship)
+                
+                parseToken();
+                
                 //TODO:Logic Here
                 //TODO: Action Here
 
                 //Simple example
-               /* if (this.role.getClass().equals(XWing.class)) {
                  this.sendMessage(ActionsEnum.information);
                  try {
 
@@ -243,10 +245,6 @@ public class Ship extends SingleAgent {
                  Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
                  }
 
-                 } else {
-                 // while( true ){ }
-
-                 }*/
                 //this.token.setMeta(/*json object here*/); //if metadata, set here in token
                 sendToken(); //sends token to next agent
 
@@ -311,6 +309,15 @@ public class Ship extends SingleAgent {
         //execute(action)
     }
 
+    
+    public void parseToken()
+    {
+        
+        JsonObject aux = this.token.getShipData(this.getName());
+        
+        System.out.println("NOMBRE: " + this.getName() + " " + aux.toString());
+    }
+    
     /**
      * @author Rafael Ruiz
      *

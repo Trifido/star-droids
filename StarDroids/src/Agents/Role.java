@@ -209,6 +209,7 @@ public abstract class Role {
 
             }
         }  
+        this.datos.show();
     }
     
     public Pair<Integer,Integer> getPosition(){
@@ -219,7 +220,7 @@ public abstract class Role {
         return this.datos.getGoalPosition();
     }
     
-    public Pair<Integer,Integer>[][] getMap(){
+    public Integer[][] getMap(){
         return this.datos.getWorldMap();
     }
 

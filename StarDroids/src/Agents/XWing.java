@@ -22,7 +22,6 @@ public class XWing extends Role {
     public XWing() {
         super();
         this.radar = new int[3][3];
-        heuristica= new MoveAlgorithmFly(super.getGoalPosition(),super.getPosition(),super.getMap());
         direction = ActionsEnum.moveS;
     }
 

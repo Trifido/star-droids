@@ -18,7 +18,7 @@ public class Sensors {
     private boolean goal;
     
     // El mapa
-    private Pair<Integer,Integer>[][] worldMap;
+    private Integer[][] worldMap;
     // Posición de la nave
     private Pair<Integer,Integer> myPosition;
     // Posición del resto de naves
@@ -38,11 +38,11 @@ public class Sensors {
         this.globalFuel = 0;
         this.goal = false;
         
-        this.worldMap = new Pair[500][500];
+        this.worldMap = new Integer[500][500];
         
         for(int i = 0; i < 500; i++)
             for(int j = 0; j < 500; j++)
-                this.worldMap[i][j] = new Pair(-1,0); //unknown
+                this.worldMap[i][j] = new Integer(0); //unknown
         
         this.myPosition = new Pair(-1,-1);
         this.shipsPosition = new Pair[3];
@@ -101,17 +101,17 @@ public class Sensors {
     
     public void setWorldMap(int x, int y, int valor) {
         
-        this.worldMap[x][y].first = valor;
+        this.worldMap[x][y]= valor;
     
     }
     
-    public Pair<Integer,Integer>[][] getWorldMap(){
+    public Integer[][] getWorldMap(){
         return this.worldMap;
     }
     
     public int getMapPosition( int x, int y ){
     
-        return this.worldMap[x][y].first;
+        return this.worldMap[x][y];
     
     }
     
@@ -161,20 +161,20 @@ public class Sensors {
         System.out.println("Goal: " + this.goal);
         System.out.println("X: " + this.myPosition.first + " Y: " + this.myPosition.second );
         
-        Pair<Integer,Integer> posFinal = new Pair(499,499);
+        //Pair<Integer,Integer> posFinal = new Pair(499,499);
         
-        test = new MoveAlgorithm(posFinal,this.myPosition,this.worldMap);
+        //test = new MoveAlgorithm(posFinal,this.myPosition,this.worldMap);
         
         
-        posFinal = new Pair(0,0);
+        //posFinal = new Pair(0,0);
         
-        test.calcularMap(posFinal);
+        //test.calcularMap(posFinal);
         
         for(int i = 0 ; i < 500 ; i++)
         {
             for(int j = 0 ; j < 500; j++)
             {
-                System.out.print(this.worldMap[i][j].second);
+                System.out.print(this.worldMap[i][j]);
             }
             System.out.println();
         }

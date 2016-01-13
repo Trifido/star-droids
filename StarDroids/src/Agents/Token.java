@@ -35,10 +35,13 @@ public class Token {
         this.meta=new JsonObject();
     }
     public void setToken(String name,JsonObject data){
+        
+        
         if(name.equals(AgentsNames.leaderShip)) this.ship1Data=data;
-        if(name.equals(AgentsNames.ship2)) this.ship1Data=data;
-        if(name.equals(AgentsNames.ship3)) this.ship1Data=data;
-        if(name.equals(AgentsNames.ship4)) this.ship1Data=data;
+        if(name.equals(AgentsNames.ship2)) this.ship2Data=data;
+        if(name.equals(AgentsNames.ship3)) this.ship3Data=data;
+        if(name.equals(AgentsNames.ship4)) this.ship4Data=data;
+        
     }
     public void setMeta(JsonObject data){
         this.meta=data;
@@ -71,4 +74,15 @@ public class Token {
         this.ship4Data = json.get(AgentsNames.ship4).asObject();
     }
 
+    public JsonObject getShipData(String name)
+    {
+        JsonObject aux = new JsonObject();
+        
+        if(name.equals(AgentsNames.leaderShip)) aux=this.ship1Data;
+        if(name.equals(AgentsNames.ship2)) aux=this.ship2Data;
+        if(name.equals(AgentsNames.ship3)) aux=this.ship3Data;
+        if(name.equals(AgentsNames.ship4)) aux=this.ship4Data;
+        
+        return aux;
+    }
 }

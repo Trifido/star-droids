@@ -22,7 +22,6 @@ public class YWing extends Role {
     public YWing() {
         super();
         this.radar = new int[5][5];
-        heuristica = new MoveAlgorithm(super.getGoalPosition(),super.getPosition(),super.getMap());
         collided = false;
     }
     
