@@ -312,10 +312,7 @@ public class Ship extends SingleAgent {
     
     public void parseToken()
     {
-        
-        JsonObject aux = this.token.getShipData(this.getName());
-        
-        System.out.println("NOMBRE: " + this.getName() + " " + aux.toString());
+        this.role.parseTokenAgent(this.token);
     }
     
     /**

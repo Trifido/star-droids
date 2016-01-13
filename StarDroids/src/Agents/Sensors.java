@@ -45,9 +45,9 @@ public class Sensors {
                 this.worldMap[i][j] = new Integer(0); //unknown
         
         this.myPosition = new Pair(-1,-1);
-        this.shipsPosition = new Pair[3];
+        this.shipsPosition = new Pair[4];
         
-        for (int i = 0; i < 3 ; i++)
+        for (int i = 0; i < 4 ; i++)
             this.shipsPosition[i] = new Pair(-1,-1);
         
         
@@ -161,6 +161,10 @@ public class Sensors {
         System.out.println("Goal: " + this.goal);
         System.out.println("X: " + this.myPosition.first + " Y: " + this.myPosition.second );
         
+        System.out.println("1 ----- X: " + this.shipsPosition[0].first + " Y: " + this.shipsPosition[0].second);
+        System.out.println("2 ----- X: " + this.shipsPosition[1].first + " Y: " + this.shipsPosition[1].second);
+        System.out.println("3 ----- X: " + this.shipsPosition[2].first + " Y: " + this.shipsPosition[2].second);
+        System.out.println("4 ----- X: " + this.shipsPosition[3].first + " Y: " + this.shipsPosition[3].second);
         //Pair<Integer,Integer> posFinal = new Pair(499,499);
         
         //test = new MoveAlgorithm(posFinal,this.myPosition,this.worldMap);
@@ -170,9 +174,9 @@ public class Sensors {
         
         //test.calcularMap(posFinal);
         
-        for(int i = 0 ; i < 500 ; i++)
+        for(int i = 0 ; i < 100; i++)
         {
-            for(int j = 0 ; j < 500; j++)
+            for(int j = 0 ; j < 100; j++)
             {
                 System.out.print(this.worldMap[i][j]);
             }

@@ -6,6 +6,7 @@
 package Agents;
 
 import com.eclipsesource.json.JsonObject;
+import java.util.ArrayList;
 
 /**
  *
@@ -74,15 +75,18 @@ public class Token {
         this.ship4Data = json.get(AgentsNames.ship4).asObject();
     }
 
-    public JsonObject getShipData(String name)
+    public ArrayList<JsonObject> getShipData()
     {
-        JsonObject aux = new JsonObject();
+        ArrayList<JsonObject> aux = new ArrayList<JsonObject>();
         
-        if(name.equals(AgentsNames.leaderShip)) aux=this.ship1Data;
-        if(name.equals(AgentsNames.ship2)) aux=this.ship2Data;
-        if(name.equals(AgentsNames.ship3)) aux=this.ship3Data;
-        if(name.equals(AgentsNames.ship4)) aux=this.ship4Data;
+        aux.add(this.ship1Data);
+        aux.add(this.ship2Data);
+        aux.add(this.ship3Data);
+        aux.add(this.ship4Data);
+        
         
         return aux;
     }
+    
+    
 }
