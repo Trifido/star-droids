@@ -25,7 +25,7 @@ public class XWing extends Role {
         this.radar = new int[3][3];
         
         this.direction = ActionsEnum.moveS;
-        this.positioning = true;
+        this.positioning = false;
         this.turn = false;
         this.turnCount = 0;
     }

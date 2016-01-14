@@ -238,6 +238,20 @@ public class Ship extends SingleAgent {
                 
                 parseToken();
                 
+                if (this.getName().equals(AgentsNames.leaderShip)){
+                    role.firstLogic();
+                    
+                    System.out.println( "ACtion: " + role.getAction().toString());
+                    this.sendMessage(role.getAction());
+                
+                    try {
+
+                     this.receiveMessage();
+                     } catch (InterruptedException ex) {
+                     Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+                     }
+                }
+                
                 /*if(start){
                 //TODO:Logic Here
                     Algoritmo alg= new Algoritmo(new Pair(50,50), this.role.getPosition(), this.role.getMap(), this.role.getShipsPosition());

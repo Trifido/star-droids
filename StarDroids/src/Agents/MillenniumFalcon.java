@@ -21,7 +21,7 @@ public class MillenniumFalcon extends Role {
         super();
         this.radar = new int[11][11];
         
-        this.positioning = true;
+        this.positioning = false;
     }
     
     /**

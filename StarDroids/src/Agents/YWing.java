@@ -21,7 +21,7 @@ public class YWing extends Role {
         super();
         this.radar = new int[5][5];
         
-        this.positioning = true;
+        this.positioning = false;
     }
     
     /**

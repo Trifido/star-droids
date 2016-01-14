@@ -125,7 +125,7 @@ public class Sensors {
      * 
      */
     public void show() {        
-        System.out.println("Datos");
+    /*    System.out.println("Datos");
         System.out.println("Combustible: " + this.myFuel);
         System.out.println("Global Energy: " + this.globalFuel);
         System.out.println("Goal: " + this.goal);
@@ -134,7 +134,7 @@ public class Sensors {
         System.out.println("1 ----- X: " + this.shipsPosition[0].first + " Y: " + this.shipsPosition[0].second);
         System.out.println("2 ----- X: " + this.shipsPosition[1].first + " Y: " + this.shipsPosition[1].second);
         System.out.println("3 ----- X: " + this.shipsPosition[2].first + " Y: " + this.shipsPosition[2].second);
-        System.out.println("4 ----- X: " + this.shipsPosition[3].first + " Y: " + this.shipsPosition[3].second);
+        System.out.println("4 ----- X: " + this.shipsPosition[3].first + " Y: " + this.shipsPosition[3].second); */
         //Pair<Integer,Integer> posFinal = new Pair(499,499);
         
         //test = new MoveAlgorithm(posFinal,this.myPosition,this.worldMap);
@@ -142,7 +142,7 @@ public class Sensors {
         //posFinal = new Pair(0,0);
         
         //test.calcularMap(posFinal);
-        
+    /*    
         for(int i = 0 ; i < 100; i++)
         {
             for(int j = 0 ; j < 100; j++)
@@ -150,7 +150,7 @@ public class Sensors {
                 System.out.print(this.worldMap[i][j]);
             }
             System.out.println();
-        }
+        }*/
     }
     
 }
