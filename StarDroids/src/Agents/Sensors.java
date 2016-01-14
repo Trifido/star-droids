@@ -7,33 +7,22 @@ import helpers.Pair;
  * @author Rafael Ruiz, Alberto Meana, Vicente Martínez
  */
 public class Sensors {
+    //private MoveAlgorithm test;  
     
-    
-    private MoveAlgorithm test;
-    // Combustible de la nave
-    private int myFuel;
-    // Combustible total
-    private int globalFuel;
-    // ??
+    private int myFuel; // Combustible de la nave
+    private int globalFuel; // Combustible total
     private boolean goal;
     
-    // El mapa
-    private Integer[][] worldMap;
-    // Posición de la nave
-    private Pair<Integer,Integer> myPosition;
-    // Posición del resto de naves
-    private Pair<Integer,Integer>[] shipsPosition;
-    // Posición del objetivo
-    private Pair<Integer,Integer> goalPosition;
-    
-    /////////////////
+    private Integer[][] worldMap; // El mapa   
+    private Pair<Integer,Integer> myPosition; // Posición de la nave  
+    private Pair<Integer,Integer>[] shipsPosition; // Posición del resto de naves
+    private Pair<Integer,Integer> goalPosition; // Posición del objetivo
     
     /**
      * Constructor por defecto
      * 
      */
     public Sensors() {
-        
         this.myFuel = 0;
         this.globalFuel = 0;
         this.goal = false;
@@ -49,9 +38,6 @@ public class Sensors {
         
         for (int i = 0; i < 4 ; i++)
             this.shipsPosition[i] = new Pair(-1,-1);
-        
-        
-        
     }
     
     
@@ -61,7 +47,7 @@ public class Sensors {
         this.myFuel = i;
     }
 
-    public int getFuel(){
+    public int getFuel() {
         
         return myFuel;
         
@@ -74,87 +60,71 @@ public class Sensors {
         
     }
     
-    public Pair getPosition(){
+    public Pair getPosition() {
     
         return new Pair( this.myPosition.first, this.myPosition.second );
     
     }
     
-    public void setShipPosition( int x, int y, int ship ){
+    public void setShipPosition( int x, int y, int ship ) {
     
         this.shipsPosition[ship].first = x;
         this.shipsPosition[ship].second = y;
     
     }
     
-    public Pair getShipPosition( int ship ){
+    public Pair getShipPosition( int ship ) {
     
         return new Pair( this.shipsPosition[ship].first, this.shipsPosition[ship].second );
     
     }
     
-    public Pair<Integer,Integer> [] getAllShips(){
-    
-        return this.shipsPosition;
-    
+    public Pair<Integer,Integer> [] getAllShips() {    
+        return this.shipsPosition;  
     }
     
-    public void setWorldMap(int x, int y, int valor) {
-        
-        this.worldMap[x][y]= valor;
-    
+    public void setWorldMap(int x, int y, int valor) { 
+        this.worldMap[x][y]= valor;   
     }
     
-    public Integer[][] getWorldMap(){
+    public Integer[][] getWorldMap() {
         return this.worldMap;
     }
     
-    public int getMapPosition( int x, int y ){
-    
-        return this.worldMap[x][y];
-    
+    public int getMapPosition( int x, int y ) {
+        return this.worldMap[x][y];    
     }
     
-    public void setGlobalFuel(int n) {
-        
-        this.globalFuel = n;
-        
+    public void setGlobalFuel(int n) {        
+        this.globalFuel = n;        
     }
     
-    public int getGlobalFuel(){
-    
-        return this.globalFuel;
-    
+    public int getGlobalFuel() {    
+        return this.globalFuel;    
     }
     
-    public void setGoal(boolean valor) {
-        
-        this.goal = valor;
-        
+    public void setGoal(boolean valor) {        
+        this.goal = valor;        
     }
     
-    public boolean inGoal(){
-        
-        return goal;
-        
+    public boolean inGoal() {        
+        return goal;        
     }
     
-    public void setGoalPosition(int x, int y){
+    public void setGoalPosition(int x, int y) {
         this.goalPosition.first = x;
         this.goalPosition.second = y;
     }
     
-    public Pair getGoalPosition(){
+    public Pair getGoalPosition() {
         return this.goalPosition;
     }
-    
     
     /**
      * funcion para mostrar cierta información por consola
      * 
      */
-    public void show() {
-        
+    public void show() {        
         System.out.println("Datos");
         System.out.println("Combustible: " + this.myFuel);
         System.out.println("Global Energy: " + this.globalFuel);
@@ -168,8 +138,7 @@ public class Sensors {
         //Pair<Integer,Integer> posFinal = new Pair(499,499);
         
         //test = new MoveAlgorithm(posFinal,this.myPosition,this.worldMap);
-        
-        
+                
         //posFinal = new Pair(0,0);
         
         //test.calcularMap(posFinal);
@@ -182,6 +151,6 @@ public class Sensors {
             }
             System.out.println();
         }
-        
     }
+    
 }

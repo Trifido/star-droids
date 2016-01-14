@@ -10,10 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Clase que implementa las acciones comunes a todos los agentes.
- *
- *
+ * 
  * @author Alberto Meana, Andrés Ortiz, Alba Ríos
+ * @description Clase que implementa las acciones comunes a todos los agentes
  */
 public class Ship extends SingleAgent {
 
@@ -28,7 +27,7 @@ public class Ship extends SingleAgent {
     private boolean start= false;
 
     /*
-     * @author Alberto Meana,Andrés Ortiz,Alba Ríos
+     * @author Alberto Meana, Andrés Ortiz, Alba Ríos
      */
     public Ship(AgentID id, AgentID nextId) throws Exception {
         super(id);
