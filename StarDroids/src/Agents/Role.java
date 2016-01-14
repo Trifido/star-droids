@@ -25,14 +25,6 @@ public abstract class Role {
     public abstract void secondLogic();
     
     /**
-     * @author Andrés Ortiz, Alba Rios
-     * @return True si se encuentra en la meta
-     */
-    public boolean inGoal(){ 
-        return this.datos.inGoal();
-    }
-    
-    /**
      * @author Andres Ortiz, Alba Rios
      * @return Accion
      * @description Devuelve la accion a realizar
@@ -40,6 +32,30 @@ public abstract class Role {
     public ActionsEnum getAction(){
         //this.datos.show();
         return this.action;
+    }
+    
+    /**
+     * @author Alba Rios
+     * @param x Coordenada 
+     * @param y Coordenada
+     * @return True si hay una nave en x,y
+     */
+    protected boolean checkShips(int x, int y) {
+        Pair<Integer,Integer>[] ships = this.datos.getAllShips();
+        
+        for(Pair<Integer,Integer> pos : ships) {
+            if (pos.first == x && pos.second == y) return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * @author Andrés Ortiz, Alba Rios
+     * @return True si se encuentra en la meta
+     */
+    public boolean inGoal(){ 
+        return this.datos.inGoal();
     }
     
     /**

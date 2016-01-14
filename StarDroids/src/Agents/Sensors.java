@@ -42,7 +42,7 @@ public class Sensors {
         
         for(int i = 0; i < 500; i++)
             for(int j = 0; j < 500; j++)
-                this.worldMap[i][j] = new Integer(0); //unknown
+                this.worldMap[i][j] = new Integer(-1); //unknown
         
         this.myPosition = new Pair(-1,-1);
         this.shipsPosition = new Pair[4];

@@ -115,22 +115,6 @@ public class XWing extends Role {
             }
         }
     }
-    
-    /**
-     * @author Alba Rios
-     * @param x Coordenada 
-     * @param y Coordenada
-     * @return True si hay una nave en x,y
-     */
-    private boolean checkShips(int x, int y) {
-        Pair<Integer,Integer>[] ships = this.datos.getAllShips();
-        for(Pair<Integer,Integer> pos : ships){
-            if ( pos.first == x && pos.second == y)
-                return true;
-        }
-        
-        return false;
-    }
 
     @Override
     public void secondLogic() {
