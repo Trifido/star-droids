@@ -27,15 +27,7 @@ public class MillenniumFalcon extends Role {
     
     @Override
     public void firstLogic() {
-        updateObstacles();
-        updateBorders();
-        
-        //Penalizar colisiones
-        checkCollision();
-        if (collided == true){
-            action.multiplyAction(ActionsEnum.sleep, 2);
-            collided = false;
-        }
+
     }
 
     @Override
@@ -52,7 +44,7 @@ public class MillenniumFalcon extends Role {
      * @author Alba Rios
      * @description Comprueba si se ha encontrado con un obstaculo
      */
-    protected void checkCollision(){
+    /*protected void checkCollision(){
         Pair<Integer,Integer> myPos = datos.getPosition();
         int x = myPos.first; int y = myPos.second;
         
@@ -65,6 +57,6 @@ public class MillenniumFalcon extends Role {
         if (lastAction == ActionsEnum.moveSW && datos.getMapPosition(x-1, y+1) == 1) collided = true;
         if (lastAction == ActionsEnum.moveS && datos.getMapPosition(x, y+1) == 1) collided = true;
         if (lastAction == ActionsEnum.moveSE && datos.getMapPosition(x+1, y+1) == 1) collided = true;
-    }
+    }*/
     
 }

@@ -4,6 +4,7 @@ import com.eclipsesource.json.*;
 import es.upv.dsic.gti_ia.core.ACLMessage;
 import helpers.Pair;
 import java.util.ArrayList;
+
 /**
  * @author Andres Ortiz, Vicente Martínez, Alba Rios, Alberto Meana
  */
@@ -11,48 +12,54 @@ public abstract class Role {
     //Data (if any)
 
     protected Sensors datos;
-    protected AgentAction action; //almacena los valores de la heurística
-    protected ActionsEnum lastAction; //ultima accion realizada
+    protected ActionsEnum action; //almacena los valores de la heurística
 
     //Constructor
     public Role() {
         this.datos = new Sensors();
-        this.action = new AgentAction();
+        this.action = ActionsEnum.sleep;
     }
 
     //basic logic classes, implement here if common
     public abstract void firstLogic();
     public abstract void secondLogic();
     
-    
-    //////////////////////
-    
-    public boolean inGoal(){
-    
+    /**
+     * @author Andrés Ortiz, Alba Rios
+     * @return True si se encuentra en la meta
+     */
+    public boolean inGoal(){ 
         return this.datos.inGoal();
-    
     }
     
-    //////////////////////
+    /**
+     * @author Andres Ortiz, Alba Rios
+     * @return Accion
+     * @description Devuelve la accion a realizar
+     */ 
+    public ActionsEnum getAction(){
+        //this.datos.show();
+        return this.action;
+    }
     
     /**
     * @author Andres Ortiz, Alba Rios
     * @description ejemplo de logica básica
     */
-    protected void basicLogic(){
-
+    /*protected void basicLogic(){
+        
         if(datos.inGoal()) action.multiplyAction(ActionsEnum.sleep, 10); //Si esta en el objetivo, esperar
 
         if(datos.getFuel() == 1) action.multiplyAction(ActionsEnum.battery, 2); //recargar si esta sin bateria
         
         checkShips();
-    }
+    }*/
     
     /**
      * @author Andres Ortiz
      * @description Comprueba naves adyacentes
      */
-    protected void checkShips(){
+    /*protected void checkShips(){
         Pair<Integer,Integer> myPos=datos.getPosition();
         Pair<Integer,Integer>[] ships=datos.getAllShips();
         int x=myPos.first,y=myPos.second; //Esto puede ir fuera?
@@ -68,13 +75,13 @@ public abstract class Role {
             if(x==x2+1 && y==y2) action.setToZero(ActionsEnum.moveE);
             if(x==x2+1 && y==y2+1) action.setToZero(ActionsEnum.moveSE);
         }
-    }
+    }*/
     
     /**
      * @author Alba Rios
      * @description Evita el movimiento hacia obstaculos
      */
-    protected void updateObstacles(){
+    /*protected void updateObstacles(){
         Pair<Integer,Integer> myPos = datos.getPosition();
         int x = myPos.first; int y = myPos.second;
         
@@ -87,13 +94,13 @@ public abstract class Role {
         if (datos.getMapPosition(x-1, y+1) == 1) action.setToZero(ActionsEnum.moveSW);
         if (datos.getMapPosition(x, y+1) == 1) action.setToZero(ActionsEnum.moveS);
         if (datos.getMapPosition(x+1, y+1) == 1) action.setToZero(ActionsEnum.moveSE);
-    }
+    }*/
     
     /**
      * @author Alba Rios
      * @description Evita el movimiento hacia los bordes
      */
-    protected void updateBorders(){
+    /*protected void updateBorders(){
         Pair<Integer,Integer> myPos = datos.getPosition();
         int x = myPos.first; int y = myPos.second;
         
@@ -106,17 +113,7 @@ public abstract class Role {
         if (datos.getMapPosition(x-1, y+1) == 2) action.setToZero(ActionsEnum.moveSW);
         if (datos.getMapPosition(x, y+1) == 2) action.setToZero(ActionsEnum.moveS);
         if (datos.getMapPosition(x+1, y+1) == 2) action.setToZero(ActionsEnum.moveSE);
-    }
-    
-    /**
-     * @author Andres Ortiz, Alba Rios
-     * @description devuelve la accion a realizar
-     */ 
-    public ActionsEnum getAction(){
-        lastAction = action.getAction();
-        this.datos.show();
-        return lastAction;
-    }
+    }*/
     
     /**
      * @author Rafael Ruiz

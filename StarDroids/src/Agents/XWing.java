@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Agents;
 
 import com.eclipsesource.json.JsonArray;
@@ -13,45 +8,133 @@ import helpers.Pair;
  * @author Andrés Ortiz, Alba Rios
  */
 public class XWing extends Role {
-    //Or fly(mosca)
+    //Or fly (mosca)
 
     private int[][] radar;
     private MoveAlgorithm heuristica;
-    private ActionsEnum direction; //Aux para basic logic
+
+    // Variables de modo búsqueda de objetivo
+    private final int movDistance = 5;
+    private ActionsEnum direction; 
+    private boolean positioning;
+    private boolean turn;
+    private int turnCount;
 
     public XWing() {
         super();
         this.radar = new int[3][3];
-        direction = ActionsEnum.moveS;
+        
+        this.direction = ActionsEnum.moveS;
+        this.positioning = true;
+        this.turn = false;
+        this.turnCount = 0;
     }
 
+    /**
+     * @author Alba Rios
+     * @description Selecciona la acción a realizar en el modo búsqueda de objetivo
+     * Llamar SI NO ESTÁ EN LA META (eso controlarlo fuera)
+     */
     @Override
-    public void firstLogic() {        
-        Pair<Integer,Integer> myPos = datos.getPosition();
-        int x = myPos.first; int y = myPos.second;
+    public void firstLogic() {      
+        Pair<Integer,Integer> myPosition = this.datos.getPosition();
         
-        updateBorders();
-        
-        //Moverse abajo-derecha o arriba-derecha
-        if (direction == ActionsEnum.moveS){
-            if (datos.getMapPosition(x, y-1) != 2) action.multiplyAction(ActionsEnum.moveS, 2);
-            else{
-                action.multiplyAction(ActionsEnum.moveE, 2);
-                direction = ActionsEnum.moveN;
+        if (this.datos.getFuel() <= 2) {
+            this.action = ActionsEnum.battery; // Recargar batería
+        }
+        else if (this.positioning) {
+            //this.action = ; Trasladar a la posición 0,0 (funcion vicente)
+            
+            if (myPosition.first == movDistance-1 && myPosition.second == movDistance-1) 
+                this.positioning = false;
+        }     
+        else {
+            if (this.direction == ActionsEnum.moveS) { 
+                if (this.turn) { // Nos desplazamos a la derecha
+                    if (this.turnCount == this.movDistance) { // Nos hemos desplazado lo que debiamos -> norte
+                      this.turnCount = 0;
+                      this.turn = false;
+                      this.direction = ActionsEnum.moveN;
+                      this.action = ActionsEnum.moveN;
+                    }
+                    else { // Aun nos estamos desplazando -> este
+                        this.turnCount += 1;
+                        this.action = ActionsEnum.moveE;
+                    }
+                } 
+                else { // Nos desplazamos hacia abajo
+                    int border = this.radar[1][2];
+                    int x = (int) this.datos.getPosition().first; 
+                    int y = (int) this.datos.getPosition().second + 1;
+                    
+                    if (checkShips(x, y)) { // Si hay una nave 
+                        this.action = ActionsEnum.moveW;
+                    }
+                    else if (border == 2) { // Encontramos el borde -> este
+                            this.turn = true;
+                            this.turnCount += 1;
+                            this.action = ActionsEnum.moveE; 
+                    }
+                    else { // No encontramos el borde -> sur
+                        this.action = ActionsEnum.moveS;
+                    }
+                }  
+            }
+            
+            else if (this.direction == ActionsEnum.moveN) {
+                if (this.turn) { // Nos desplazamos a la derecha
+                    if (this.turnCount == this.movDistance) { // Nos hemos desplazado lo que debiamos -> sur
+                      this.turnCount = 0;
+                      this.turn = false;
+                      this.direction = ActionsEnum.moveS;
+                      this.action = ActionsEnum.moveS;
+                    }
+                    else { // Aun nos estamos desplazando -> este
+                        this.turnCount += 1;
+                        this.action = ActionsEnum.moveE;
+                    }
+                }
+                else { // Nos desplazamos hacia arriba
+                    int border = this.radar[1][0];
+                    int x = (int) this.datos.getPosition().first; 
+                    int y = (int) this.datos.getPosition().second - 1;
+                    
+                    if (checkShips(x, y)) { // Si hay una nave 
+                        this.action = ActionsEnum.moveW;
+                    }
+
+                    if (border == 2) { // Encontramos el borde -> este
+                        this.turn = true;
+                        this.turnCount += 1;
+                        this.action = ActionsEnum.moveE; 
+                    }
+                    else { // No encontramos el borde -> sur
+                        this.action = ActionsEnum.moveN;
+                    }
+                }
             }
         }
-        if (direction == ActionsEnum.moveN){
-            if (datos.getMapPosition(x, y+1) != 2) action.multiplyAction(ActionsEnum.moveN, 2);
-            else{
-                action.multiplyAction(ActionsEnum.moveE, 2);
-                direction = ActionsEnum.moveS;
-            }
+    }
+    
+    /**
+     * @author Alba Rios
+     * @param x Coordenada 
+     * @param y Coordenada
+     * @return True si hay una nave en x,y
+     */
+    private boolean checkShips(int x, int y) {
+        Pair<Integer,Integer>[] ships = this.datos.getAllShips();
+        for(Pair<Integer,Integer> pos : ships){
+            if ( pos.first == x && pos.second == y)
+                return true;
         }
+        
+        return false;
     }
 
     @Override
     public void secondLogic() {
-        String result= ((MoveAlgorithmFly)heuristica).heuristic();
+        String result = ((MoveAlgorithmFly)heuristica).heuristic();
     }
 
     @Override
