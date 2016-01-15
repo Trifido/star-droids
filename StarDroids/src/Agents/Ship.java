@@ -132,14 +132,18 @@ public class Ship extends SingleAgent {
         this.gui.grid.setTile( myPosition.first, myPosition.second, myRole );
         
         // Pinto la posición de los demás
-        cancel();
-        System.out.println( "Esto ha sido el cancel del paint" );
+        /*
+        for( Pair <Integer,Integer> i : this.role.getShipsPosition() ){
+        
+            this.gui.grid.setTile( i.first, i.second, myRole );
+        
+        }
+        */
+        //cancel();
+        //System.out.println( "Esto ha sido el cancel del paint" );
     }
     
-    /*
-=======
     /**
->>>>>>> origin/master
      * @author Alberto Meana
      * @description realiza la subscripción a un mapa
      */
@@ -251,19 +255,6 @@ public class Ship extends SingleAgent {
             Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    /**
-     * @author Alberto Meana
-     * @description clase que abstrae el envio de la key entre agentes
-     *
-     * @param name Nombre de a quien se envia la key
-     * 
-     */
-    private void sendKey(String name) {
-        System.out.println(this.getName() + " Send Key");
-        this.sendKey(new AgentID(name));
-
-    }
     
     /**
      * @author Alberto Meana
@@ -295,26 +286,26 @@ public class Ship extends SingleAgent {
             
             if(in.getContent().length() <= 15)
             {
-                System.out.println("Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
+                System.out.println( this.getName() + " Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
                 
             }else
             {
-                System.out.println("Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
+                System.out.println( this.getName() + " Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
                 JsonObject message = this.role.fillSensors(in, role); //Adds message to token
                 this.token.setToken(this.getName(), message); //stores message in token
             }
             
         }else if (in.getPerformativeInt() == ACLMessage.NOT_UNDERSTOOD) {
             
-            System.out.println("Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
+            System.out.println( this.getName() + " Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
             
         }else if (in.getPerformativeInt() == ACLMessage.FAILURE) {
             
-            System.out.println("Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
+            System.out.println( this.getName() + " Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
             
         }else if (in.getPerformativeInt() == ACLMessage.REFUSE) {
             
-            System.out.println("Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
+            System.out.println( this.getName() + " Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
         }
 
     }
@@ -375,6 +366,8 @@ public class Ship extends SingleAgent {
                 
                 if (!this.role.getFound()) { // Si no se ha encontrado la meta                  
                     
+                    
+                    
                     switch(this.getName()) { // Si somos the chosen one
                         case AgentsNames.leaderShip:
                             paint();
@@ -422,6 +415,15 @@ public class Ship extends SingleAgent {
      * @description Se aplica la lógica de búsqueda y se envía y recibe respuesta del servidor
      */
     public void firstLogic() {
+        
+        this.sendMessage(ActionsEnum.information); // Enviar QUERY REF
+                    
+        try {
+            this.receiveMessage(); // Recibir INFORM y rellenar ED
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         this.role.firstLogic(); // Ejecutar búsqueda
         this.sendMessage(role.getAction()); // Enviar accion
         try {
@@ -566,109 +568,5 @@ public class Ship extends SingleAgent {
     //    this.actualiceToken(action);
     }
 
-    private ActionsEnum actionEnum(String act)
-    {
-        if (act == "moveN")
-            return ActionsEnum.moveN;
-        else if (act == "moveS" )
-            return ActionsEnum.moveS;
-        else if (act == "moveE")
-            return ActionsEnum.moveE;
-        else if (act == "moveW") 
-            return ActionsEnum.moveW;
-        else if (act == "moveNE")
-            return ActionsEnum.moveNE;
-        else if (act == "moveNW") 
-            return ActionsEnum.moveNW;
-        else if (act == "moveSW") 
-            return ActionsEnum.moveSW;
-        else if (act == "refuel") 
-            return ActionsEnum.battery;
-        else 
-            return ActionsEnum.moveSE;
-        
-    }
-    
-    
-    /**
-     *
-     * @author Nikolai Giovanni González López
-     */
-    private void actualiceToken(ActionsEnum action) {
-        JsonObject msgToken = new JsonObject();
-
-        if (action.equals(ActionsEnum.battery)) {
-            if (this.getAid().name == AgentsNames.leaderShip) {
-                msgToken.add(AgentsNames.leaderShip, "refuel");
-                this.token.parse(msgToken);
-            } else if (this.getAid().name == AgentsNames.ship2) {
-                msgToken.add(AgentsNames.ship2, "refuel");
-                this.token.parse(msgToken);
-            } else if (this.getAid().name == AgentsNames.ship3) {
-                msgToken.add(AgentsNames.ship3, "refuel");
-                this.token.parse(msgToken);
-            } else if (this.getAid().name == AgentsNames.ship4) {
-                msgToken.add(AgentsNames.ship4, "refuel");
-                this.token.parse(msgToken);
-            }
-
-        } else if (action == ActionsEnum.information) {
-            if (this.getAid().name == AgentsNames.leaderShip) {
-                msgToken.add(AgentsNames.leaderShip, "key");
-                this.token.parse(msgToken);
-            } else if (this.getAid().name == AgentsNames.ship2) {
-                msgToken.add(AgentsNames.ship2, "key");
-                this.token.parse(msgToken);
-            } else if (this.getAid().name == AgentsNames.ship3) {
-                msgToken.add(AgentsNames.ship3, "key");
-                this.token.parse(msgToken);
-            } else if (this.getAid().name == AgentsNames.ship4) {
-                msgToken.add(AgentsNames.ship4, "key");
-                this.token.parse(msgToken);
-            }
-
-        } else {
-            String accion = new String();
-            if (action == ActionsEnum.moveN) {
-                accion = "moveN";
-
-            } else if (action == ActionsEnum.moveS) {
-                accion = "moveS";
-
-            } else if (action == ActionsEnum.moveE) {
-                accion = "moveE";
-
-            } else if (action == ActionsEnum.moveW) {
-                accion = "moveW";
-
-            } else if (action == ActionsEnum.moveNE) {
-                accion = "moveNE";
-
-            } else if (action == ActionsEnum.moveNW) {
-                accion = "moveNW";
-
-            } else if (action == ActionsEnum.moveSW) {
-                accion = "moveSW";
-
-            } else if (action == ActionsEnum.moveSE) {
-                accion = "moveSE";
-
-            }
-
-            if (this.getAid().name == AgentsNames.leaderShip) {
-                msgToken.add(AgentsNames.leaderShip, accion);
-                this.token.parse(msgToken);
-            } else if (this.getAid().name == AgentsNames.ship2) {
-                msgToken.add(AgentsNames.ship2, accion);
-                this.token.parse(msgToken);
-            } else if (this.getAid().name == AgentsNames.ship3) {
-                msgToken.add(AgentsNames.ship3, accion);
-                this.token.parse(msgToken);
-            } else if (this.getAid().name == AgentsNames.ship4) {
-                msgToken.add(AgentsNames.ship4, accion);
-                this.token.parse(msgToken);
-            }
-        }
-    }
 
 }
