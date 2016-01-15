@@ -211,6 +211,8 @@ public abstract class Role {
             
             JsonObject sensor = aux.get(0);
             
+            this.datos.setFuelShip(0, sensor.getInt("battery", 0));
+            
             this.datos.setShipPosition( sensor.getInt("x", 0), sensor.getInt("y", 0), 0 );
             
             JsonArray pepe = aux.get(0).get("sensor").asArray();
@@ -230,7 +232,10 @@ public abstract class Role {
         }
         
         if(aux.get(1).toString().length() > 2) {
+            
             JsonObject sensor = aux.get(1);
+            
+            this.datos.setFuelShip(1, sensor.getInt("battery", 0));
             
             this.datos.setShipPosition( sensor.getInt("x", 0), sensor.getInt("y", 0), 1 );
             
@@ -251,7 +256,10 @@ public abstract class Role {
         }
         
         if(aux.get(2).toString().length() > 2) {
+            
             JsonObject sensor = aux.get(2);
+            
+            this.datos.setFuelShip(2, sensor.getInt("battery", 0));
             
             this.datos.setShipPosition( sensor.getInt("x", 0), sensor.getInt("y", 0), 2 );
             
@@ -273,7 +281,10 @@ public abstract class Role {
         }
         
         if(aux.get(3).toString().length() > 2) {
+            
             JsonObject sensor = aux.get(3);
+            
+            this.datos.setFuelShip(3, sensor.getInt("battery", 0));
             
             this.datos.setShipPosition( sensor.getInt("x", 0), sensor.getInt("y", 0), 3 );
             
@@ -293,7 +304,6 @@ public abstract class Role {
             }
         }
         
-        //this.datos.show();
     }
     
     

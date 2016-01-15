@@ -18,6 +18,7 @@ public class Sensors {
     private Pair<Integer,Integer> myPosition; // Posición de la nave  
     private Pair<Integer,Integer>[] shipsPosition; // Posición del resto de naves
     private Pair<Integer,Integer> goalPosition; // Posición del objetivo
+    private int[] fuelShips;
     
     /**
      * Constructor por defecto
@@ -39,6 +40,13 @@ public class Sensors {
         
         for (int i = 0; i < 4 ; i++)
             this.shipsPosition[i] = new Pair(-1,-1);
+        
+        this.fuelShips = new int[4];
+        
+        for(int i = 0; i < 4; i++)
+        {
+            this.fuelShips[i] = 0;
+        }
     }
     
     
@@ -121,6 +129,11 @@ public class Sensors {
         return this.goalPosition;
     }
     
+    public void setFuelShip(int index, int fuel)
+    {
+        this.fuelShips[index] = fuel;
+    }
+    
     /**
      * funcion para mostrar cierta información por consola
      * 
@@ -152,6 +165,13 @@ public class Sensors {
             }
             System.out.println();
         }*/
+        
+        /*
+        for(int i = 0 ; i < 4 ; i++)
+        {
+            System.out.println("this.fuelShips[i] "+ this.fuelShips[i]);
+        }
+        */
     }
     
 }
