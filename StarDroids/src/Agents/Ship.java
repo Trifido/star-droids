@@ -38,8 +38,9 @@ public class Ship extends SingleAgent {
     private String worldToSolve;
     
     
-    /*
+    /**
      * @author Alberto Meana, Andrés Ortiz, Alba Ríos
+     * @description Constructor de la clase agente (ship)
      */
     public Ship(AgentID id, AgentID nextId) throws Exception {
         super(id);
@@ -135,7 +136,11 @@ public class Ship extends SingleAgent {
     }
     
     /*
+=======
+    /**
+>>>>>>> origin/master
      * @author Alberto Meana
+     * @description realiza la subscripción a un mapa
      */
     private void subscribe() {
         //Composición de Json de subscripcion.
@@ -148,8 +153,9 @@ public class Ship extends SingleAgent {
         this.receiveKey();
     }
 
-    /*
+    /**
      * @author Alberto Meana
+     * @description recepción de la clave de mapa
      */
     private void receiveKey() {
         this.in = null;
@@ -165,8 +171,9 @@ public class Ship extends SingleAgent {
         }
     }
 
-    /*
+    /**
      * @author Alberto Meana,Andrés Ortiz
+     * @desription Registro de un agente al sistema
      */
     private void register() {
         this.msg = new JsonObject();
@@ -218,8 +225,9 @@ public class Ship extends SingleAgent {
         WinnerDialog winrar = new WinnerDialog( new Frame(), true );
     }
 
-    /*
+    /**
      * @author Alberto Meana,Andrés Ortiz
+     * @description Envía un acknowledge de recepción de clave
      */
     private void sendACK(AgentID id) {
         System.out.println("I'm " + this.getName() + " sending ACK to " + id.getLocalName());
@@ -229,8 +237,9 @@ public class Ship extends SingleAgent {
         this.send(this.out);
     }
 
-    /*
+    /**
      * @author Alberto Meana
+     * @description Recibe el acknowledge de recepción de clave
      */
     private void receiveACK() {
         this.in = null;
@@ -243,18 +252,21 @@ public class Ship extends SingleAgent {
     }
 
     /**
-     * clase que abstrae el envio de la key entre agentes
-     *
+     * @author Alberto Meana
+     * @description clase que abstrae el envio de la key entre agentes
      *
      * @param name Nombre de a quien se envia la key
-     * @author Alberto Meana
+     * 
      */
     private void sendKey(String name) {
         System.out.println(this.getName() + " Send Key");
         this.sendKey(new AgentID(name));
 
     }
-
+    
+    /**
+     * @author Alberto Meana
+     */
     private void sendKey(AgentID id) {
         this.out.setReceiver(id);
         this.out.setContent(this.key.toString());
@@ -268,7 +280,7 @@ public class Ship extends SingleAgent {
      *
      * @throws InterruptedException
      */
-    //COMMENTED UNTIL WORKING
+    
     public void receiveMessage() throws InterruptedException {
         this.in = null;
         try {
@@ -306,8 +318,9 @@ public class Ship extends SingleAgent {
 
     }
 
-    /*
+    /**
      * @author Alberto Meana,Andrés Ortiz
+     * @description Ejecución principal del agente
      */
     @Override
     public void execute() {
@@ -423,8 +436,9 @@ public class Ship extends SingleAgent {
         
     }
     
-    /*
+    /**
      * @author Andrés Ortiz
+     * @description envío de token
      */
     protected void sendToken() {
         ACLMessage out = new ACLMessage();
@@ -435,8 +449,9 @@ public class Ship extends SingleAgent {
         this.send(out);
     }
 
-    /*
+    /**
      * @author Andrés Ortiz
+     * @description Espera y recepción del token
      */
     protected void waitToken() throws InterruptedException {
         System.out.println(this.getName() + " Waiting token");
@@ -449,14 +464,8 @@ public class Ship extends SingleAgent {
     }
 
     /**
-     * @author Andrés Ortiz
+     * @author Rafael Ruiz
      */
-    private void executeAction() {
-        ActionsEnum action = role.getAction();
-        //execute(action)
-    }
-
-    
     public void parseToken()
     {
         this.role.parseTokenAgent(this.token);

@@ -363,7 +363,12 @@ public class YWing extends Role {
     public void secondLogic() {
         String result= ((MoveAlgorithmFly)heuristica).heuristic();
     }
-
+    
+    /**
+     *
+     * @author Andrés Ortiz Corrales
+     * @description Almacenamiento de datos de sensor particular al pajaro
+     */
     @Override
     protected void fillDatesRole(JsonArray sensor) {
        fillDates(2, 3, sensor);
