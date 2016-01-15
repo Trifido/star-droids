@@ -23,11 +23,18 @@ public abstract class Role {
         this.datos = new Sensors();
         this.action = ActionsEnum.sleep;
         this.roles = new int[4];
+        this.found = false;
+        this.goal = new Pair(-1,-1);
     }
 
     // Basic logic classes
     public abstract void firstLogic();
     public abstract void secondLogic();
+    
+    // Comprobar si se ha visto la meta
+    protected abstract void isFound();
+    // Pasar de posición de rada a mundo
+    protected abstract Pair<Integer,Integer> mapToWorld (int x, int y);
     
     // Get 
     public ActionsEnum getAction() {

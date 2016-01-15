@@ -26,6 +26,70 @@ public class YWing extends Role {
     
     /**
      * @author Alba Rios
+     * @description Actualiza a true la variable found si la meta ha sido vista
+     */
+    @Override
+    protected void isFound() {
+        for (int i = 0; i < 5; i++) {
+           for (int j = 0; j < 5; j++) {
+               if (radar[i][j] == 3) {
+                   this.found = true;
+                   goal = mapToWorld (i, j);
+               }
+            } 
+        }
+    }
+    
+    /**
+     * @author Alba Rios
+     * @description Transforma unas coordenadas de radar a coordenadas de mundo
+     */
+    @Override
+    protected Pair<Integer,Integer> mapToWorld (int x, int y) {
+        Pair<Integer,Integer> myPosition = this.datos.getPosition();
+        Pair<Integer,Integer> solution = new Pair(-1,-1);
+        
+        switch (x) {
+            case 0:
+                solution.first = myPosition.first - 2;
+                break;
+            case 1:
+                solution.first = myPosition.first - 1;
+                break;
+            case 2:
+                solution.first = myPosition.first;
+                break;
+            case 3:
+                solution.first = myPosition.first + 1;
+                break;
+            case 4:
+                solution.first = myPosition.first + 2;
+                break;
+        }
+        
+        switch (y) {
+            case 0:
+                solution.first = myPosition.first - 2;
+                break;
+            case 1:
+                solution.first = myPosition.first - 1;
+                break;
+            case 2:
+                solution.first = myPosition.first;
+                break;
+            case 3:
+                solution.first = myPosition.first + 1;
+                break;
+            case 4:
+                solution.first = myPosition.first + 2;
+                break;
+        }
+        
+        return solution;
+    }
+    
+    /**
+     * @author Alba Rios
      * @description Selecciona la acción a realizar en el modo búsqueda de objetivo
      * Llamar SI NO ESTÁ EN LA META (eso controlarlo fuera)
      */
@@ -33,63 +97,62 @@ public class YWing extends Role {
     public void firstLogic() {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
         
-        if (this.datos.getFuel() <= 1) {
-            this.action = ActionsEnum.battery; // Recargar batería
-        }
-        else if (this.positioning) {
-            //this.action = ; Trasladar al centro (funcion vicente)
-            
-            if (myPosition.first == 0 && myPosition.second == 0) //Como carajo me se el centro?
-                this.positioning = false;
-        }     
-        else {
-            // Hacemos dos niveles de búsqueda
-            movementActions[0] = checkNorth(myPosition.first, myPosition.second);
-            movementActions[1] = checkNorthEast(myPosition.first, myPosition.second);
-            movementActions[2] = checkEast(myPosition.first, myPosition.second);
-            movementActions[3] = checkSouthEast(myPosition.first, myPosition.second);
-            movementActions[4] = checkSouth(myPosition.first, myPosition.second);
-            movementActions[5] = checkSouthWest(myPosition.first, myPosition.second);
-            movementActions[6] = checkWest(myPosition.first, myPosition.second);
-            movementActions[7] = checkNorthWest(myPosition.first, myPosition.second);  
-            
-            if (maxMovementIndex() < 6) { // 2/3 del valor maximo posible
-                if (movementActions[0] != -1) calculateSubMovementActions(myPosition.first, myPosition.second-1, 0);
-                if (movementActions[1] != -1) calculateSubMovementActions(myPosition.first+1, myPosition.second-1, 1);
-                if (movementActions[2] != -1) calculateSubMovementActions(myPosition.first+1, myPosition.second, 2);
-                if (movementActions[3] != -1) calculateSubMovementActions(myPosition.first+1, myPosition.second+1, 3);
-                if (movementActions[4] != -1) calculateSubMovementActions(myPosition.first, myPosition.second+1, 4);
-                if (movementActions[5] != -1) calculateSubMovementActions(myPosition.first-1, myPosition.second+1, 5);
-                if (movementActions[6] != -1) calculateSubMovementActions(myPosition.first-1, myPosition.second, 6);
-                if (movementActions[7] != -1) calculateSubMovementActions(myPosition.first-1, myPosition.second-1, 7);
+        if (!found) {
+            if (this.datos.getFuel() <= 1) {
+                this.action = ActionsEnum.battery; // Recargar batería
             }
-            
-            switch (maxMovementIndex()) {
-                case 0:
-                    action = ActionsEnum.moveN;
-                break;
-                case 1:
-                    action = ActionsEnum.moveNE;
-                break;
-                case 2:
-                    action = ActionsEnum.moveE;
-                break;
-                case 3:
-                    action = ActionsEnum.moveSE;
-                break;
-                case 4:
-                    action = ActionsEnum.moveS;
-                break;
-                case 5:
-                    action = ActionsEnum.moveSW;
-                break;
-                case 6:
-                    action = ActionsEnum.moveW;
-                break;
-                case 7:
-                    action = ActionsEnum.moveNW;
-                break;
+            // Al final no se posiciona en el centro. Se podria hacer.  
+            else {
+                // Hacemos dos niveles de búsqueda
+                movementActions[0] = checkNorth(myPosition.first, myPosition.second);
+                movementActions[1] = checkNorthEast(myPosition.first, myPosition.second);
+                movementActions[2] = checkEast(myPosition.first, myPosition.second);
+                movementActions[3] = checkSouthEast(myPosition.first, myPosition.second);
+                movementActions[4] = checkSouth(myPosition.first, myPosition.second);
+                movementActions[5] = checkSouthWest(myPosition.first, myPosition.second);
+                movementActions[6] = checkWest(myPosition.first, myPosition.second);
+                movementActions[7] = checkNorthWest(myPosition.first, myPosition.second);  
+
+                if (maxMovementIndex() < 6) { // 2/3 del valor maximo posible
+                    if (movementActions[0] != -1) calculateSubMovementActions(myPosition.first, myPosition.second-1, 0);
+                    if (movementActions[1] != -1) calculateSubMovementActions(myPosition.first+1, myPosition.second-1, 1);
+                    if (movementActions[2] != -1) calculateSubMovementActions(myPosition.first+1, myPosition.second, 2);
+                    if (movementActions[3] != -1) calculateSubMovementActions(myPosition.first+1, myPosition.second+1, 3);
+                    if (movementActions[4] != -1) calculateSubMovementActions(myPosition.first, myPosition.second+1, 4);
+                    if (movementActions[5] != -1) calculateSubMovementActions(myPosition.first-1, myPosition.second+1, 5);
+                    if (movementActions[6] != -1) calculateSubMovementActions(myPosition.first-1, myPosition.second, 6);
+                    if (movementActions[7] != -1) calculateSubMovementActions(myPosition.first-1, myPosition.second-1, 7);
+                }
+
+                switch (maxMovementIndex()) {
+                    case 0:
+                        action = ActionsEnum.moveN;
+                    break;
+                    case 1:
+                        action = ActionsEnum.moveNE;
+                    break;
+                    case 2:
+                        action = ActionsEnum.moveE;
+                    break;
+                    case 3:
+                        action = ActionsEnum.moveSE;
+                    break;
+                    case 4:
+                        action = ActionsEnum.moveS;
+                    break;
+                    case 5:
+                        action = ActionsEnum.moveSW;
+                    break;
+                    case 6:
+                        action = ActionsEnum.moveW;
+                    break;
+                    case 7:
+                        action = ActionsEnum.moveNW;
+                    break;
+                }
             }
+
+            isFound();
         }
     }
     
