@@ -24,7 +24,7 @@ public class Algoritmo {
     private String action;
     private double minValue;
     
-    public Algoritmo(Pair<Integer,Integer> posFinal, Pair<Integer,Integer> posActual, Integer[][]world, Pair<Integer,Integer> ships[]){
+    public Algoritmo(Pair<Integer,Integer> posFinal, Pair<Integer,Integer> posActual, Integer[][]world, Pair<Integer,Integer> ships[], int fuel){
         this.posFinal= posFinal;
         this.posActual= posActual;
         this.world= world;
@@ -34,6 +34,7 @@ public class Algoritmo {
         initHeu2= true;
         finalPoint= new double[2];
         String actionAnterior= "";
+        this.battery = fuel;
     }
     
     /**
@@ -92,7 +93,7 @@ public class Algoritmo {
         i = acciones.entrySet().iterator();
         while(i.hasNext()) {
            Map.Entry me = (Map.Entry)i.next();
-               System.out.println((double)me.getKey() + ": " + (String) me.getValue());
+               //System.out.println((double)me.getKey() + ": " + (String) me.getValue());
         }
         
         return action;
@@ -116,19 +117,24 @@ public class Algoritmo {
      */
     private void updateRadar(){
         
-        System.out.println("UPDATE RADAR");
         for(int i=0; i<3; i++){
             for(int j=0; j<3; j++){
-                /*if( (shipsPosition[0].first == (posActual.first-1+i)) && (shipsPosition[0].second == (posActual.second-1+j)) )
-                    radar[i][j]= 2;
-                else if( (shipsPosition[1].first == (posActual.first-1+i)) && (shipsPosition[1].second == (posActual.second-1+j)) )
+            
+                if( (shipsPosition[1].first == (posActual.first-1+i)) && (shipsPosition[1].second == (posActual.second-1+j)) )
                     radar[i][j]= 2;
                 else if( (shipsPosition[2].first == (posActual.first-1+i)) && (shipsPosition[2].second == (posActual.second-1+j)) )
                     radar[i][j]= 2;
-                else*/
-                    
-                    System.out.println("["+(posActual.first-1+i)+"]["+(posActual.second-1+j) +"]= " + world[posActual.first-1+i][posActual.second-1+j]);
-                    radar[i][j]= world[posActual.first-1+i][posActual.second-1+j];
+                else if( (shipsPosition[3].first == (posActual.first-1+i)) && (shipsPosition[3].second == (posActual.second-1+j)) )
+                    radar[i][j]= 2;
+                else
+                    if((posActual.first-1+i >= 0) && (posActual.second-1+j >= 0) && (posActual.first-1+i <= 99) && (posActual.second-1+j <= 99)) //Esta condicion es para que no 
+                    {                                                             //acceda a partes de world que no existen
+                        radar[i][j]= world[posActual.first-1+i][posActual.second-1+j];
+                    }else
+                    {
+                        radar[i][j] = 2;
+                    }
+            
             }
         }
     }
@@ -323,28 +329,28 @@ public class Algoritmo {
      * @return Presenta o no obstaculo.
      */
     public boolean isMovS(){
-        return radar[2][1]!=1;
+        return radar[2][1]!=1 && radar[2][1] !=2;
     }
     public boolean isMovSW(){
-        return radar[2][0]!=1;
+        return radar[2][0]!=1 && radar[2][0] !=2;
     }
     public boolean isMovSE(){
-        return radar[2][2]!=1;
+        return radar[2][2]!=1 && radar[2][2] !=2;
     }
     public boolean isMovE(){
-        return radar[1][2]!=1;
+        return radar[1][2]!=1 && radar[1][2] !=2;
     }
     public boolean isMovNE(){
-        return radar[0][2]!=1;
+        return radar[0][2]!=1 && radar[0][2] !=2;
     }
     public boolean isMovN(){
-        return radar[0][1]!=1;
+        return radar[0][1]!=1 && radar[0][1] !=2;
     }
     public boolean isMovNW(){
-        return radar[0][0]!=1; 
+        return radar[0][0]!=1 && radar[0][0] !=2;
     }
     public boolean isMovW(){
-        return radar[1][0]!=1;
+        return radar[1][0]!=1 && radar[1][0] !=2;
     }
     
     /**
@@ -359,9 +365,7 @@ public class Algoritmo {
         double minObst= Double.POSITIVE_INFINITY;
         double minVoid= Double.POSITIVE_INFINITY;
         
-        System.out.println("HOLA1");
         updateMatrixSensor();
-        System.out.println("HOLA2");
         for(int i=0; i<3; i++){
             for(int j=0; j<3; j++){
                 if((i!=1 || j!=1) && (radar[i][j] == 1 || radar[i][j] == 2)){
@@ -374,7 +378,6 @@ public class Algoritmo {
                 }
             }
         }
-        System.out.println("HOLA3");
         if(minObst<minVoid && minVoid != Double.POSITIVE_INFINITY){
             if(this.minValueFind>scanner[1][1]){
                 this.minValueFind= scanner[1][1];
@@ -411,7 +414,7 @@ public class Algoritmo {
             return "refuel";
         }*/
         //Si el bot está sobre la casilla 2 (objetivo), fin
-        System.out.println("POS: " + this.posActual.first);
+        
         if(world[posActual.first][posActual.second] == 3){
             System.out.println("Bot: FOUND");
             return actionEnum("found");
@@ -426,7 +429,6 @@ public class Algoritmo {
             }
             actionAnterior= heuristic2();
             
-            System.out.println("ACTION -> " + actionAnterior);
             return actionEnum(actionAnterior);
         }
         else{
