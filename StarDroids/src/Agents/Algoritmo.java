@@ -133,6 +133,29 @@ public class Algoritmo {
         }
     }
     
+    private ActionsEnum actionEnum(String act)
+    {
+        if (act == "moveN")
+            return ActionsEnum.moveN;
+        else if (act == "moveS" )
+            return ActionsEnum.moveS;
+        else if (act == "moveE")
+            return ActionsEnum.moveE;
+        else if (act == "moveW") 
+            return ActionsEnum.moveW;
+        else if (act == "moveNE")
+            return ActionsEnum.moveNE;
+        else if (act == "moveNW") 
+            return ActionsEnum.moveNW;
+        else if (act == "moveSW") 
+            return ActionsEnum.moveSW;
+        else if (act == "refuel") 
+            return ActionsEnum.battery;
+        else 
+            return ActionsEnum.moveSE;
+        
+    }
+    
     /**
      * Actualizar matriz scanner
      * @author Vicente
@@ -373,16 +396,16 @@ public class Algoritmo {
      * @return String con la accion elegida.
      * @author Vicente Martínez
      */
-    public String heuristic1(){
+    public ActionsEnum heuristic1(){
         actionAnterior= calcularAdyacentes();
-        return actionAnterior;
+        return actionEnum(actionAnterior);
     }
     
     /**
      *  HACE FALTA CONTROLAR LOS CHOQUES ENTRE BOTS
      * @return String
      */
-    public String heuristic(){
+    public ActionsEnum heuristic(){
       /*  if(this.battery < 2){
             System.out.println("Bot: REFUEL");
             return "refuel";
@@ -391,7 +414,7 @@ public class Algoritmo {
         System.out.println("POS: " + this.posActual.first);
         if(world[posActual.first][posActual.second] == 3){
             System.out.println("Bot: FOUND");
-            return "found";
+            return actionEnum("found");
         }
         else if(initHeuristic2()){
             System.out.println("Bot: HEURISTICA 2");
@@ -404,13 +427,11 @@ public class Algoritmo {
             actionAnterior= heuristic2();
             
             System.out.println("ACTION -> " + actionAnterior);
-            return actionAnterior;
+            return actionEnum(actionAnterior);
         }
         else{
             initHeu2=true;
-            String acti= heuristic1();
-            System.out.println("ACTION -> " + acti);
-            return acti;
+            return heuristic1();
         }
     }
 }
