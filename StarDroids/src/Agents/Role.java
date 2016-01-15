@@ -58,7 +58,6 @@ public abstract class Role {
      */
     public boolean inGoal() {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
-        
         return (datos.getMapPosition(myPosition.first, myPosition.second) == 3);
     }
     

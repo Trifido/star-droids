@@ -1,13 +1,19 @@
 package Agents;
 
+import GUI.WinnerDialog;
+import GUI.WorldDialog;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import es.upv.dsic.gti_ia.core.ACLMessage;
 import es.upv.dsic.gti_ia.core.AgentID;
 import es.upv.dsic.gti_ia.core.SingleAgent;
 import helpers.Pair;
+import java.awt.Frame;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import mapproject.MapProject;
+import mapproject.TileType;
 
 /**
  * 
@@ -27,6 +33,11 @@ public class Ship extends SingleAgent {
     private boolean firstRound; // Primera iteracion
     private int[] roles; // 0: pajaro, 1: halcon, 2: mosca
 
+    // Instancias de la interfaz
+    public MapProject gui;
+    private String worldToSolve;
+    
+    
     /*
      * @author Alberto Meana, Andrés Ortiz, Alba Ríos
      */
@@ -40,14 +51,95 @@ public class Ship extends SingleAgent {
         this.nextAgent = nextId;
         this.firstRound = true;      
         this.roles = new int[4];
+        
     }
+    
+    /**
+     * Establece la instancia de la interfaz.
+     * Solo debe usarse con el lider del ring Token.
+     * 
+     * @param map Instancia del grid.
+     * @author Alberto Meana
+     */
+    public void setInterface( MapProject map ){
+        
+        //this.worldToSolve = (new WorldDialog( new JFrame(), true) ).getWordl();
+        this.worldToSolve = "map1";
+        this.gui = map;
+    
+    }
+    
+    /**
+     * Pintado en interfaz version StarDroids
+     * 
+     * @author Alberto Meana
+     */
+    public void paint(){
+        /*
+        for( int i = 0; i < 5; i++ ){
+            for( int j = 0; j < 5; j++ ){
+                
+                // Interfaz nueva
+                if( this.gps.first + ( i-2 ) >= 0 && this.gps.second + ( j-2 ) >= 0 && this.gps.first + ( i-2 ) < 500 && this.gps.second + ( j-2 ) < 500 ){
+                    
+                    switch( this.radar[j][i] ){
 
+                    case 0:
+                        this.gui.grid.setTile( this.gps.first + ( i-2 ), this.gps.second + (j-2), TileType.Grass );
+                        break;
+                    case 1:
+                        this.gui.grid.setTile( this.gps.first + ( i-2 ), this.gps.second + (j-2), TileType.Rock );
+                        break;
+                    case 2:    
+                        if( i == 2 && j == 2 ){
+
+                            //this.gui.grid.setTile( this.gps.first, this.gps.second, TileType.Goal );
+
+                        }else{
+
+                            this.gui.grid.setTile( this.gps.first + ( i-2 ), this.gps.second + (j-2), TileType.Goal );
+
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        // El bot
+        this.gui.grid.setTile( this.gps.first, this.gps.second, TileType.Bot );
+        */
+        
+        // Pinto mi posicion
+        Pair <Integer,Integer> myPosition = this.role.getPosition();
+        TileType myRole;
+        
+        if( this.role.getClass().equals( XWing.class ) ){
+            
+            myRole = TileType.Xwing;
+        
+        }else if( this.role.getClass().equals( YWing.class ) ){
+        
+            myRole = TileType.Ywing;
+        
+        }else{
+        
+            myRole = TileType.Falcon;
+        
+        }
+        
+        this.gui.grid.setTile( myPosition.first, myPosition.second, myRole );
+        
+        // Pinto la posición de los demás
+        cancel();
+        System.out.println( "Esto ha sido el cancel del paint" );
+    }
+    
     /*
      * @author Alberto Meana
      */
     private void subscribe() {
         //Composición de Json de subscripcion.
-        this.msg.add("world", "map1");
+        this.msg.add( "world", this.worldToSolve );
         // Creación del ACL
         this.out.setPerformative(ACLMessage.SUBSCRIBE);
         this.out.setReceiver(new AgentID("Furud"));
@@ -123,7 +215,7 @@ public class Ship extends SingleAgent {
         this.out.setPerformative(ACLMessage.CANCEL);
         this.send(this.out);
         // Test del jdialog de ganar.
-        // WinnerDialog winrar = new WinnerDialog( new Frame(), true );
+        WinnerDialog winrar = new WinnerDialog( new Frame(), true );
     }
 
     /*
@@ -241,6 +333,7 @@ public class Ship extends SingleAgent {
         }
         
         int count = 0;
+
         while (!this.role.inGoal()) { // Mientras no esté en la meta
                 if (!(this.getName().equals(AgentsNames.leaderShip)) || count != 0) { // Si no eres lider, esperar token
                     try {
@@ -269,8 +362,10 @@ public class Ship extends SingleAgent {
                     
                     switch(this.getName()) {
                         case AgentsNames.leaderShip:
+                            paint();
                             if (roles[0] == 0) // Soy pajaro
                                 //Me ejecuto
+                                
                             break;
                         case AgentsNames.ship2:
                             if (roles[1] == 0) // Soy pajaro
