@@ -469,6 +469,7 @@ public class Ship extends SingleAgent {
     public void parseToken()
     {
         this.role.parseTokenAgent(this.token);
+        this.roles = this.role.getRoles();
     }
     
     /**

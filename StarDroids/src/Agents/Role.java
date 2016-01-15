@@ -15,12 +15,14 @@ public abstract class Role {
     protected ActionsEnum action; // Almacena los valores de la heurística
     
     protected boolean found; // Meta vista
-    protected Pair <Integer, Integer> goal; 
+    protected Pair <Integer, Integer> goal;
+    private int[] roles;
 
     // Constructor
     public Role() {
         this.datos = new Sensors();
         this.action = ActionsEnum.sleep;
+        this.roles = new int[4];
     }
 
     // Basic logic classes
@@ -185,12 +187,15 @@ public abstract class Role {
           
             if(pepe.size()==9) {
                 fillDatesShips(1, 2, pepe, this.datos.getShipPosition(0));
+                this.roles[0]=0;
             }
             else if(pepe.size()==25) {
                 fillDatesShips(2, 3, pepe, this.datos.getShipPosition(0));
+                this.roles[0]=1;
             }
             else if(pepe.size() == 121) {
                 fillDatesShips(5, 6, pepe, this.datos.getShipPosition(0));
+                this.roles[0]=2;
             }
         }
         
@@ -202,13 +207,16 @@ public abstract class Role {
             JsonArray pepe = aux.get(1).get("sensor").asArray();
 
             if(pepe.size()==9) {
-                fillDatesShips(1, 2, pepe, this.datos.getShipPosition(1));    
+                fillDatesShips(1, 2, pepe, this.datos.getShipPosition(1));
+                this.roles[1]=0;
             }
             else if(pepe.size()==25) {
                 fillDatesShips(2, 3, pepe, this.datos.getShipPosition(1));
+                this.roles[1]=1;
             }
             else if(pepe.size() == 121) {
                 fillDatesShips(5, 6, pepe, this.datos.getShipPosition(1));
+                this.roles[1]=2;
             } 
         }
         
@@ -221,12 +229,15 @@ public abstract class Role {
        
             if(pepe.size()==9) {
                 fillDatesShips(1, 2, pepe, this.datos.getShipPosition(2));
+                this.roles[2]=0;
             }
             else if(pepe.size()==25) {
-                fillDatesShips(2, 3, pepe, this.datos.getShipPosition(2));  
+                fillDatesShips(2, 3, pepe, this.datos.getShipPosition(2)); 
+                this.roles[2]=1;
             }
             else if(pepe.size() == 121) {
                 fillDatesShips(5, 6, pepe, this.datos.getShipPosition(2));
+                this.roles[2]=2;
             }
             
         }
@@ -239,17 +250,26 @@ public abstract class Role {
             JsonArray pepe = aux.get(3).get("sensor").asArray();
 
             if(pepe.size()==9) {
-                fillDatesShips(1, 2, pepe, this.datos.getShipPosition(3));        
+                fillDatesShips(1, 2, pepe, this.datos.getShipPosition(3));
+                this.roles[3]=0;
             }
             else if(pepe.size()==25) {
                 fillDatesShips(2, 3, pepe, this.datos.getShipPosition(3));
+                this.roles[3]=1;
             }
             else if(pepe.size() == 121) {
                 fillDatesShips(5, 6, pepe, this.datos.getShipPosition(3));
+                this.roles[3]=2;
             }
         }
         
         //this.datos.show();
+    }
+    
+    
+    public int[] getRoles()
+    {
+        return this.roles;
     }
     
         
