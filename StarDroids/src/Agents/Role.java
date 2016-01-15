@@ -13,6 +13,9 @@ public abstract class Role {
     
     protected Sensors datos;
     protected ActionsEnum action; // Almacena los valores de la heurística
+    
+    protected boolean found; // Meta vista
+    protected Pair <Integer, Integer> goal; 
 
     // Constructor
     public Role() {
@@ -45,12 +48,18 @@ public abstract class Role {
         return this.datos.getWorldMap();
     }
     
+    public boolean getFound() {
+        return this.found;
+    }
+    
     /**
      * @author Andrés Ortiz, Alba Rios
      * @return True si se encuentra en la meta
      */
-    public boolean inGoal() { 
-        return this.datos.inGoal();
+    public boolean inGoal() {
+        Pair<Integer,Integer> myPosition = this.datos.getPosition();
+        
+        return (datos.getMapPosition(myPosition.first, myPosition.second) == 3);
     }
     
     /**

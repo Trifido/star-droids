@@ -24,7 +24,8 @@ public class Ship extends SingleAgent {
 
     private AgentID nextAgent;
     private Token token;
-    private boolean start= false;
+    private boolean firstRound; // Primera iteracion
+    private int[] roles; // 0: pajaro, 1: halcon, 2: mosca
 
     /*
      * @author Alberto Meana, Andrés Ortiz, Alba Ríos
@@ -37,7 +38,8 @@ public class Ship extends SingleAgent {
         this.msg = new JsonObject();
         this.in = null;
         this.nextAgent = nextId;
-
+        this.firstRound = true;      
+        this.roles = new int[4];
     }
 
     /*
@@ -183,22 +185,31 @@ public class Ship extends SingleAgent {
             Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (in.getPerformativeInt() == ACLMessage.INFORM && !in.getContent().equals("ACK")) // DANGER DANGER ACK RARO!!
+        if(in.getPerformativeInt() == ACLMessage.INFORM)
         {
-            System.out.println("PERFORMATIVA " + in.getPerformative());
             
-            if(in.getContent().length() != 15)
+            if(in.getContent().length() <= 15)
             {
+                System.out.println("Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
+                
+            }else
+            {
+                System.out.println("Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
                 JsonObject message = this.role.fillSensors(in, role); //Adds message to token
                 this.token.setToken(this.getName(), message); //stores message in token
             }
-
-        } else if (in.getPerformativeInt() == ACLMessage.NOT_UNDERSTOOD) {
-            System.out.println("PERFORMATIVA " + in.getPerformative());
-        } else if (in.getPerformativeInt() == ACLMessage.FAILURE) {
-            System.out.println("PERFORMATIVA " + in.getPerformative());
-        } else if (in.getPerformativeInt() == ACLMessage.REFUSE) {
-            System.out.println("PERFORMATIVA " + in.getPerformative());
+            
+        }else if (in.getPerformativeInt() == ACLMessage.NOT_UNDERSTOOD) {
+            
+            System.out.println("Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
+            
+        }else if (in.getPerformativeInt() == ACLMessage.FAILURE) {
+            
+            System.out.println("Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
+            
+        }else if (in.getPerformativeInt() == ACLMessage.REFUSE) {
+            
+            System.out.println("Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
         }
 
     }
@@ -208,53 +219,86 @@ public class Ship extends SingleAgent {
      */
     @Override
     public void execute() {
-        if (this.getName().equals(AgentsNames.leaderShip)) {
+        if (this.getName().equals(AgentsNames.leaderShip)) { // Si es el controlador
             this.subscribe();
-            this.token = new Token(); //creamos el token
-        } else {
+            this.token = new Token(); // Creamos el token
+        } 
+        else {
             this.receiveKey();
         }
 
         if (this.nextAgent.getLocalName().equals(AgentsNames.leaderShip)) {
-            //this.sendKey(this.nextAgent); //same as before, but with store nextAgent
-            this.sendACK(this.nextAgent);
-        } else {
+            this.sendACK(this.nextAgent); // El ultimo ha recibido la key
+        } 
+        else {
             this.sendKey(this.nextAgent);
-            //this.sendACK(this.nextAgent);
         }
 
-        this.register();
+        this.register(); // Request CHECKIN y receive INFORM
+        
         if (this.getName().equals(AgentsNames.leaderShip)) {
-            receiveACK();
+            receiveACK(); // Esperar ACK confirmacion ultima key
         }
+        
         int count = 0;
-        while (!this.role.inGoal()) {
-            System.out.println("Main Loop");
-            try {
-                if (!(this.getName().equals(AgentsNames.leaderShip)) || count != 0) {
-                    waitToken();
-                }
-                //this. token should have all data (one token for each ship)
-                
-                parseToken();
-                
-                if (this.getName().equals(AgentsNames.leaderShip)){
-                    role.firstLogic();
-                    
-                    System.out.println( "ACtion: " + role.getAction().toString());
-                    this.sendMessage(role.getAction());
-                
+        while (!this.role.inGoal()) { // Mientras no esté en la meta
+                if (!(this.getName().equals(AgentsNames.leaderShip)) || count != 0) { // Si no eres lider, esperar token
                     try {
-
-                     this.receiveMessage();
-                     } catch (InterruptedException ex) {
-                     Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-                     }
+                        waitToken();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 
-                /*if(start){
-                //TODO:Logic Here
-                    Algoritmo alg= new Algoritmo(new Pair(50,50), this.role.getPosition(), this.role.getMap(), this.role.getShipsPosition());
+                parseToken(); // Pasar el token a la ED
+                
+                if (firstRound) { // Actualizar info en la primera iteracion
+                    this.sendMessage(ActionsEnum.information); // Enviar QUERY REF
+                    
+                    try {
+                        this.receiveMessage(); // Recibir INFORM y rellenar ED
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    this.firstRound = false;
+                    count++;
+                }
+                
+                if (!this.role.getFound()) { // Si no se ha encontrado la meta
+                    
+                    switch(this.getName()) {
+                        case AgentsNames.leaderShip:
+                            if (roles[0] == 0) // Soy pajaro
+                                //Me ejecuto
+                            break;
+                        case AgentsNames.ship2:
+                            if (roles[1] == 0) // Soy pajaro
+                                //Me ejecuto
+                            break;
+                        case AgentsNames.ship3:
+                            if (roles[2] == 0) // Soy pajaro
+                                //Me ejecuto
+                            break;
+                        case AgentsNames.ship4:
+                            if (roles[3] == 0) // Soy pajaro
+                                //Me ejecuto
+                            break;
+                    }
+                    //SI me toca a mi
+                    this.role.firstLogic(); // Ejecutar búsqueda
+                    this.sendMessage(role.getAction()); // Enviar accion
+                    try {
+                        this.receiveMessage();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    //Si no nada
+                }
+                else {
+                    //Heuristica 2
+                    //TODO:Logic Here
+                    /*Algoritmo alg= new Algoritmo(new Pair(50,50), this.role.getPosition(), this.role.getMap(), this.role.getShipsPosition());
                     ActionsEnum n = actionEnum(alg.heuristic());
                     //TODO: Action Here
                     
@@ -267,49 +311,23 @@ public class Ship extends SingleAgent {
                      this.receiveMessage();
                      } catch (InterruptedException ex) {
                      Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-                     }
-                }*/
-                //Simple example
-                 this.sendMessage(ActionsEnum.information);
-                 try {
-
-                 this.receiveMessage();
-                 } catch (InterruptedException ex) {
-                 Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-
-                //this.token.setMeta(/*json object here*/); //if metadata, set here in token
-                sendToken(); //sends token to next agent
-
-                count++;
-                start= true;
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                     }*/
+                }
+                
+                sendToken(); // Enviar token
 
         }
-
-        this.cancel();
-
-        
-         // Testing lo sensores y envio de mensajes!!!
-         /*this.sendMessage(ActionsEnum.information);
-        
-         try {
-            
-         this.receiveMessage();
-         }
-         catch(InterruptedException ex) {
-         Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-         }
-        
-         if(this.getName().equals(AgentsNames.leaderShip)) {
-            
-         this.cancel();
-         }*/
-         
+        // Controlar cuando se cancela (no bateria o todos en meta)
+        this.cancel();         //Hacer cuando esten todos, ahora se cancela 
     }
-
+    
+    /**
+     * @author Alba Rios, Vicente Martinez
+     */
+    protected void chooseFinder() {
+        
+    }
+    
     /*
      * @author Andrés Ortiz
      */
