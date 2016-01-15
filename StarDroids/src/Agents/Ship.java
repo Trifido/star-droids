@@ -32,6 +32,7 @@ public class Ship extends SingleAgent {
     private Token token;
     private boolean firstRound; // Primera iteracion
     private int[] roles; // 0: pajaro, 1: halcon, 2: mosca
+    private int finder; // Bot que hace la búsqueda
 
     // Instancias de la interfaz
     public MapProject gui;
@@ -52,7 +53,7 @@ public class Ship extends SingleAgent {
         this.nextAgent = nextId;
         this.firstRound = true;      
         this.roles = new int[4];
-        
+        this.finder = -1;
     }
     
     /**
@@ -347,7 +348,7 @@ public class Ship extends SingleAgent {
         
         int count = 0;
 
-        while (!this.role.inGoal()) { // Mientras no esté en la meta
+        do { // Mientras no esté en la meta
                 if (!(this.getName().equals(AgentsNames.leaderShip)) || count != 0) { // Si no eres lider, esperar token
                     try {
                         waitToken();
@@ -371,37 +372,23 @@ public class Ship extends SingleAgent {
                     count++;
                 }
                 
-                if (!this.role.getFound()) { // Si no se ha encontrado la meta
+                if (!this.role.getFound()) { // Si no se ha encontrado la meta                  
                     
-                    switch(this.getName()) {
+                    switch(this.getName()) { // Si somos the chosen one
                         case AgentsNames.leaderShip:
                             paint();
-                            if (roles[0] == 0) // Soy pajaro
-                                //Me ejecuto
-                                
+                            if (this.finder == 0) this.firstLogic();
                             break;
                         case AgentsNames.ship2:
-                            if (roles[1] == 0) // Soy pajaro
-                                //Me ejecuto
+                            if (this.finder == 1) this.firstLogic();
                             break;
                         case AgentsNames.ship3:
-                            if (roles[2] == 0) // Soy pajaro
-                                //Me ejecuto
+                            if (this.finder == 2) this.firstLogic();
                             break;
                         case AgentsNames.ship4:
-                            if (roles[3] == 0) // Soy pajaro
-                                //Me ejecuto
+                            if (this.finder == 3) this.firstLogic();
                             break;
                     }
-                    //SI me toca a mi
-                    this.role.firstLogic(); // Ejecutar búsqueda
-                    this.sendMessage(role.getAction()); // Enviar accion
-                    try {
-                        this.receiveMessage();
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    //Si no nada
                 }
                 else {
                     //Heuristica 2
@@ -424,16 +411,61 @@ public class Ship extends SingleAgent {
                 
                 sendToken(); // Enviar token
 
-        }
+        } while (!this.role.inGoal());
         // Controlar cuando se cancela (no bateria o todos en meta)
         this.cancel();         //Hacer cuando esten todos, ahora se cancela 
     }
     
     /**
-     * @author Alba Rios, Vicente Martinez
+     * @author Alba Rios
+     * @description Se aplica la lógica de búsqueda y se envía y recibe respuesta del servidor
+     */
+    public void firstLogic() {
+        this.role.firstLogic(); // Ejecutar búsqueda
+        this.sendMessage(role.getAction()); // Enviar accion
+        try {
+            this.receiveMessage();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * @author Alba Rios
+     * @description Elegir que bot hace la búsqueda
      */
     protected void chooseFinder() {
+        int numBird = 0, numFalcon = 0, numFly = 0;
         
+        for (int i = 0; i < this.roles.length; i++) {
+            switch (roles[i]) {
+                case 0:
+                    numBird++;
+                    break;
+                case 1:
+                    numFalcon++;
+                    break;
+                case 2:
+                    numFly++;
+                    break;
+            }
+        }
+        
+        if (numBird != 0) {
+            for (int i = 0; i < this.roles.length; i++) {
+                if (roles[i] == 0) this.finder = i;
+            }
+        }
+        else if (numFalcon != 0) {
+            for (int i = 0; i < this.roles.length; i++) {
+                if (roles[i] == 1) this.finder = i;
+            }
+        } 
+        else {
+            for (int i = 0; i < this.roles.length; i++) {
+                if (roles[i] == 2) this.finder = i;
+            }
+        }
     }
     
     /**
