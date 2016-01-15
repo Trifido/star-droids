@@ -368,6 +368,7 @@ public class Ship extends SingleAgent {
                         Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
+                    this.chooseFinder(); // Seleccionar quién va a hacer la búsqueda
                     this.firstRound = false;
                     count++;
                 }
