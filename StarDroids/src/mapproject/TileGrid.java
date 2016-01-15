@@ -12,7 +12,7 @@ public class TileGrid {
     public static final int TILE_SIZE = 2; //Anchura y altura de un Tile
     public Tile[][] map;
     private int tilesWide = 500, tilesHigh = 500; //Ancho y alto del mapa
-    private Texture empty, unknown, obstacle, goal, bot;
+    private Texture empty, unknown, obstacle, goal, bot, falcon, xwing, ywing;
     
     /**
      * Constructor que crea un mapa
@@ -25,6 +25,9 @@ public class TileGrid {
         obstacle = QuickLoad((TileType.Rock).textureName);
         goal = QuickLoad((TileType.Goal).textureName);
         bot = QuickLoad((TileType.Bot).textureName);
+        falcon = QuickLoad((TileType.Falcon).textureName);
+        xwing = QuickLoad((TileType.Xwing).textureName);
+        ywing = QuickLoad((TileType.Ywing).textureName);
         map = new Tile[tilesWide][tilesHigh];
         for(int i = 0; i < map.length; i++){
             for (int j = 0; j < map[i].length; j++){
@@ -46,6 +49,9 @@ public class TileGrid {
         obstacle = QuickLoad((TileType.Rock).textureName);
         goal = QuickLoad((TileType.Goal).textureName);
         bot = QuickLoad((TileType.Bot).textureName);
+        falcon = QuickLoad((TileType.Falcon).textureName);
+        xwing = QuickLoad((TileType.Xwing).textureName);
+        ywing = QuickLoad((TileType.Ywing).textureName);
         map = new Tile[tilesWide][tilesHigh];
         for(int i = 0; i < map.length; i++){
             for (int j = 0; j < map[i].length; j++){
@@ -92,6 +98,15 @@ public class TileGrid {
                 break;
             case Bot:
                 map[xCoord][yCoord] = new Tile(xCoord*TILE_SIZE, yCoord*TILE_SIZE, TILE_SIZE, TILE_SIZE, bot);
+                break;
+            case Falcon:
+                map[xCoord][yCoord] = new Tile(xCoord*TILE_SIZE, yCoord*TILE_SIZE, TILE_SIZE, TILE_SIZE, falcon);
+                break;
+            case Xwing:
+                map[xCoord][yCoord] = new Tile(xCoord*TILE_SIZE, yCoord*TILE_SIZE, TILE_SIZE, TILE_SIZE, xwing);
+                break;
+            case Ywing:
+                map[xCoord][yCoord] = new Tile(xCoord*TILE_SIZE, yCoord*TILE_SIZE, TILE_SIZE, TILE_SIZE, ywing);
                 break;
         }
     }
