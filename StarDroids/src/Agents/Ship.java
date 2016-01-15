@@ -409,12 +409,12 @@ public class Ship extends SingleAgent {
                      Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
                      }*/
                 }
-                
+                if(this.role.noFuel()) this.cancel(); //se acabo el fuel
                 sendToken(); // Enviar token
 
         } while (!this.role.inGoal());
+        if(this.role.allInGoal()) this.cancel(); //Si todos en meta
         // Controlar cuando se cancela (no bateria o todos en meta)
-        this.cancel();         //Hacer cuando esten todos, ahora se cancela 
     }
     
     /**

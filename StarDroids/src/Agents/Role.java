@@ -70,6 +70,29 @@ public abstract class Role {
         return (datos.getMapPosition(myPosition.first, myPosition.second) == 3);
     }
     
+     /**
+     * @author Andrés Ortiz
+     * @return True si todos estan en meta
+     */
+    public boolean allInGoal(){
+       Pair<Integer,Integer> [] shipPos=datos.getAllShips();
+       
+       if(!inGoal()) return false; 
+       for(Pair<Integer,Integer> pos : shipPos){
+            if(datos.getMapPosition(pos.first, pos.second) != 3) return false;
+        }
+        return true;
+    }
+         /**
+     * @author Andrés Ortiz
+     * @return True no queda bateria global o en agentes
+     */
+    public boolean noFuel(){
+           if(datos.getFuel()==0 && datos.getGlobalFuel()==0) return true;
+           //TODO: probar el fuel de todos los agentes
+           else return false;
+    }
+    
     /**
      * @author Alba Rios
      * @param x Coordenada 
