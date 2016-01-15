@@ -5,6 +5,7 @@ import helpers.Pair;
 /**
  *
  * @author Rafael Ruiz, Alberto Meana, Vicente Martínez
+ * @description Representa la estructura de datos de los sensores
  */
 public class Sensors {
     //private MoveAlgorithm test;  

@@ -6,15 +6,15 @@ import java.util.ArrayList;
 /**
  *
  * @author Andrés Ortiz Corrales
- * @description Token class representing the data passed between agents
+ * @description Representa los datos de sincronización entre agentes enviados con el token
  */
 public class Token {
-
-    private JsonObject ship1Data; //Change this to matrix if neccessary
+    //datos particulares de cada agente
+    private JsonObject ship1Data; 
     private JsonObject ship2Data;
     private JsonObject ship3Data;
     private JsonObject ship4Data;
-    private JsonObject meta; //other data (change into different variables if necessary)
+    private JsonObject meta; //datos comunes
 
     /**
      *
@@ -23,6 +23,10 @@ public class Token {
     public Token(JsonObject json) {
         this.parse(json);
     }
+    /**
+     *
+     * @author Andrés Ortiz Corrales
+     */
     public Token(){
         this.ship1Data=new JsonObject();
         this.ship2Data=new JsonObject();
@@ -30,6 +34,12 @@ public class Token {
         this.ship4Data=new JsonObject();
         this.meta=new JsonObject();
     }
+    
+    /**
+     *
+     * @author Andrés Ortiz Corrales
+     * @description Modifica los datos particulares de un agente en el token
+     */
     public void setToken(String name,JsonObject data){
         
         
@@ -39,6 +49,12 @@ public class Token {
         if(name.equals(AgentsNames.ship4)) this.ship4Data=data;
         
     }
+     
+    /**
+     *
+     * @author Andrés Ortiz Corrales
+     * @description Modifica los datos comunes del token
+     */
     public void setMeta(JsonObject data){
         this.meta=data;
     }
@@ -47,6 +63,7 @@ public class Token {
     /**
      *
      * @author Andrés Ortiz Corrales
+     * @description Traduce el token a una cadena json
      */
     public JsonObject toJson() {
         JsonObject res = new JsonObject();
@@ -61,6 +78,7 @@ public class Token {
     /**
      *
      * @author Andrés Ortiz Corrales
+     * @description Genera el token a partir de una cadena json
      */
     public void parse(JsonObject json) {
         this.meta = json.get("meta").asObject();
@@ -70,6 +88,11 @@ public class Token {
         this.ship4Data = json.get(AgentsNames.ship4).asObject();
     }
 
+    /**
+     *
+     * @author Andrés Ortiz Corrales
+     * @description Recibe todos los datos de las naves en un array de jsonobjects
+     */
     public ArrayList<JsonObject> getShipData()
     {
         ArrayList<JsonObject> aux = new ArrayList<JsonObject>();

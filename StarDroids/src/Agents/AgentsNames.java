@@ -5,6 +5,7 @@ import es.upv.dsic.gti_ia.core.AgentID;
 /**
  *
  * @author Andrés Ortiz
+ * @description Nombres e ids de los agentes
  */
 
 //"Static" class with agents names

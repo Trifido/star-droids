@@ -12,6 +12,7 @@ import java.util.Set;
 /**
  *
  * @author Vicente
+ * @description Algoritmo de movimiento
  */
 public class MoveAlgorithm {
     private Pair<Integer,Integer> posFinal;

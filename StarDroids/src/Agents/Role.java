@@ -79,8 +79,8 @@ public abstract class Role {
     }
     
     /**
-     * @author Rafael Ruiz
-     * 
+     * @author Rafael Ruiz, Andrés Ortiz
+     * @description rellena la estructura de datos de los sensores a partir de un mensaje
      * @param in 
      */
     public JsonObject fillSensors(ACLMessage in, Role role) {
@@ -111,7 +111,7 @@ public abstract class Role {
         {
             fillDates(5, 6, sensor);
         }*/
-        System.out.println("Hello");
+   //     System.out.println("Hello");
         //this.datos.show();
         return message;
     }
@@ -119,6 +119,7 @@ public abstract class Role {
     /**
      * 
      * @author Andrés Ortiz
+     * @description metodo particular de cada rol para rellenar sus datos
      */
     protected abstract void fillDatesRole(JsonArray sensor); //rellena los datos dependiendo del rol
     
@@ -162,6 +163,11 @@ public abstract class Role {
         }
     }
     
+        
+    /**
+     * 
+     * @author Rafael Ruiz
+     */
     public void parseTokenAgent(Token obj) {
         ArrayList<JsonObject> aux = obj.getShipData();
                 
@@ -247,6 +253,11 @@ public abstract class Role {
         //this.datos.show();
     }
     
+        
+    /**
+     * 
+     * @author Rafael Ruiz
+     */
     protected void fillDatesShips(int a, int b, JsonArray sensor, Pair<Integer,Integer> n) {
         int x = n.first;
             

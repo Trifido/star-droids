@@ -6,6 +6,7 @@ import helpers.Pair;
 /**
  *
  * @author Andrés Ortiz, Alba Rios
+ * @description Representa el rol halcón de los agentes
  */
 public class MillenniumFalcon extends Role {
     //Millennium Falcon or Falcon (Halcon) obviously
@@ -438,6 +439,11 @@ public class MillenniumFalcon extends Role {
         String result= heuristica.heuristic();
     }
 
+    /**
+     *
+     * @author Andrés Ortiz Corrales
+     * @description Almacenamiento de datos de sensor particular al halcón
+     */
     @Override
     protected void fillDatesRole(JsonArray sensor) {
         fillDates(5, 6, sensor);

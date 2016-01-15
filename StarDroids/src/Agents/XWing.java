@@ -6,6 +6,7 @@ import helpers.Pair;
 /**
  *
  * @author Andrés Ortiz, Alba Rios
+ * @description Representa el rol mosca
  */
 public class XWing extends Role {
     //Or fly (mosca)
@@ -121,6 +122,11 @@ public class XWing extends Role {
         String result = ((MoveAlgorithmFly)heuristica).heuristic();
     }
 
+     /**
+     *
+     * @author Andrés Ortiz Corrales
+     * @description Almacenamiento de datos de sensor particular a la mosca
+     */
     @Override
     protected void fillDatesRole(JsonArray sensor) {
        fillDates(1, 2, sensor);
