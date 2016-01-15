@@ -25,6 +25,11 @@ public abstract class Role {
         this.roles = new int[4];
         this.found = false;
         this.goal = new Pair(-1,-1);
+        
+        for(int i = 0 ; i< 4 ; i++)
+        {
+            this.roles[i]=-1;
+        }
     }
 
     // Basic logic classes

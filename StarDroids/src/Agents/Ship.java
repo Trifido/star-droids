@@ -349,7 +349,10 @@ public class Ship extends SingleAgent {
                 }
                 
                 parseToken(); // Pasar el token a la ED
-                
+                for(int i = 0 ; i < 4 ; i++)
+                {
+                    System.out.println("roles[i] " + roles[i]);
+                }
                 if (firstRound) { // Actualizar info en la primera iteracion
                     this.sendMessage(ActionsEnum.information); // Enviar QUERY REF
                     
@@ -439,6 +442,8 @@ public class Ship extends SingleAgent {
      */
     protected void chooseFinder() {
         int numBird = 0, numFalcon = 0, numFly = 0;
+        
+        
         
         for (int i = 0; i < this.roles.length; i++) {
             switch (roles[i]) {
