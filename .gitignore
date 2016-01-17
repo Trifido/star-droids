@@ -12,3 +12,8 @@
 hs_err_pid*
 /StarDroids/nbproject/private/
 /StarDroids/build/
+
+
+# changes in properties
+
+/StarDroids/nbproject/project.properties
