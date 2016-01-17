@@ -19,7 +19,8 @@ import org.newdawn.slick.util.ResourceLoader;
  */
 public class Artist {
 
-    public static final int WIDTH = 1000, HEIGHT = 1000;
+    //public static final int WIDTH = 1000, HEIGHT = 1000;
+    public static final int WIDTH = 500, HEIGHT = 500;
     private static int minX = 0, minY= 0, maxX = WIDTH, maxY = HEIGHT;
     private static int activeZoom = 1;
     

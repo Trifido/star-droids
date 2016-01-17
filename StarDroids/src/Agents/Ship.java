@@ -130,15 +130,29 @@ public class Ship extends SingleAgent {
         }
         
         this.gui.grid.setTile( myPosition.first, myPosition.second, myRole );
-        
+        System.out.println( "Mi posicion que pinto es: " + myPosition.first + " " + myPosition.second );
         // Pinto la posición de los demás
-        /*
-        for( Pair <Integer,Integer> i : this.role.getShipsPosition() ){
         
-            this.gui.grid.setTile( i.first, i.second, myRole );
-        
+        for( int i = 0; i<4; i++ ){
+            if( this.roles[i] == 0 ){
+                Pair <Integer,Integer> shipPoistion = this.role.getShipPosition( i );
+                myRole = TileType.Xwing;
+                this.gui.grid.setTile( shipPoistion.first, shipPoistion.second, myRole );    
+                
+            }else if( this.roles[i] == 1 ){
+                Pair <Integer,Integer> shipPoistion = this.role.getShipPosition( i );
+                myRole = TileType.Ywing;
+                this.gui.grid.setTile( shipPoistion.first, shipPoistion.second, myRole );
+                
+            }else if( this.roles[i] == 2 ){
+                Pair <Integer,Integer> shipPoistion = this.role.getShipPosition( i );
+                myRole = TileType.Falcon;
+                this.gui.grid.setTile( shipPoistion.first, shipPoistion.second, myRole );
+                
+            }
+            
         }
-        */
+        
         //cancel();
         //System.out.println( "Esto ha sido el cancel del paint" );
     }

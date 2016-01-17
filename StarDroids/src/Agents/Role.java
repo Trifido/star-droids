@@ -66,6 +66,10 @@ public abstract class Role {
         return this.found;
     }
     
+    public Pair<Integer,Integer> getShipPosition( int ship ) {
+        return this.datos.getShipPosition( ship );
+    }
+    
     /**
      * @author Andrés Ortiz, Alba Rios
      * @return True si se encuentra en la meta
