@@ -19,7 +19,7 @@ public class MillenniumFalcon extends Role {
 
     public MillenniumFalcon() {
         super();
-        this.radar = new int[11][11];
+        this.radar = new int[3][3];
         
         this.positioning = false;
     }
@@ -31,15 +31,37 @@ public class MillenniumFalcon extends Role {
      */
     @Override
     protected void fillRadar(){
-       Pair<Integer,Integer> myPosition = this.datos.getPosition();
+        
+        Pair<Integer,Integer> posActual = this.datos.getPosition();
        
-       for (int i = 0; i < 11; i++) {
-           for (int j = 0; j < 11; j++) {
-               
-               radar[i][j] = this.datos.getMapPosition( myPosition.first + ( i-5 ) , myPosition.second + ( j-5 ) );
-                   
-            } 
-        }
+        Integer[][] world = new Integer[500][500];
+        world = this.datos.getWorldMap();
+       
+        Pair<Integer,Integer>[] shipsPosition =  new Pair[4];
+       
+        shipsPosition = this.datos.getAllShips();
+        
+        for(int i=0; i<3; i++){
+             for(int j=0; j<3; j++){
+
+                 if( (shipsPosition[1].first == (posActual.first-1+i)) && (shipsPosition[1].second == (posActual.second-1+j)) )
+                     radar[i][j]= 2;
+                 else if( (shipsPosition[2].first == (posActual.first-1+i)) && (shipsPosition[2].second == (posActual.second-1+j)) )
+                     radar[i][j]= 2;
+                 else if( (shipsPosition[3].first == (posActual.first-1+i)) && (shipsPosition[3].second == (posActual.second-1+j)) )
+                     radar[i][j]= 2;
+                 else
+                     if((posActual.first-1+i >= 0) && (posActual.second-1+j >= 0) && (posActual.first-1+i <= 100) && (posActual.second-1+j <= 100)) //Esta condicion es para que no 
+                     {                                                             //acceda a partes de world que no existen
+                         radar[i][j]= world[posActual.first-1+i][posActual.second-1+j];
+                     }else
+                     {
+                         radar[i][j] = 2;
+                     }
+
+             }
+         }
+       System.out.println("RADAARR");
        
     }
     
@@ -151,7 +173,7 @@ public class MillenniumFalcon extends Role {
     @Override
     public void firstLogic() {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
-        
+        fillRadar();
         if (!found) {
             if (this.datos.getFuel() <= 4) {
                 this.action = ActionsEnum.battery; // Recargar batería
