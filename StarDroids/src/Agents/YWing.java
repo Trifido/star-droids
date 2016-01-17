@@ -10,7 +10,6 @@ import helpers.Pair;
 public class YWing extends Role {
     //YWing or bird (pajaro)
 
-    private int[][] radar;
     private MoveAlgorithm heuristica;
     
     // Variables de modo búsqueda de objetivo
@@ -22,6 +21,25 @@ public class YWing extends Role {
         this.radar = new int[5][5];
         
         this.positioning = false;
+    }
+    
+    /**
+     * Función que rellena el radar del pájaro
+     * 
+     * @author Alberto Meana
+     */
+    @Override
+    protected void fillRadar(){
+       Pair<Integer,Integer> myPosition = this.datos.getPosition();
+       
+       for (int i = 0; i < 5; i++) {
+           for (int j = 0; j < 5; j++) {
+               
+               radar[i][j] = this.datos.getMapPosition( myPosition.first + ( i-2 ) , myPosition.second + ( j-2 ) );
+                   
+            } 
+        }
+       
     }
     
     /**

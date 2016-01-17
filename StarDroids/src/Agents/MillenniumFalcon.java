@@ -11,7 +11,6 @@ import helpers.Pair;
 public class MillenniumFalcon extends Role {
     //Millennium Falcon or Falcon (Halcon) obviously
 
-    private int[][] radar;
     private MoveAlgorithm heuristica;
     
     // Variables de modo búsqueda de objetivo
@@ -23,6 +22,25 @@ public class MillenniumFalcon extends Role {
         this.radar = new int[11][11];
         
         this.positioning = false;
+    }
+    
+    /**
+     * Función que rellena el radar del halcon
+     * 
+     * @author Alberto Meana
+     */
+    @Override
+    protected void fillRadar(){
+       Pair<Integer,Integer> myPosition = this.datos.getPosition();
+       
+       for (int i = 0; i < 11; i++) {
+           for (int j = 0; j < 11; j++) {
+               
+               radar[i][j] = this.datos.getMapPosition( myPosition.first + ( i-5 ) , myPosition.second + ( j-5 ) );
+                   
+            } 
+        }
+       
     }
     
     /**

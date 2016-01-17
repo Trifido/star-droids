@@ -11,7 +11,7 @@ import helpers.Pair;
 public class XWing extends Role {
     //Or fly (mosca)
 
-    private int[][] radar;
+    
     private MoveAlgorithm heuristica;
 
     // Variables de modo búsqueda de objetivo
@@ -31,6 +31,24 @@ public class XWing extends Role {
         this.turnCount = 0;
     }
     
+    /**
+     * Función que rellena el radar de la mosca
+     * 
+     * @author Alberto Meana
+     */
+    @Override
+    protected void fillRadar(){
+       Pair<Integer,Integer> myPosition = this.datos.getPosition();
+       
+       for (int i = 0; i < 3; i++) {
+           for (int j = 0; j < 3; j++) {
+               
+               radar[i][j] = this.datos.getMapPosition( myPosition.first + ( i-1 ) , myPosition.second + ( j-1 ) );
+                   
+            } 
+        }
+       
+    }
     /**
      * @author Alba Rios
      * @description Actualiza a true la variable found si la meta ha sido vista
@@ -82,7 +100,7 @@ public class XWing extends Role {
         
         return solution;
     }
-
+    
     /**
      * @author Alba Rios
      * @description Selecciona la acción a realizar en el modo búsqueda de objetivo

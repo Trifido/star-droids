@@ -13,10 +13,12 @@ public abstract class Role {
     
     protected Sensors datos;
     protected ActionsEnum action; // Almacena los valores de la heurística
+    protected int[][] radar;
     
     protected boolean found; // Meta vista
     protected Pair <Integer, Integer> goal;
     private int[] roles;
+    
 
     // Constructor
     public Role() {
@@ -35,6 +37,9 @@ public abstract class Role {
     // Basic logic classes
     public abstract void firstLogic();
     public abstract void secondLogic();
+    
+    // Rellenar radar
+    protected abstract void fillRadar();
     
     // Comprobar si se ha visto la meta
     protected abstract void isFound();
