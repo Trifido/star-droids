@@ -14,6 +14,7 @@ public abstract class Role {
     protected Sensors datos;
     protected ActionsEnum action; // Almacena los valores de la heurística
     protected int[][] radar;
+    protected int[][] radar2;
     
     protected boolean found; // Meta vista
     protected Pair <Integer, Integer> goal;
@@ -177,6 +178,7 @@ public abstract class Role {
      * @param sensor 
      */
     protected void fillDates(int a, int b, JsonArray sensor) {
+        
         int x = (Integer) this.datos.getPosition().first;
             
         if(x-a < 0) {
@@ -361,6 +363,22 @@ public abstract class Role {
 
                 index++;
             }
+        }
+    }
+    
+    protected void fillRadar2(int s,JsonArray sensor){
+                int siz=sensor.size();
+        System.out.println("Tamaño del array del radar: "+siz);
+        if(siz<s*s) System.out.println("Problema en el tamaño del array del radar");
+        else{
+            this.radar2 = new int[s][s];
+            int count=0;
+        for(int i=0;i<s;i++){
+            for(int j=0;j<s;j++){
+                this.radar2[i][j]=sensor.get(count).asInt();
+                count++;
+            }
+        }
         }
     }
 

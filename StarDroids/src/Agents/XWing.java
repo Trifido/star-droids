@@ -227,6 +227,7 @@ public class XWing extends Role {
      */
     @Override
     protected void fillDatesRole(JsonArray sensor) {
+        fillRadar2(3,sensor);
        fillDates(1, 2, sensor);
     }
 

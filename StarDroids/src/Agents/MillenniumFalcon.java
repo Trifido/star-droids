@@ -585,6 +585,7 @@ public class MillenniumFalcon extends Role {
      */
     @Override
     protected void fillDatesRole(JsonArray sensor) {
+        fillRadar2(11,sensor);
         fillDates(5, 6, sensor);
     }
 }

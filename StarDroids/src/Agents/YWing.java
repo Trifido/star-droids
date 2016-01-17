@@ -465,6 +465,7 @@ public class YWing extends Role {
      */
     @Override
     protected void fillDatesRole(JsonArray sensor) {
+        fillRadar2(5,sensor);
        fillDates(2, 3, sensor);
     }
 }
