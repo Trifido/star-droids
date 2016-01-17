@@ -9,9 +9,9 @@ import org.newdawn.slick.opengl.Texture;
  */
 public class TileGrid {
     
-    public static final int TILE_SIZE = 2; //Anchura y altura de un Tile
+    public static final int TILE_SIZE = 5; //Anchura y altura de un Tile
     public Tile[][] map;
-    private int tilesWide = 500, tilesHigh = 500; //Ancho y alto del mapa
+    private int tilesWide = 100, tilesHigh = 100; //Ancho y alto del mapa
     private Texture empty, unknown, obstacle, goal, bot, falcon, xwing, ywing;
     
     /**

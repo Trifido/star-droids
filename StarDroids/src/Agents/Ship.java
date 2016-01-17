@@ -369,8 +369,14 @@ public class Ship extends SingleAgent {
                 
                 if (!this.role.getFound()) { // Si no se ha encontrado la meta                  
                     
-                    
-                    
+                    if( this.getName().equals( AgentsNames.leaderShip ) ){
+                        
+                        paint();
+                        this.firstLogic();
+                        
+                    }
+                        
+                    /*
                     switch(this.getName()) { // Si somos the chosen one
                         case AgentsNames.leaderShip:
                             paint();
@@ -385,7 +391,7 @@ public class Ship extends SingleAgent {
                         case AgentsNames.ship4:
                             if (this.finder == 3) this.firstLogic();
                             break;
-                    }
+                    }*/
                 }
                 else {
                     //Heuristica 2
