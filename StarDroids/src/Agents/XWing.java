@@ -38,9 +38,10 @@ public class XWing extends Role {
      */
     @Override
     protected void fillRadar(){
-       Pair<Integer,Integer> myPosition = this.datos.getPosition();
-       
-       for (int i = 0; i < 3; i++) {
+        
+        Pair<Integer,Integer> myPosition = this.datos.getPosition();
+        
+        for (int i = 0; i < 3; i++) {
            for (int j = 0; j < 3; j++) {
                
                radar[i][j] = this.datos.getMapPosition( myPosition.first + ( i-1 ) , myPosition.second + ( j-1 ) );
@@ -121,6 +122,7 @@ public class XWing extends Role {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
         this.fillRadar();
         this.showRadar();
+
         if (!found) {
             if (this.datos.getFuel() <= 2) {
                 this.action = ActionsEnum.battery; // Recargar batería

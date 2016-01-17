@@ -30,9 +30,9 @@ public class YWing extends Role {
      */
     @Override
     protected void fillRadar(){
-       Pair<Integer,Integer> myPosition = this.datos.getPosition();
+        Pair<Integer,Integer> myPosition = this.datos.getPosition();
        
-       for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
            for (int j = 0; j < 5; j++) {
                
                radar[i][j] = this.datos.getMapPosition( myPosition.first + ( i-2 ) , myPosition.second + ( j-2 ) );

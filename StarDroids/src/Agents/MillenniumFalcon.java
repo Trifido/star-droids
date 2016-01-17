@@ -31,9 +31,10 @@ public class MillenniumFalcon extends Role {
      */
     @Override
     protected void fillRadar(){
-       Pair<Integer,Integer> myPosition = this.datos.getPosition();
+        
+        Pair<Integer,Integer> myPosition = this.datos.getPosition();
        
-       for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 11; i++) {
            for (int j = 0; j < 11; j++) {
                
                radar[i][j] = this.datos.getMapPosition( myPosition.first + ( i-5 ) , myPosition.second + ( j-5 ) );
@@ -172,6 +173,7 @@ public class MillenniumFalcon extends Role {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
         this.fillRadar();
         this.showRadar();
+
         if (!found) {
             if (this.datos.getFuel() <= 4) {
                 this.action = ActionsEnum.battery; // Recargar batería
