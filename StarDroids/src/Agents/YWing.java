@@ -23,24 +23,6 @@ public class YWing extends Role {
         this.positioning = false;
     }
     
-    /**
-     * Función que rellena el radar del pájaro
-     * 
-     * @author Alberto Meana
-     */
-    @Override
-    protected void fillRadar(){
-        Pair<Integer,Integer> myPosition = this.datos.getPosition();
-       
-        for (int i = 0; i < 5; i++) {
-           for (int j = 0; j < 5; j++) {
-               
-               radar[i][j] = this.datos.getMapPosition( myPosition.first + ( i-2 ) , myPosition.second + ( j-2 ) );
-                   
-            } 
-        }
-       
-    }
     public void showRadar(){
     
         for (int i = 0; i < 5; i++) {
@@ -125,7 +107,6 @@ public class YWing extends Role {
     @Override
     public void firstLogic() {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
-        this.fillRadar();
         this.showRadar();
         
         if (!found) {
@@ -460,12 +441,31 @@ public class YWing extends Role {
     
     /**
      *
-     * @author Andrés Ortiz Corrales
-     * @description Almacenamiento de datos de sensor particular al pajaro
+     * @author Andrés Ortiz Corrales y Rafael Ruiz
+     * @description Almacenamiento de datos de sensor particular a la mosca
      */
     @Override
     protected void fillDatesRole(JsonArray sensor) {
-        fillRadar2(5,sensor);
-       fillDates(2, 3, sensor);
+        //Rellenar el radar interno
+        int count=0;
+        for(int i=0;i<5;i++){
+            for(int j=0;j<5;j++){
+                this.radar[i][j]=sensor.get(count).asInt();
+                count++;
+            }
+        }
+        
+        //Actualizar mapa del mundo
+        int x = (Integer) this.datos.getPosition().first;
+        int y = (Integer) this.datos.getPosition().second;
+        int index = 0;
+
+        for(int i = x-5 ; i < x+5; i++) {
+            for(int j = y-35 ; j < y+5; j++) {
+                if(i>=0 && i<=499 && j>=0 && j<=499)
+                    this.datos.setWorldMap(i, j, sensor.get(index).asInt());
+                index++;
+            }
+        }
     }
 }

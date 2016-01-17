@@ -24,26 +24,6 @@ public class MillenniumFalcon extends Role {
         this.positioning = false;
     }
     
-    /**
-     * Función que rellena el radar del halcon
-     * 
-     * @author Alberto Meana
-     */
-    @Override
-    protected void fillRadar(){
-        
-        Pair<Integer,Integer> myPosition = this.datos.getPosition();
-       
-        for (int i = 0; i < 11; i++) {
-           for (int j = 0; j < 11; j++) {
-               
-               radar[i][j] = this.datos.getMapPosition( myPosition.first + ( i-5 ) , myPosition.second + ( j-5 ) );
-                   
-            } 
-        }
-       
-    }
-    
     public void showRadar(){
     
         for (int i = 0; i < 11; i++) {
@@ -171,7 +151,6 @@ public class MillenniumFalcon extends Role {
     @Override
     public void firstLogic() {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
-        this.fillRadar();
         this.showRadar();
 
         if (!found) {
@@ -580,12 +559,31 @@ public class MillenniumFalcon extends Role {
 
     /**
      *
-     * @author Andrés Ortiz Corrales
-     * @description Almacenamiento de datos de sensor particular al halcón
+     * @author Andrés Ortiz Corrales y Rafael Ruiz
+     * @description Almacenamiento de datos de sensor particular a la mosca
      */
     @Override
     protected void fillDatesRole(JsonArray sensor) {
-        fillRadar2(11,sensor);
-        fillDates(5, 6, sensor);
+        //Rellenar el radar interno
+        int count=0;
+        for(int i=0;i<11;i++){
+            for(int j=0;j<11;j++){
+                this.radar[i][j]=sensor.get(count).asInt();
+                count++;
+            }
+        }
+        
+        //Actualizar mapa del mundo
+        int x = (Integer) this.datos.getPosition().first;
+        int y = (Integer) this.datos.getPosition().second;
+        int index = 0;
+
+        for(int i = x-11 ; i < x+11; i++) {
+            for(int j = y-11 ; j < y+11; j++) {
+                if(i>=0 && i<=499 && j>=0 && j<=499)
+                    this.datos.setWorldMap(i, j, sensor.get(index).asInt());
+                index++;
+            }
+        }
     }
 }

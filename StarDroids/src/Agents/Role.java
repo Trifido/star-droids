@@ -39,9 +39,6 @@ public abstract class Role {
     public abstract void firstLogic();
     public abstract void secondLogic();
     
-    // Rellenar radar
-    protected abstract void fillRadar();
-    
     // Comprobar si se ha visto la meta
     protected abstract void isFound();
     // Pasar de posición de rada a mundo
@@ -129,36 +126,18 @@ public abstract class Role {
      * @description rellena la estructura de datos de los sensores a partir de un mensaje
      * @param in 
      */
-    public JsonObject fillSensors(ACLMessage in, Role role) {
-        //Datos {"result":{"battery":100,"x":83,"y":99,"sensor":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2],"energy":1000,"goal":false}} 
+    public JsonObject fillSensors(ACLMessage in) {
         JsonObject message = new JsonObject();
         
         message = Json.parse(in.getContent()).asObject().get("result").asObject();
-        
-        JsonArray sensor = Json.parse(in.getContent()).asObject().get("result").asObject().get("sensor").asArray();
-        
         this.datos.setFuel(message.getInt("battery", 0));
         this.datos.setGlobalFuel(message.getInt("energy", 0));
         this.datos.setGoal(message.getBoolean("goal", false));
         this.datos.setPosition(message.getInt("x", 0), message.getInt("y",0));
-        //this.datos.setShipPosition(0, 0, 0); // AUN NO SE QUE ES ESTO
-               
-        //relleno mapa de datos segun lo que es
+        
+        JsonArray sensor = Json.parse(in.getContent()).asObject().get("result").asObject().get("sensor").asArray();
         fillDatesRole(sensor);
-       /* if(role.getClass().equals(XWing.class))
-        {
-            fillDates(1, 2, sensor);
-            
-        }else if (role.getClass().equals(YWing.class))
-        {
-            fillDates(2, 3, sensor);
-            
-        }else if (role.getClass().equals(MillenniumFalcon.class))
-        {
-            fillDates(5, 6, sensor);
-        }*/
-   //     System.out.println("Hello");
-        //this.datos.show();
+        
         return message;
     }
   
@@ -177,34 +156,16 @@ public abstract class Role {
      * @param b
      * @param sensor 
      */
-    protected void fillDates(int a, int b, JsonArray sensor) {
+    protected void fillDates(int a, JsonArray sensor) {
         
         int x = (Integer) this.datos.getPosition().first;
-            
-        if(x-a < 0) {
-            x = x + a;
-
-        }
-        else if(x+b > 500) {
-            x = 500 - b;
-        }
-
         int y = (Integer) this.datos.getPosition().second;
-
-        if(y-a < 0) {
-            y = y + a;
-
-        }
-        else if(y+b > 500) {
-            y = 500 - b;
-        }
-
         int index = 0;
 
-        for(int i = x-a ; i < x+b; i++) {
-            for(int j = y-a ; j < y+b; j++) {
-                this.datos.setWorldMap(i, j, sensor.get(index).asInt());
-
+        for(int i = x-a ; i < x+a; i++) {
+            for(int j = y-a ; j < y+a; j++) {
+                if(i>=0 && i<=499 && j>=0 && j<=499)
+                    this.datos.setWorldMap(i, j, sensor.get(index).asInt());
                 index++;
             }
         }
@@ -363,22 +324,6 @@ public abstract class Role {
 
                 index++;
             }
-        }
-    }
-    
-    protected void fillRadar2(int s,JsonArray sensor){
-                int siz=sensor.size();
-        System.out.println("Tamaño del array del radar: "+siz);
-        if(siz<s*s) System.out.println("Problema en el tamaño del array del radar");
-        else{
-            this.radar2 = new int[s][s];
-            int count=0;
-        for(int i=0;i<s;i++){
-            for(int j=0;j<s;j++){
-                this.radar2[i][j]=sensor.get(count).asInt();
-                count++;
-            }
-        }
         }
     }
 

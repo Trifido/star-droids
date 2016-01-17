@@ -305,7 +305,7 @@ public class Ship extends SingleAgent {
             }else
             {
                 System.out.println( this.getName() + " Performativa " + in.getPerformative() + " | Contenido " + in.getContent());
-                JsonObject message = this.role.fillSensors(in, role); //Adds message to token
+                JsonObject message = this.role.fillSensors(in); //Adds message to token
                 this.token.setToken(this.getName(), message); //stores message in token
             }
             

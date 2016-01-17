@@ -31,25 +31,6 @@ public class XWing extends Role {
         this.turnCount = 0;
     }
     
-    /**
-     * Función que rellena el radar de la mosca
-     * 
-     * @author Alberto Meana
-     */
-    @Override
-    protected void fillRadar(){
-        
-        Pair<Integer,Integer> myPosition = this.datos.getPosition();
-        
-        for (int i = 0; i < 3; i++) {
-           for (int j = 0; j < 3; j++) {
-               
-               radar[i][j] = this.datos.getMapPosition( myPosition.first + ( i-1 ) , myPosition.second + ( j-1 ) );
-                   
-            } 
-        }
-       
-    }
     public void showRadar(){
     
         for (int i = 0; i < 3; i++) {
@@ -120,7 +101,6 @@ public class XWing extends Role {
     @Override
     public void firstLogic() {      
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
-        this.fillRadar();
         this.showRadar();
 
         if (!found) {
@@ -222,13 +202,32 @@ public class XWing extends Role {
 
      /**
      *
-     * @author Andrés Ortiz Corrales
+     * @author Andrés Ortiz Corrales y Rafael Ruiz
      * @description Almacenamiento de datos de sensor particular a la mosca
      */
     @Override
     protected void fillDatesRole(JsonArray sensor) {
-        fillRadar2(3,sensor);
-       fillDates(1, 2, sensor);
+        //Rellenar el radar interno
+        int count=0;
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                this.radar[i][j]=sensor.get(count).asInt();
+                count++;
+            }
+        }
+        
+        //Actualizar mapa del mundo
+        int x = (Integer) this.datos.getPosition().first;
+        int y = (Integer) this.datos.getPosition().second;
+        int index = 0;
+
+        for(int i = x-3 ; i < x+3; i++) {
+            for(int j = y-3 ; j < y+3; j++) {
+                if(i>=0 && i<=499 && j>=0 && j<=499)
+                    this.datos.setWorldMap(i, j, sensor.get(index).asInt());
+                index++;
+            }
+        }
     }
 
 }
