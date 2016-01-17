@@ -578,8 +578,8 @@ public class MillenniumFalcon extends Role {
         int y = (Integer) this.datos.getPosition().second;
         int index = 0;
 
-        for(int i = x-11 ; i < x+11; i++) {
-            for(int j = y-11 ; j < y+11; j++) {
+        for(int i = x-5 ; i < x+5; i++) {
+            for(int j = y-5 ; j < y+5; j++) {
                 if(i>=0 && i<=499 && j>=0 && j<=499)
                     this.datos.setWorldMap(i, j, sensor.get(index).asInt());
                 index++;

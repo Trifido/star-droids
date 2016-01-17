@@ -14,7 +14,6 @@ public abstract class Role {
     protected Sensors datos;
     protected ActionsEnum action; // Almacena los valores de la heurística
     protected int[][] radar;
-    protected int[][] radar2;
     
     protected boolean found; // Meta vista
     protected Pair <Integer, Integer> goal;
@@ -147,31 +146,7 @@ public abstract class Role {
      * @description metodo particular de cada rol para rellenar sus datos
      */
     protected abstract void fillDatesRole(JsonArray sensor); //rellena los datos dependiendo del rol
-    
-    /**
-     * 
-     * @author Rafael Ruiz
-     * 
-     * @param a
-     * @param b
-     * @param sensor 
-     */
-    protected void fillDates(int a, JsonArray sensor) {
-        
-        int x = (Integer) this.datos.getPosition().first;
-        int y = (Integer) this.datos.getPosition().second;
-        int index = 0;
-
-        for(int i = x-a ; i < x+a; i++) {
-            for(int j = y-a ; j < y+a; j++) {
-                if(i>=0 && i<=499 && j>=0 && j<=499)
-                    this.datos.setWorldMap(i, j, sensor.get(index).asInt());
-                index++;
-            }
-        }
-    }
-    
-        
+         
     /**
      * 
      * @author Rafael Ruiz
@@ -297,7 +272,6 @@ public abstract class Role {
     protected void fillDatesShips(int a, int b, JsonArray sensor, Pair<Integer,Integer> n) {
         int x = n.first;
             
-        
         if(x-a < 0) {
             x = x + a;
 
@@ -317,7 +291,7 @@ public abstract class Role {
         }
 
         int index = 0;
-
+        
         for(int i = x-a ; i < x+b; i++) {
             for(int j = y-a ; j < y+b; j++) {
                 this.datos.setWorldMap(i, j, sensor.get(index).asInt());

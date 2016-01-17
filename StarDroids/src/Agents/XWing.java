@@ -34,11 +34,12 @@ public class XWing extends Role {
     public void showRadar(){
     
         for (int i = 0; i < 3; i++) {
-               
-               System.out.println( radar[i][0] + " " +
-                                    radar[i][1] + " " +
-                                    radar[i][2] + " "
-               );
+               for (int j = 0; j < 3; j++) { 
+                System.out.print( radar[i][j] + " ");
+                                     
+                
+               }
+               System.out.println();
         }
     }
     /**
@@ -101,7 +102,6 @@ public class XWing extends Role {
     @Override
     public void firstLogic() {      
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
-        this.showRadar();
 
         if (!found) {
             if (this.datos.getFuel() <= 2) {
@@ -138,10 +138,10 @@ public class XWing extends Role {
                         }
                     } 
                     else { // Nos desplazamos hacia abajo
-                        int border = this.radar[1][2];
+                        int border = this.radar[2][1];
                         int x = (int) this.datos.getPosition().first; 
                         int y = (int) this.datos.getPosition().second + 1;
-
+this.showRadar();System.out.println("Borde ------------ " + border);
                         if (border == 2 || checkShips(x, y)) { // Encontramos el borde -> este o una nave
                                 this.turn = true;
                                 this.turnCount += 1;
@@ -175,10 +175,10 @@ public class XWing extends Role {
                         }
                     }
                     else { // Nos desplazamos hacia arriba
-                        int border = this.radar[1][0];
+                        int border = this.radar[0][1];
                         int x = (int) this.datos.getPosition().first; 
                         int y = (int) this.datos.getPosition().second - 1;
-
+System.out.println("Borde ------------ " + border);
                         if (border == 2 || checkShips(x, y)) { // Encontramos el borde -> este
                             this.turn = true;
                             this.turnCount += 1;
@@ -210,7 +210,7 @@ public class XWing extends Role {
         //Rellenar el radar interno
         int count=0;
         for(int i=0;i<3;i++){
-            for(int j=0;j<3;j++){
+            for(int j=0;j<3;j++){ 
                 this.radar[i][j]=sensor.get(count).asInt();
                 count++;
             }
@@ -221,8 +221,8 @@ public class XWing extends Role {
         int y = (Integer) this.datos.getPosition().second;
         int index = 0;
 
-        for(int i = x-3 ; i < x+3; i++) {
-            for(int j = y-3 ; j < y+3; j++) {
+        for(int i = x-1 ; i < x+1; i++) {
+            for(int j = y-1 ; j < y+1; j++) {
                 if(i>=0 && i<=499 && j>=0 && j<=499)
                     this.datos.setWorldMap(i, j, sensor.get(index).asInt());
                 index++;

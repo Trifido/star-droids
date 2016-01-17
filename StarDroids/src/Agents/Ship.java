@@ -33,6 +33,7 @@ public class Ship extends SingleAgent {
     private boolean firstRound; // Primera iteracion
     private int[] roles; // 0: pajaro, 1: halcon, 2: mosca
     private int finder; // Bot que hace la búsqueda
+    private boolean chosen; // Se ha elegido el buscador
 
     // Instancias de la interfaz
     public MapProject gui;
@@ -54,6 +55,7 @@ public class Ship extends SingleAgent {
         this.firstRound = true;      
         this.roles = new int[4];
         this.finder = -1;
+        this.chosen = false;
     }
     
     /**
@@ -66,7 +68,7 @@ public class Ship extends SingleAgent {
     public void setInterface( MapProject map ){
         
         //this.worldToSolve = (new WorldDialog( new JFrame(), true) ).getWordl();
-        this.worldToSolve = "map1";
+        this.worldToSolve = "map10";
         this.gui = map;
     
     }
@@ -358,6 +360,7 @@ public class Ship extends SingleAgent {
                 if (!(this.getName().equals(AgentsNames.leaderShip)) || count != 0) { // Si no eres lider, esperar token
                     try {
                         waitToken();
+                        System.out.println("Asasdasd --------- " + this.getName());
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -374,9 +377,12 @@ public class Ship extends SingleAgent {
                         Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
-                    this.chooseFinder(); // Seleccionar quién va a hacer la búsqueda
                     this.firstRound = false;
                     count++;
+                }
+                else if (!this.chosen) {
+                    this.chooseFinder(); // Seleccionar quién va a hacer la búsqueda
+                    this.chosen = true;
                 }
                 
                 if (!this.role.getFound()) { // Si no se ha encontrado la meta                  
