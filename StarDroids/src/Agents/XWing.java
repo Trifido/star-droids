@@ -49,6 +49,16 @@ public class XWing extends Role {
         }
        
     }
+    public void showRadar(){
+    
+        for (int i = 0; i < 3; i++) {
+               
+               System.out.println( radar[i][0] + " " +
+                                    radar[i][1] + " " +
+                                    radar[i][2] + " "
+               );
+        }
+    }
     /**
      * @author Alba Rios
      * @description Actualiza a true la variable found si la meta ha sido vista
@@ -109,7 +119,8 @@ public class XWing extends Role {
     @Override
     public void firstLogic() {      
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
-        
+        this.fillRadar();
+        this.showRadar();
         if (!found) {
             if (this.datos.getFuel() <= 2) {
                 this.action = ActionsEnum.battery; // Recargar batería

@@ -41,7 +41,18 @@ public class YWing extends Role {
         }
        
     }
+    public void showRadar(){
     
+        for (int i = 0; i < 5; i++) {
+               
+               System.out.println( radar[i][0] + " " +
+                                    radar[i][1] + " " +
+                                    radar[i][2] + " " +
+                                    radar[i][3] + " " +
+                                    radar[i][4] + " " 
+               );
+        }
+    }
     /**
      * @author Alba Rios
      * @description Actualiza a true la variable found si la meta ha sido vista
@@ -114,6 +125,8 @@ public class YWing extends Role {
     @Override
     public void firstLogic() {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
+        this.fillRadar();
+        this.showRadar();
         
         if (!found) {
             if (this.datos.getFuel() <= 1) {
