@@ -98,7 +98,7 @@ public class XWing extends Role {
             }
             else if (this.positioning) {
                 //this.action = ; Trasladar a la posición 0,0 (funcion vicente)
-                Algoritmo alg= new Algoritmo(new Pair(0,0), myPosition, this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
+                Algoritmo alg= new Algoritmo(new Pair(movDistance-1,movDistance-1), myPosition, this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
                 this.action= alg.heuristic1();
 
                 if (myPosition.first == movDistance-1 && myPosition.second == movDistance-1) 
@@ -114,8 +114,16 @@ public class XWing extends Role {
                           this.action = ActionsEnum.moveN;
                         }
                         else { // Aun nos estamos desplazando -> este
-                            this.turnCount += 1;
-                            this.action = ActionsEnum.moveE;
+                            int x = (int) this.datos.getPosition().first + 1; 
+                            int y = (int) this.datos.getPosition().second;
+                            
+                            if (checkShips(x, y)) {
+                                this.action = ActionsEnum.moveN;
+                            }
+                            else {
+                                this.turnCount += 1;
+                                this.action = ActionsEnum.moveE;
+                            }
                         }
                     } 
                     else { // Nos desplazamos hacia abajo
@@ -123,10 +131,7 @@ public class XWing extends Role {
                         int x = (int) this.datos.getPosition().first; 
                         int y = (int) this.datos.getPosition().second + 1;
 
-                        if (checkShips(x, y)) { // Si hay una nave 
-                            this.action = ActionsEnum.moveW;
-                        }
-                        else if (border == 2) { // Encontramos el borde -> este
+                        if (border == 2 || checkShips(x, y)) { // Encontramos el borde -> este o una nave
                                 this.turn = true;
                                 this.turnCount += 1;
                                 this.action = ActionsEnum.moveE; 
@@ -146,8 +151,16 @@ public class XWing extends Role {
                           this.action = ActionsEnum.moveS;
                         }
                         else { // Aun nos estamos desplazando -> este
-                            this.turnCount += 1;
-                            this.action = ActionsEnum.moveE;
+                            int x = (int) this.datos.getPosition().first + 1; 
+                            int y = (int) this.datos.getPosition().second;
+                            
+                            if (checkShips(x, y)) {
+                                this.action = ActionsEnum.moveS;
+                            }
+                            else {
+                                this.turnCount += 1;
+                                this.action = ActionsEnum.moveE;
+                            }
                         }
                     }
                     else { // Nos desplazamos hacia arriba
@@ -155,11 +168,7 @@ public class XWing extends Role {
                         int x = (int) this.datos.getPosition().first; 
                         int y = (int) this.datos.getPosition().second - 1;
 
-                        if (checkShips(x, y)) { // Si hay una nave 
-                            this.action = ActionsEnum.moveW;
-                        }
-
-                        if (border == 2) { // Encontramos el borde -> este
+                        if (border == 2 || checkShips(x, y)) { // Encontramos el borde -> este
                             this.turn = true;
                             this.turnCount += 1;
                             this.action = ActionsEnum.moveE; 
