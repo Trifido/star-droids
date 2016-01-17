@@ -98,10 +98,10 @@ public class XWing extends Role {
             }
             else if (this.positioning) {
                 //this.action = ; Trasladar a la posición 0,0 (funcion vicente)
-                Algoritmo alg= new Algoritmo(new Pair(movDistance-1,movDistance-1), myPosition, this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
+                Algoritmo alg= new Algoritmo(new Pair(movDistance-2,movDistance-2), myPosition, this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
                 this.action= alg.heuristic1();
 
-                if (myPosition.first == movDistance-1 && myPosition.second == movDistance-1) 
+                if (myPosition.first == movDistance-2 && myPosition.second == movDistance-2) 
                     this.positioning = false;
             }     
             else {
