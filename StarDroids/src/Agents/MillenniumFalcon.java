@@ -109,37 +109,37 @@ public class MillenniumFalcon extends Role {
         
         switch (y) {
             case 0:
-                solution.first = myPosition.first - 5;
+                solution.second = myPosition.second - 5;
                 break;
             case 1:
-                solution.first = myPosition.first - 4;
+                solution.second = myPosition.second - 4;
                 break;
             case 2:
-                solution.first = myPosition.first - 3;
+                solution.second = myPosition.second - 3;
                 break;
             case 3:
-                solution.first = myPosition.first - 2;
+                solution.second = myPosition.second - 2;
                 break;
             case 4:
-                solution.first = myPosition.first - 1;
+                solution.second = myPosition.second - 1;
                 break;
             case 5:
-                solution.first = myPosition.first;
+                solution.second = myPosition.second;
                 break;
             case 6:
-                solution.first = myPosition.first + 1;
+                solution.second = myPosition.second + 1;
                 break;
             case 7:
-                solution.first = myPosition.first + 2;
+                solution.second = myPosition.second + 2;
                 break;
             case 8:
-                solution.first = myPosition.first + 3;
+                solution.second = myPosition.second + 3;
                 break;
             case 9:
-                solution.first = myPosition.first + 4;
+                solution.second = myPosition.second + 4;
                 break;
             case 10:
-                solution.first = myPosition.first + 5;
+                solution.second = myPosition.second + 5;
                 break;
         }
         
@@ -676,6 +676,7 @@ public class MillenniumFalcon extends Role {
     
     @Override
     public void secondLogic() {
+        System.out.println("GOAL: " + goal.first + " , " + goal.second);
         heuristica= new Algoritmo(goal, this.datos.getPosition(), this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
         action= heuristica.heuristic();
     }

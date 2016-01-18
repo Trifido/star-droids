@@ -81,13 +81,13 @@ public class XWing extends Role {
         
         switch (y) {
             case 0:
-                solution.first = myPosition.first - 1;
+                solution.second = myPosition.second - 1;
                 break;
             case 1:
-                solution.first = myPosition.first;
+                solution.second = myPosition.second;
                 break;
             case 2:
-                solution.first = myPosition.first +1;
+                solution.second = myPosition.second +1;
                 break;
         }
         
@@ -197,6 +197,7 @@ this.showRadar();
 
     @Override
     public void secondLogic() {
+        System.out.println("GOAL: " + goal.first + " , " + goal.second);
         heuristica= new Algoritmo(goal, this.datos.getPosition(), this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
         action= heuristica.heuristic1();
     }
