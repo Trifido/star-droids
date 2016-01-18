@@ -2,6 +2,7 @@ package Agents;
 
 import com.eclipsesource.json.JsonArray;
 import helpers.Pair;
+import java.util.Random;
 
 /**
  *
@@ -140,14 +141,11 @@ public class YWing extends Role {
                     if (movementActions[7] != -1) calculateSubMovementActions(myPosition.first-1, myPosition.second-1, 7);
                 }
                 
-                /* -------------------------------  ANDREEEEEEEEEEEEEEES ES AQUI O POR AQUI CERCA
-                
-                if (movementActions[maxMovementIndex()] < N) { // SI EL MOVIMIENTO MAXIMO ES MENOR QUE N (LO QUE TU QUIERAS)
-                    HAZ COSAS Y LO DE ABAJO EN UN ELSE
-                }
-                /*
-                
-                */
+
+                //N es 1, solo se aplicara cuando no hay nada mejor (cambiar si es necesario)
+                if (movementActions[maxMovementIndex()] < 1) { // SI EL MOVIMIENTO MAXIMO ES MENOR QUE N (LO QUE TU QUIERAS)
+                   action=getRandomAction();
+                }else{
                 // Se selecciona la acción con el valor más alto
                 switch (maxMovementIndex()) {
                     case 0:
@@ -175,6 +173,7 @@ public class YWing extends Role {
                         action = ActionsEnum.moveNW;
                     break;
                 }
+                }
                 
                 /*for (int i = 0; i < this.movementActions.length; i++)
                     System.out.print(" --- " + this.movementActions[i]); //Para mostrar el vector con las posiciones y sus valores
@@ -183,6 +182,38 @@ public class YWing extends Role {
         }
        
     }
+    
+   /**
+     * @author Andres Ortiz
+     * @description Accion aleatoria si la heuristica no sabe que hacer
+     */
+    protected ActionsEnum getRandomAction(){
+        boolean actionFound=false;
+        ActionsEnum act=ActionsEnum.sleep;
+        while(!actionFound){
+            Random rand=new Random();
+            int x=rand.nextInt(3); //between 0 and 2 (inclusive both)
+            int y=rand.nextInt(3);
+            
+           x++;
+           y++; //between 1 and 3
+                    
+        if ((x==2 && y==2) || this.radar[x][y] == 1 || this.radar[x][y] == 2 || checkShips(x,y)) { // Obstáculos
+        actionFound=false;
+        }else{
+            actionFound=true;
+            if(x==1 && y==1) act=ActionsEnum.moveNW;
+            if(x==1 && y==2) act=ActionsEnum.moveN;
+            if(x==1 && y==3) act=ActionsEnum.moveNE;
+            if(x==2 && y==1) act=ActionsEnum.moveW;
+            if(x==2 && y==3) act=ActionsEnum.moveE;
+            if(x==3 && y==1) act=ActionsEnum.moveSW;
+            if(x==3 && y==2) act=ActionsEnum.moveS;
+            if(x==3 && y==3) act=ActionsEnum.moveSE;
+        }                     
+        }
+       return act; 
+    } 
     
     /**
      * @author Alba Rios

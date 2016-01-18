@@ -399,7 +399,7 @@ public class Ship extends SingleAgent {
                 }
                 
                 if (this.role.noFuel()){
-                    System.out.println("Cancel, no fuel left (WARNING: only ship and global fuel checked, may be extra fuel in other ships");
+                    System.out.println("Cancel, no fuel left");
                     this.cancel();
                 } //se acabo el fuel
                 

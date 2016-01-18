@@ -133,6 +133,9 @@ public class Sensors {
     {
         this.fuelShips[index] = fuel;
     }
+    public int[] getFuelShips(){
+        return this.fuelShips;
+    }
     
     /**
      * funcion para mostrar cierta información por consola

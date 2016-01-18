@@ -99,9 +99,11 @@ public abstract class Role {
      * @return True no queda bateria global o en agentes
      */
     public boolean noFuel(){
-           if(datos.getFuel()==0 && datos.getGlobalFuel()==0) return true;
-           //TODO: probar el fuel de todos los agentes
-           else return false;
+           if(datos.getFuel()>0 && datos.getGlobalFuel()>0) return false;
+           for(int i:datos.getFuelShips()){
+               if(i>0) return false;
+           }
+           return true;
     }
     
     /**

@@ -2,6 +2,7 @@ package Agents;
 
 import com.eclipsesource.json.JsonArray;
 import helpers.Pair;
+import java.util.Random;
 
 /**
  *
@@ -184,14 +185,11 @@ public class MillenniumFalcon extends Role {
                     if (movementActions[7] != -1) calculateSubMovementActions(myPosition.first-1, myPosition.second-1, 7);
                 }
 
-                /* -------------------------------  ANDREEEEEEEEEEEEEEES ES AQUI O POR AQUI CERCA
                 
-                if (movementActions[maxMovementIndex()] < N) { // SI EL MOVIMIENTO MAXIMO ES MENOR QUE N (LO QUE TU QUIERAS)
-                    HAZ COSAS Y LO DE ABAJO EN UN ELSE
-                }
-                /*
                 
-                */
+               if (movementActions[maxMovementIndex()] < 1) { // SI EL MOVIMIENTO MAXIMO ES MENOR QUE N (LO QUE TU QUIERAS)
+                   action=getRandomAction();
+                }else{
                 // Se selecciona la acción con el valor más alto
                 switch (maxMovementIndex()) {
                     case 0:
@@ -219,13 +217,44 @@ public class MillenniumFalcon extends Role {
                         action = ActionsEnum.moveNW;
                     break;
                 }
-                
+               }
                 /*for (int i = 0; i < this.movementActions.length; i++)
                     System.out.print(" --- " + this.movementActions[i]); //Para mostrar el vector con las posiciones y sus valores
                 System.out.println();*/
             }
         }
     }
+    
+     /**
+     * @author Andres Ortiz
+     * @description Accion aleatoria si la heuristica no sabe que hacer
+     */
+    protected ActionsEnum getRandomAction(){
+        boolean actionFound=false;
+        ActionsEnum act=ActionsEnum.sleep;
+        while(!actionFound){
+            Random rand=new Random();
+            int x=rand.nextInt(3); //between 0 and 2 (inclusive both)
+            int y=rand.nextInt(3);
+            
+           x+=4;
+           y+=4; //between 4 and 6
+        if ((x==5 && y==5) || this.radar[x][y] == 1 || this.radar[x][y] == 2 || checkShips(x,y)) { // Obstáculos
+        actionFound=false;
+        }else{
+            actionFound=true;
+            if(x==4 && y==4) act=ActionsEnum.moveNW;
+            if(x==4 && y==5) act=ActionsEnum.moveN;
+            if(x==4 && y==6) act=ActionsEnum.moveNE;
+            if(x==5 && y==4) act=ActionsEnum.moveW;
+            if(x==5 && y==6) act=ActionsEnum.moveE;
+            if(x==6 && y==4) act=ActionsEnum.moveSW;
+            if(x==6 && y==5) act=ActionsEnum.moveS;
+            if(x==6 && y==6) act=ActionsEnum.moveSE;
+        }                     
+        }
+       return act; 
+    } 
 
     /**
      * @author Alba Rios
