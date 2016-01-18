@@ -399,13 +399,19 @@ public class Ship extends SingleAgent {
                     }
                 }
                 
-                if (this.role.noFuel()) this.cancel(); //se acabo el fuel
+                if (this.role.noFuel()){
+                    System.out.println("Cancel, no fuel left (WARNING: only ship and global fuel checked, may be extra fuel in other ships");
+                    this.cancel();
+                } //se acabo el fuel
                 
                 sendToken(); // Enviar token
 
         } while (!this.role.inGoal());
         
-        if(this.role.allInGoal()) this.cancel(); //Si todos en meta
+        if(this.role.allInGoal()){
+            System.out.println("Cancel, al in goal");
+            this.cancel();
+        } //Si todos en meta
         // Controlar cuando se cancela (no bateria o todos en meta)
     }
     
