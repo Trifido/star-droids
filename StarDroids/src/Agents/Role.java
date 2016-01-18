@@ -157,7 +157,7 @@ public abstract class Role {
          
     /**
      * 
-     * @author Rafael Ruiz
+     * @author Rafael Ruiz, Alberto Meana
      */
     public void parseTokenAgent(Token obj) {
         ArrayList<JsonObject> aux = obj.getShipData(); 
@@ -167,106 +167,38 @@ public abstract class Role {
         System.out.println(aux.get(2).toString());
         System.out.println(aux.get(3).toString());
         
-        if(aux.get(0).toString().length() > 2) {
-            
-            JsonObject sensor = aux.get(0);
-            
-            this.datos.setFuelShip(0, sensor.getInt("battery", 0));
-            
-            this.datos.setShipPosition( sensor.getInt("x", 0), sensor.getInt("y", 0), 0 );
-            
-            JsonArray pepe = aux.get(0).get("sensor").asArray();
-            
-            if(pepe.size()==9) {
-                fillDatesShips(1, 2, pepe, this.datos.getShipPosition(0));
-                this.roles[0]=0;
-            }
-            else if(pepe.size()==25) {
-                fillDatesShips(2, 3, pepe, this.datos.getShipPosition(0));
-                this.roles[0]=1;
-            }
-            else if(pepe.size() == 121) {
-                fillDatesShips(5, 6, pepe, this.datos.getShipPosition(0));
-                this.roles[0]=2;
-            }
-            else {
-                System.out.println("----------------- 1 Algo malo pasaaaa");
-            }
-        }
         
-        if(aux.get(1).toString().length() > 2) {
+        
+        for( int ship_number = 0; ship_number < 4; ship_number++ ){
+        
+            if(aux.get( ship_number ).toString().length() > 2) {
             
-            JsonObject sensor = aux.get(1);
-            
-            this.datos.setFuelShip(1, sensor.getInt("battery", 0));
-            
-            this.datos.setShipPosition( sensor.getInt("x", 0), sensor.getInt("y", 0), 1 );
-            
-            JsonArray pepe = aux.get(1).get("sensor").asArray();
+                JsonObject sensor = aux.get( ship_number );
 
-            if(pepe.size()==9) {
-                fillDatesShips(1, 2, pepe, this.datos.getShipPosition(1));
-                this.roles[1]=0;
-            }
-            else if(pepe.size()==25) {
-                fillDatesShips(2, 3, pepe, this.datos.getShipPosition(1));
-                this.roles[1]=1;
-            }
-            else if(pepe.size() == 121) {
-                fillDatesShips(5, 6, pepe, this.datos.getShipPosition(1));
-                this.roles[1]=2;
-            } 
-        }
-        
-        if(aux.get(2).toString().length() > 2) {
-            
-            JsonObject sensor = aux.get(2);
-            
-            this.datos.setFuelShip(2, sensor.getInt("battery", 0));
-            
-            this.datos.setShipPosition( sensor.getInt("x", 0), sensor.getInt("y", 0), 2 );
-            
-            JsonArray pepe = aux.get(2).get("sensor").asArray();
-       
-            if(pepe.size()==9) {
-                fillDatesShips(1, 2, pepe, this.datos.getShipPosition(2));
-                this.roles[2]=0;
-            }
-            else if(pepe.size()==25) {
-                fillDatesShips(2, 3, pepe, this.datos.getShipPosition(2)); 
-                this.roles[2]=1;
-            }
-            else if(pepe.size() == 121) {
-                fillDatesShips(5, 6, pepe, this.datos.getShipPosition(2));
-                this.roles[2]=2;
-            }
-            
-        }
-        
-        if(aux.get(3).toString().length() > 2) {
-            
-            JsonObject sensor = aux.get(3);
-            
-            this.datos.setFuelShip(3, sensor.getInt("battery", 0));
-            
-            this.datos.setShipPosition( sensor.getInt("x", 0), sensor.getInt("y", 0), 3 );
-            
-            JsonArray pepe = aux.get(3).get("sensor").asArray();
+                this.datos.setFuelShip( ship_number, sensor.getInt("battery", 0));
 
-            if(pepe.size()==9) {
-                fillDatesShips(1, 2, pepe, this.datos.getShipPosition(3));
-                this.roles[3]=0;
+                this.datos.setShipPosition( sensor.getInt("x", 0), sensor.getInt("y", 0), ship_number );
+
+                JsonArray pepe = aux.get( ship_number ).get("sensor").asArray();
+
+                if(pepe.size()==9) {
+                    fillDatesShips(1, 2, pepe, this.datos.getShipPosition( ship_number ));
+                    this.roles[ship_number]=0;
+                }
+                else if(pepe.size()==25) {
+                    fillDatesShips(2, 3, pepe, this.datos.getShipPosition( ship_number ));
+                    this.roles[ship_number]=1;
+                }
+                else if(pepe.size() == 121) {
+                    fillDatesShips(5, 6, pepe, this.datos.getShipPosition( ship_number ));
+                    this.roles[ship_number]=2;
+                }
+                else {
+                    System.out.println("----------------- 1 Algo malo pasaaaa");
+                }
             }
-            else if(pepe.size()==25) {
-                fillDatesShips(2, 3, pepe, this.datos.getShipPosition(3));
-                this.roles[3]=1;
-            }
-            else if(pepe.size() == 121) {
-                fillDatesShips(5, 6, pepe, this.datos.getShipPosition(3));
-                this.roles[3]=2;
-            }
+
         }
-        
     }
     
     
@@ -278,38 +210,20 @@ public abstract class Role {
         
     /**
      * 
-     * @author Rafael Ruiz
+     * @author Rafael Ruiz, Alberto Meana
      */
     protected void fillDatesShips(int a, int b, JsonArray sensor, Pair<Integer,Integer> n) {
         int x = n.first;
-            
-        if(x-a < 0) {
-            x = x + a;
-
-        }
-        else if(x+b > 500) {
-            x = 500 - b;
-        }
-
         int y = n.second;
-        
-        if(y-a < 0) {
-            y = y + a;
-
-        }
-        else if(y+b > 500) {
-            y = 500 - b;
-        }
 
         int index = 0;
         
-        for(int i = x-a ; i < x+b; i++) {
-            for(int j = y-a ; j < y+b; j++) {
-                this.datos.setWorldMap(i, j, sensor.get(index).asInt());
-
+        for(int j = y-a ; j < y+b; j++) {
+            for(int i = x-a ; i < x+b; i++) {
+                if(i>=0 && i<=499 && j>=0 && j<=499)
+                    this.datos.setWorldMap(i, j, sensor.get(index).asInt());
                 index++;
             }
         }
     }
-
 }

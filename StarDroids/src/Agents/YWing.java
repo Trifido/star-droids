@@ -560,8 +560,8 @@ public class YWing extends Role {
         int y = (Integer) this.datos.getPosition().second;
         int index = 0;
 
-        for(int i = x-2 ; i < x+2; i++) {
-            for(int j = y-2 ; j < y+2; j++) {
+        for(int j = y-2 ; j < y+2; j++) {
+            for(int i = x-2 ; i < x+2; i++) {
                 if(i>=0 && i<=499 && j>=0 && j<=499)
                     this.datos.setWorldMap(i, j, sensor.get(index).asInt());
                 index++;
