@@ -14,7 +14,7 @@ public class TileGrid {
     public Tile[][] map;
     private int tilesWide = 100, tilesHigh = 100; //Ancho y alto del mapa
     //private int tilesWide = 500, tilesHigh = 500; //Ancho y alto del mapa
-    private Texture empty, unknown, obstacle, goal, bot, falcon, xwing, ywing;
+    private Texture empty, unknown, obstacle, goal, bot, falcon, xwing, ywing, space;
     
     /**
      * Constructor que crea un mapa
@@ -30,10 +30,12 @@ public class TileGrid {
         falcon = QuickLoad((TileType.Falcon).textureName);
         xwing = QuickLoad((TileType.Xwing).textureName);
         ywing = QuickLoad((TileType.Ywing).textureName);
+        space = QuickLoad((TileType.Space).textureName);
+        
         map = new Tile[tilesWide][tilesHigh];
         for(int i = 0; i < map.length; i++){
             for (int j = 0; j < map[i].length; j++){
-                map[i][j] = new Tile(i*TILE_SIZE,j*TILE_SIZE,TILE_SIZE,TILE_SIZE, unknown);
+                map[i][j] = new Tile(i*TILE_SIZE,j*TILE_SIZE,TILE_SIZE,TILE_SIZE, space);
             }
         }
     }
@@ -54,6 +56,8 @@ public class TileGrid {
         falcon = QuickLoad((TileType.Falcon).textureName);
         xwing = QuickLoad((TileType.Xwing).textureName);
         ywing = QuickLoad((TileType.Ywing).textureName);
+        space = QuickLoad((TileType.Space).textureName);
+        
         map = new Tile[tilesWide][tilesHigh];
         for(int i = 0; i < map.length; i++){
             for (int j = 0; j < map[i].length; j++){
@@ -109,6 +113,9 @@ public class TileGrid {
                 break;
             case Ywing:
                 map[xCoord][yCoord] = new Tile(xCoord*TILE_SIZE, yCoord*TILE_SIZE, TILE_SIZE, TILE_SIZE, ywing);
+                break;
+            case Space:
+                map[xCoord][yCoord] = new Tile(xCoord*TILE_SIZE, yCoord*TILE_SIZE, TILE_SIZE, TILE_SIZE, space);
                 break;
         }
     }

@@ -64,6 +64,12 @@ public abstract class Role {
         return this.datos.getWorldMap();
     }
     
+    public int getMapPosition( int x, int y ){
+    
+        return this.datos.getMapPosition( x,y );
+        
+    }
+    
     public boolean getFound() {
         return this.found;
     }

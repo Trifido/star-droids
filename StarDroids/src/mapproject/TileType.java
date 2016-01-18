@@ -7,7 +7,7 @@ package mapproject;
  */
 public enum TileType {
     Grass("grass", true), Dirt("dirt", false), Rock("rock", false), Goal("goal", false), Bot("bot",false),
-    Falcon( "falcon",false ), Xwing( "xwing",false ), Ywing( "ywing",false );
+    Falcon( "falcon",false ), Xwing( "xwing",false ), Ywing( "ywing",false ), Space( "space",false );
     
     String textureName;
     boolean buildable;

@@ -30,7 +30,7 @@ public class Artist {
     * @author Alba Ríos
     */
     public static void BeginSession(){
-        Display.setTitle("Bot Simulator"); //Screen title
+        Display.setTitle("Star Droids"); //Screen title
         try {
             Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT)); //Screen dimension
             Display.create(); //Screen creation

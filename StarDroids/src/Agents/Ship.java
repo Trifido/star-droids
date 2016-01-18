@@ -66,8 +66,7 @@ public class Ship extends SingleAgent {
      */
     public void setInterface( MapProject map ){
         
-        //this.worldToSolve = (new WorldDialog( new JFrame(), true) ).getWordl();
-        this.worldToSolve = "map10";
+        this.worldToSolve = (new WorldDialog( new JFrame(), true) ).getWordl();
         this.gui = map;
     
     }
@@ -78,6 +77,37 @@ public class Ship extends SingleAgent {
      * @author Alberto Meana
      */
     public void paint(){
+        
+        // Pinto el mapa
+        int size;
+        if( this.worldToSolve.equals( "map8" ) || this.worldToSolve.equals( "map80" ) )
+            size = 500;
+        else
+            size = 100;
+        
+        for( int i = 0; i< size; i++ ){
+            for( int j = 0; j< size; j++ ){
+            
+                switch( this.role.getMapPosition( i, j ) ){
+                    
+                    case 0:
+                        this.gui.grid.setTile( i, j, TileType.Dirt );
+                        break;
+                    case 1:
+                        this.gui.grid.setTile( i, j, TileType.Rock );
+                        break;
+                    case 2:
+                        this.gui.grid.setTile( i, j, TileType.Rock );
+                        break;
+                    case 3:
+                        this.gui.grid.setTile( i, j, TileType.Goal );
+                        break;
+                    default:
+                        break;
+                }
+            
+            }
+        }
         
         // Pinto mi posicion
         Pair <Integer,Integer> myPosition = this.role.getPosition();
@@ -96,26 +126,26 @@ public class Ship extends SingleAgent {
             myRole = TileType.Falcon;
         
         }
-        
         this.gui.grid.setTile( myPosition.first, myPosition.second, myRole );
-        // Pinto la posición de los demás
         
+        // Pinto la posición de los demás
         for( int i = 0; i<4; i++ ){
-            if( this.roles[i] == 0 ){
-                Pair <Integer,Integer> shipPoistion = this.role.getShipPosition( i );
-                myRole = TileType.Xwing;
-                this.gui.grid.setTile( shipPoistion.first, shipPoistion.second, myRole );    
-                
-            }else if( this.roles[i] == 1 ){
-                Pair <Integer,Integer> shipPoistion = this.role.getShipPosition( i );
-                myRole = TileType.Ywing;
-                this.gui.grid.setTile( shipPoistion.first, shipPoistion.second, myRole );
-                
-            }else if( this.roles[i] == 2 ){
-                Pair <Integer,Integer> shipPoistion = this.role.getShipPosition( i );
-                myRole = TileType.Falcon;
-                this.gui.grid.setTile( shipPoistion.first, shipPoistion.second, myRole );
-                
+            Pair <Integer,Integer> shipPoistion = this.role.getShipPosition( i );
+            switch (this.roles[i]) {
+                case 0:
+                    myRole = TileType.Xwing;
+                    this.gui.grid.setTile( shipPoistion.first, shipPoistion.second, myRole );
+                    break;
+                case 1:
+                    myRole = TileType.Ywing;
+                    this.gui.grid.setTile( shipPoistion.first, shipPoistion.second, myRole );
+                    break;
+                case 2:
+                    myRole = TileType.Falcon;
+                    this.gui.grid.setTile( shipPoistion.first, shipPoistion.second, myRole );
+                    break;
+                default:
+                    break;
             }
             
         }
