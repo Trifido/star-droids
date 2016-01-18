@@ -418,13 +418,7 @@ public class Ship extends SingleAgent {
                     else {
                         System.out.println("----------------------- META VISUALIZADA! ---------------------");
                         //Heuristica 2
-                        this.role.secondLogic();
-                        this.sendMessage(role.getAction());
-                        /*try {
-                            this.receiveMessage();
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-                        }*/
+                        this.secondLogic();
                     }
                 }
                 
@@ -460,6 +454,30 @@ public class Ship extends SingleAgent {
         
         this.role.firstLogic(); // Ejecutar búsqueda
         this.sendMessage(role.getAction()); // Enviar accion
+        try {
+            this.receiveMessage();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * @author Vicente Martinez
+     * @description Se aplica la lógica de ir al objetivo y se envía y recibe respuesta del servidor
+     */
+    public void secondLogic() {
+
+        this.sendMessage(ActionsEnum.information); // Enviar QUERY REF
+                    
+        try {
+            this.receiveMessage(); // Recibir INFORM y rellenar ED
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.role.secondLogic();
+        System.out.println("Action ROLe: " + role.getAction());
+        this.sendMessage(role.getAction());
         try {
             this.receiveMessage();
         } catch (InterruptedException ex) {

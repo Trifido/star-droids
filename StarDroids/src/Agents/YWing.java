@@ -540,7 +540,8 @@ public class YWing extends Role {
     public void secondLogic() {
         System.out.println("GOAL: " + goal.first + " , " + goal.second);
         heuristica= new Algoritmo(goal, this.datos.getPosition(), this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
-        action= heuristica.heuristic();
+        this.action= heuristica.heuristic();
+        System.out.println("Action= " + this.action);
     }
     
     /**

@@ -199,7 +199,8 @@ this.showRadar();
     public void secondLogic() {
         System.out.println("GOAL: " + goal.first + " , " + goal.second);
         heuristica= new Algoritmo(goal, this.datos.getPosition(), this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
-        action= heuristica.heuristic1();
+        this.action= heuristica.heuristic1();
+        System.out.println("Action= " + this.action);
     }
 
      /**
