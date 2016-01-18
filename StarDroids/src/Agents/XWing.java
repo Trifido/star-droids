@@ -197,9 +197,7 @@ this.showRadar();
 
     @Override
     public void secondLogic() {
-         System.out.println("ola k ase");
-        System.out.println("GOAL: " + this.datos.getGoalPosition().first + ", " + this.datos.getGoalPosition().second);
-        heuristica= new Algoritmo(this.datos.getGoalPosition(), this.datos.getPosition(), this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
+        heuristica= new Algoritmo(goal, this.datos.getPosition(), this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
         action= heuristica.heuristic1();
     }
 
