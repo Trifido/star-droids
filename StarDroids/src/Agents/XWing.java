@@ -12,7 +12,7 @@ public class XWing extends Role {
     //Or fly (mosca)
 
     
-    private MoveAlgorithm heuristica;
+    private Algoritmo heuristica;
 
     // Variables de modo búsqueda de objetivo
     private final int movDistance = 5;
@@ -51,9 +51,11 @@ public class XWing extends Role {
                if (radar[i][j] == 3) {
                    this.found = true;
                    goal = mapToWorld (i, j);
+                   //this.datos.setGoalPosition(mapToWorld (i, j).first, mapToWorld (i, j).second);
                }
             } 
         }
+        System.out.println("isFound= " + this.found);
     }
     
     /**
@@ -195,7 +197,10 @@ this.showRadar();
 
     @Override
     public void secondLogic() {
-        String result = ((MoveAlgorithmFly)heuristica).heuristic();
+         System.out.println("ola k ase");
+        System.out.println("GOAL: " + this.datos.getGoalPosition().first + ", " + this.datos.getGoalPosition().second);
+        heuristica= new Algoritmo(this.datos.getGoalPosition(), this.datos.getPosition(), this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
+        action= heuristica.heuristic1();
     }
 
      /**

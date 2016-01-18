@@ -107,6 +107,8 @@ public class Algoritmo {
      * 
      */
     private double calcularDistancia(Pair<Integer,Integer> posInicial, Pair<Integer,Integer> posFinal){
+        System.out.println("POSFINAL: " + posFinal.first + ", " + posFinal.second);
+        System.out.println("DISTANCIA: " + Math.sqrt(Math.pow( (double)(posFinal.first-posInicial.first) , 2.0) + Math.pow( (double)(posFinal.second-posInicial.second), 2.0)));
         return Math.sqrt(Math.pow( (double)(posFinal.first-posInicial.first) , 2.0) + Math.pow( (double)(posFinal.second-posInicial.second), 2.0));
     }
 
@@ -119,17 +121,17 @@ public class Algoritmo {
         
         for(int i=0; i<3; i++){
             for(int j=0; j<3; j++){
-            
-                if( (shipsPosition[1].first == (posActual.first-1+i)) && (shipsPosition[1].second == (posActual.second-1+j)) )
+                System.out.println("RADAR: " + (posActual.first+i) + " , " + (posActual.second+j));
+                if( (shipsPosition[1].first == (posActual.first+i)) && (shipsPosition[1].second == (posActual.second+j)) )
                     radar[i][j]= 2;
-                else if( (shipsPosition[2].first == (posActual.first-1+i)) && (shipsPosition[2].second == (posActual.second-1+j)) )
+                else if( (shipsPosition[2].first == (posActual.first+i)) && (shipsPosition[2].second == (posActual.second+j)) )
                     radar[i][j]= 2;
-                else if( (shipsPosition[3].first == (posActual.first-1+i)) && (shipsPosition[3].second == (posActual.second-1+j)) )
+                else if( (shipsPosition[3].first == (posActual.first+i)) && (shipsPosition[3].second == (posActual.second+j)) )
                     radar[i][j]= 2;
                 else
-                    if((posActual.first-1+i >= 0) && (posActual.second-1+j >= 0) && (posActual.first-1+i <= 99) && (posActual.second-1+j <= 99)) //Esta condicion es para que no 
+                    if((posActual.first+i >= 0) && (posActual.second+j >= 0) && (posActual.first+i <= 99) && (posActual.second+j <= 99)) //Esta condicion es para que no 
                     {                                                             //acceda a partes de world que no existen
-                        radar[i][j]= world[posActual.first-1+i][posActual.second-1+j];
+                        radar[i][j]= world[posActual.first+i][posActual.second+j];
                     }else
                     {
                         radar[i][j] = 2;
@@ -171,8 +173,10 @@ public class Algoritmo {
         System.out.println("UPDATE SCANNER");
         for(int i=0; i<3; i++){
             for(int j=0; j<3; j++){
-                scanner[i][j]= calcularDistancia(new Pair(posActual.first-1+i,posActual.second-1+j), posFinal);
+                System.out.println((posActual.first+i) + " , " + (posActual.second+j));
+                scanner[i][j]= calcularDistancia(new Pair(posActual.first+i,posActual.second+j), posFinal);
             }
+            System.out.println();
         }
     }
     

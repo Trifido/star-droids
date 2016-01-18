@@ -418,9 +418,9 @@ public class Ship extends SingleAgent {
                     else {
                         System.out.println("----------------------- META VISUALIZADA! ---------------------");
                         //Heuristica 2
-                        /*this.role.secondLogic();
+                        this.role.secondLogic();
                         this.sendMessage(role.getAction());
-                        try {
+                        /*try {
                             this.receiveMessage();
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
