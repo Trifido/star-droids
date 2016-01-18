@@ -19,6 +19,8 @@ public abstract class Role {
     protected Pair <Integer, Integer> goal;
     private int[] roles;
     
+    //Variables para secondLogic
+    protected int[][] miniRadar;
 
     // Constructor
     public Role() {
@@ -32,6 +34,8 @@ public abstract class Role {
         {
             this.roles[i]=-1;
         }
+        
+        miniRadar = new int[3][3];
     }
 
     // Basic logic classes
@@ -64,10 +68,8 @@ public abstract class Role {
         return this.datos.getWorldMap();
     }
     
-    public int getMapPosition( int x, int y ){
-    
+    public int getMapPosition( int x, int y ) {   
         return this.datos.getMapPosition( x,y );
-        
     }
     
     public boolean getFound() {
@@ -100,7 +102,8 @@ public abstract class Role {
         }
         return true;
     }
-         /**
+    
+    /**
      * @author Andrés Ortiz
      * @return True no queda bateria global o en agentes
      */
@@ -154,6 +157,11 @@ public abstract class Role {
      * @description metodo particular de cada rol para rellenar sus datos
      */
     protected abstract void fillDatesRole(JsonArray sensor); //rellena los datos dependiendo del rol
+    
+    /**
+     * @author Alba Rios
+     */
+    protected abstract void calculateMiniRadar();
          
     /**
      * 

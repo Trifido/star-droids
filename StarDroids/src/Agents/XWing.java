@@ -233,4 +233,21 @@ this.showRadar();
         }
     }
 
+    /**
+     * @author Alba Rios
+     * @description Transforma el radar en un radar de 3x3 y lo almacena en la variable de clase "miniRadar"
+     */
+    @Override
+    protected void calculateMiniRadar() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                Pair<Integer,Integer> coord = mapToWorld(i,j);
+                if (checkShips(coord.first, coord.second)) // Si hay otra nave ahí
+                    this.miniRadar[i][j] = 2; // Rellenar con un 2
+                else
+                    this.miniRadar[i][j] = this.radar[i][j]; // Rellenar con el radar
+            }
+        }
+    }
+    
 }
