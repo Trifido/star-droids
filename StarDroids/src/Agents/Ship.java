@@ -67,7 +67,7 @@ public class Ship extends SingleAgent {
     public void setInterface( MapProject map ){
         
         //this.worldToSolve = (new WorldDialog( new JFrame(), true) ).getWordl();
-        this.worldToSolve = "map20";
+        this.worldToSolve = "map10";
         this.gui = map;
     
     }
@@ -78,39 +78,6 @@ public class Ship extends SingleAgent {
      * @author Alberto Meana
      */
     public void paint(){
-        /*
-        for( int i = 0; i < 5; i++ ){
-            for( int j = 0; j < 5; j++ ){
-                
-                // Interfaz nueva
-                if( this.gps.first + ( i-2 ) >= 0 && this.gps.second + ( j-2 ) >= 0 && this.gps.first + ( i-2 ) < 500 && this.gps.second + ( j-2 ) < 500 ){
-                    
-                    switch( this.radar[j][i] ){
-
-                    case 0:
-                        this.gui.grid.setTile( this.gps.first + ( i-2 ), this.gps.second + (j-2), TileType.Grass );
-                        break;
-                    case 1:
-                        this.gui.grid.setTile( this.gps.first + ( i-2 ), this.gps.second + (j-2), TileType.Rock );
-                        break;
-                    case 2:    
-                        if( i == 2 && j == 2 ){
-
-                            //this.gui.grid.setTile( this.gps.first, this.gps.second, TileType.Goal );
-
-                        }else{
-
-                            this.gui.grid.setTile( this.gps.first + ( i-2 ), this.gps.second + (j-2), TileType.Goal );
-
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        // El bot
-        this.gui.grid.setTile( this.gps.first, this.gps.second, TileType.Bot );
-        */
         
         // Pinto mi posicion
         Pair <Integer,Integer> myPosition = this.role.getPosition();
@@ -131,7 +98,6 @@ public class Ship extends SingleAgent {
         }
         
         this.gui.grid.setTile( myPosition.first, myPosition.second, myRole );
-        //System.out.println( "Mi posicion que pinto es: " + myPosition.first + " " + myPosition.second );
         // Pinto la posición de los demás
         
         for( int i = 0; i<4; i++ ){
@@ -154,8 +120,6 @@ public class Ship extends SingleAgent {
             
         }
         
-        //cancel();
-        //System.out.println( "Esto ha sido el cancel del paint" );
     }
     
     /**
@@ -387,30 +351,33 @@ public class Ship extends SingleAgent {
                     if (!this.role.getFound()) { // Si no se ha encontrado la meta                  
                         switch(this.getName()) { // Si somos the chosen one
                             case AgentsNames.leaderShip:
+                                // El agente lider es el unico que puede pintar
+                                // Ya que es el unico que tiene la instancia de la interfaz
+                                this.paint();
                                 if (this.finder == 0) {
                                     System.out.println("----------------------- FINDER: " + this.getName());
-                                    paint();System.out.println("----------------------- FINDER: " + this.getName());
+                                    
                                     this.firstLogic();
                                 }
                                 break;
                             case AgentsNames.ship2:
                                 if (this.finder == 1) {
                                     System.out.println("----------------------- FINDER: " + this.getName());
-                                    paint();System.out.println("----------------------- FINDER: " + this.getName());
+                                    //paint();System.out.println("----------------------- FINDER: " + this.getName());
                                     this.firstLogic();
                                 }
                                 break;
                             case AgentsNames.ship3:
                                 if (this.finder == 2) {
                                     System.out.println("----------------------- FINDER: " + this.getName());
-                                    paint();System.out.println("----------------------- FINDER: " + this.getName());
+                                    //paint();System.out.println("----------------------- FINDER: " + this.getName());
                                     this.firstLogic();
                                 }
                                 break;
                             case AgentsNames.ship4:
                                 if (this.finder == 3) {
                                     System.out.println("----------------------- FINDER: " + this.getName());
-                                    paint();System.out.println("----------------------- FINDER: " + this.getName());
+                                    //paint();System.out.println("----------------------- FINDER: " + this.getName());
                                     this.firstLogic();
                                 }
                                 break;
@@ -447,7 +414,7 @@ public class Ship extends SingleAgent {
      * @description Se aplica la lógica de búsqueda y se envía y recibe respuesta del servidor
      */
     public void firstLogic() {
-        
+
         this.sendMessage(ActionsEnum.information); // Enviar QUERY REF
                     
         try {
