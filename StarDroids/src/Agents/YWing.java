@@ -118,6 +118,7 @@ public class YWing extends Role {
             // Al final no se posiciona en el centro. Se podria hacer.  
             else {
                 // Hacemos dos niveles de búsqueda
+                //Nivel 1
                 movementActions[0] = checkNorth(myPosition.first, myPosition.second);
                 movementActions[1] = checkNorthEast(myPosition.first, myPosition.second);
                 movementActions[2] = checkEast(myPosition.first, myPosition.second);
@@ -127,7 +128,8 @@ public class YWing extends Role {
                 movementActions[6] = checkWest(myPosition.first, myPosition.second);
                 movementActions[7] = checkNorthWest(myPosition.first, myPosition.second);  
 
-                if (maxMovementIndex() < 6) { // 2/3 del valor maximo posible
+                //Nivel 2
+                if (movementActions[maxMovementIndex()] < 6) { // 2/3 del max (9)
                     if (movementActions[0] != -1) calculateSubMovementActions(myPosition.first, myPosition.second-1, 0);
                     if (movementActions[1] != -1) calculateSubMovementActions(myPosition.first+1, myPosition.second-1, 1);
                     if (movementActions[2] != -1) calculateSubMovementActions(myPosition.first+1, myPosition.second, 2);
@@ -137,7 +139,16 @@ public class YWing extends Role {
                     if (movementActions[6] != -1) calculateSubMovementActions(myPosition.first-1, myPosition.second, 6);
                     if (movementActions[7] != -1) calculateSubMovementActions(myPosition.first-1, myPosition.second-1, 7);
                 }
-
+                
+                /* -------------------------------  ANDREEEEEEEEEEEEEEES ES AQUI O POR AQUI CERCA
+                
+                if (movementActions[maxMovementIndex()] < N) { // SI EL MOVIMIENTO MAXIMO ES MENOR QUE N (LO QUE TU QUIERAS)
+                    HAZ COSAS Y LO DE ABAJO EN UN ELSE
+                }
+                /*
+                
+                */
+                // Se selecciona la acción con el valor más alto
                 switch (maxMovementIndex()) {
                     case 0:
                         action = ActionsEnum.moveN;
@@ -164,11 +175,13 @@ public class YWing extends Role {
                         action = ActionsEnum.moveNW;
                     break;
                 }
+                
+                /*for (int i = 0; i < this.movementActions.length; i++)
+                    System.out.print(" --- " + this.movementActions[i]); //Para mostrar el vector con las posiciones y sus valores
+                System.out.println();*/
             }
-            
-            for (int i = 0; i < this.movementActions.length; i++)
-                System.out.print(" --- " + this.movementActions[i]);
         }
+       
     }
     
     /**

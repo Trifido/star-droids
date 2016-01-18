@@ -346,6 +346,9 @@ public class Ship extends SingleAgent {
                     if (!this.chosen) {
                         this.chooseFinder();
                         this.chosen = true;
+                        
+                        for (int i = 0 ; i < roles.length; i++)
+                            System.out.println(this.getName() + " - Role [" + i + "] = " + roles[i]); //Muestra roles
                     }
                 
                     if (!this.role.getFound()) { // Si no se ha encontrado la meta                  
@@ -356,28 +359,24 @@ public class Ship extends SingleAgent {
                                 this.paint();
                                 if (this.finder == 0) {
                                     System.out.println("----------------------- FINDER: " + this.getName());
-                                    
                                     this.firstLogic();
                                 }
                                 break;
                             case AgentsNames.ship2:
                                 if (this.finder == 1) {
                                     System.out.println("----------------------- FINDER: " + this.getName());
-                                    //paint();System.out.println("----------------------- FINDER: " + this.getName());
                                     this.firstLogic();
                                 }
                                 break;
                             case AgentsNames.ship3:
                                 if (this.finder == 2) {
                                     System.out.println("----------------------- FINDER: " + this.getName());
-                                    //paint();System.out.println("----------------------- FINDER: " + this.getName());
                                     this.firstLogic();
                                 }
                                 break;
                             case AgentsNames.ship4:
                                 if (this.finder == 3) {
                                     System.out.println("----------------------- FINDER: " + this.getName());
-                                    //paint();System.out.println("----------------------- FINDER: " + this.getName());
                                     this.firstLogic();
                                 }
                                 break;

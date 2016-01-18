@@ -152,7 +152,7 @@ public abstract class Role {
      * @author Rafael Ruiz
      */
     public void parseTokenAgent(Token obj) {
-        ArrayList<JsonObject> aux = obj.getShipData();
+        ArrayList<JsonObject> aux = obj.getShipData(); 
                 
         System.out.println(aux.get(0).toString());
         System.out.println(aux.get(1).toString());
@@ -168,7 +168,7 @@ public abstract class Role {
             this.datos.setShipPosition( sensor.getInt("x", 0), sensor.getInt("y", 0), 0 );
             
             JsonArray pepe = aux.get(0).get("sensor").asArray();
-          
+            
             if(pepe.size()==9) {
                 fillDatesShips(1, 2, pepe, this.datos.getShipPosition(0));
                 this.roles[0]=0;
@@ -180,6 +180,9 @@ public abstract class Role {
             else if(pepe.size() == 121) {
                 fillDatesShips(5, 6, pepe, this.datos.getShipPosition(0));
                 this.roles[0]=2;
+            }
+            else {
+                System.out.println("----------------- 1 Algo malo pasaaaa");
             }
         }
         
