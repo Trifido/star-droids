@@ -30,10 +30,9 @@ public class Ship extends SingleAgent {
 
     private AgentID nextAgent;
     private Token token;
-    private boolean firstRound; // Primera iteracion
-    private int[] roles; // 0: pajaro, 1: halcon, 2: mosca
+    private boolean firstRound, chosen; // Primera iteracion y segunda
+    private int[] roles; // 1: pajaro, 2: halcon, 3: mosca
     private int finder; // Bot que hace la búsqueda
-    private boolean chosen; // Se ha elegido el buscador
 
     // Instancias de la interfaz
     public MapProject gui;
@@ -52,10 +51,10 @@ public class Ship extends SingleAgent {
         this.msg = new JsonObject();
         this.in = null;
         this.nextAgent = nextId;
-        this.firstRound = true;      
+        this.firstRound = true;  
+        this.chosen = false;
         this.roles = new int[4];
         this.finder = -1;
-        this.chosen = false;
     }
     
     /**
@@ -68,7 +67,7 @@ public class Ship extends SingleAgent {
     public void setInterface( MapProject map ){
         
         //this.worldToSolve = (new WorldDialog( new JFrame(), true) ).getWordl();
-        this.worldToSolve = "map10";
+        this.worldToSolve = "map20";
         this.gui = map;
     
     }
@@ -328,7 +327,7 @@ public class Ship extends SingleAgent {
     }
 
     /**
-     * @author Alberto Meana,Andrés Ortiz
+     * @author Alberto Meana,Andrés Ortiz, Alba Rios, Vicente Martinez
      * @description Ejecución principal del agente
      */
     @Override
@@ -360,7 +359,6 @@ public class Ship extends SingleAgent {
                 if (!(this.getName().equals(AgentsNames.leaderShip)) || count != 0) { // Si no eres lider, esperar token
                     try {
                         waitToken();
-                        System.out.println("Asasdasd --------- " + this.getName());
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -380,62 +378,66 @@ public class Ship extends SingleAgent {
                     this.firstRound = false;
                     count++;
                 }
-                else if (!this.chosen) {
-                    this.chooseFinder(); // Seleccionar quién va a hacer la búsqueda
-                    this.chosen = true;
-                }
-                
-                if (!this.role.getFound()) { // Si no se ha encontrado la meta                  
-                    
-                    if( this.getName().equals( AgentsNames.leaderShip ) ){
-                        for(int i = 0 ; i < 4 ; i++)
-                        {
-                            System.out.println("roles[i] " + roles[i]);
-                        }
-                        paint();
-                        this.firstLogic();
-                        
+                else{
+                    if (!this.chosen) {
+                        this.chooseFinder();
+                        this.chosen = true;
                     }
-                        
-                    /*
-                    switch(this.getName()) { // Si somos the chosen one
-                        case AgentsNames.leaderShip:
-                            paint();
-                            if (this.finder == 0) this.firstLogic();
-                            break;
-                        case AgentsNames.ship2:
-                            if (this.finder == 1) this.firstLogic();
-                            break;
-                        case AgentsNames.ship3:
-                            if (this.finder == 2) this.firstLogic();
-                            break;
-                        case AgentsNames.ship4:
-                            if (this.finder == 3) this.firstLogic();
-                            break;
-                    }*/
-                }
-                else {
-                    //Heuristica 2
-                    //TODO:Logic Here
-                    /*Algoritmo alg= new Algoritmo(new Pair(50,50), this.role.getPosition(), this.role.getMap(), this.role.getShipsPosition());
-                    ActionsEnum n = actionEnum(alg.heuristic());
-                    //TODO: Action Here
-                    
-                    System.out.println("MUESTRAAAAAAAA " + n);
-                    
-                    this.sendMessage(n);
                 
-                    try {
-
-                     this.receiveMessage();
-                     } catch (InterruptedException ex) {
-                     Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
-                     }*/
+                    if (!this.role.getFound()) { // Si no se ha encontrado la meta                  
+                        switch(this.getName()) { // Si somos the chosen one
+                            case AgentsNames.leaderShip:
+                                if (this.finder == 0) {
+                                    System.out.println("----------------------- FINDER: " + this.getName());
+                                    paint();System.out.println("----------------------- FINDER: " + this.getName());
+                                    this.firstLogic();
+                                }
+                                break;
+                            case AgentsNames.ship2:
+                                if (this.finder == 1) {
+                                    System.out.println("----------------------- FINDER: " + this.getName());
+                                    paint();System.out.println("----------------------- FINDER: " + this.getName());
+                                    this.firstLogic();
+                                }
+                                break;
+                            case AgentsNames.ship3:
+                                if (this.finder == 2) {
+                                    System.out.println("----------------------- FINDER: " + this.getName());
+                                    paint();System.out.println("----------------------- FINDER: " + this.getName());
+                                    this.firstLogic();
+                                }
+                                break;
+                            case AgentsNames.ship4:
+                                if (this.finder == 3) {
+                                    System.out.println("----------------------- FINDER: " + this.getName());
+                                    paint();System.out.println("----------------------- FINDER: " + this.getName());
+                                    this.firstLogic();
+                                }
+                                break;
+                            default:
+                                System.out.println("ERROR: selección de finder.");
+                                break;
+                        }
+                    }
+                    else {
+                        System.out.println("----------------------- META VISUALIZADA! ---------------------");
+                        //Heuristica 2
+                        /*this.role.secondLogic();
+                        this.sendMessage(role.getAction());
+                        try {
+                            this.receiveMessage();
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
+                        }*/
+                    }
                 }
-                if(this.role.noFuel()) this.cancel(); //se acabo el fuel
+                
+                if (this.role.noFuel()) this.cancel(); //se acabo el fuel
+                
                 sendToken(); // Enviar token
 
         } while (!this.role.inGoal());
+        
         if(this.role.allInGoal()) this.cancel(); //Si todos en meta
         // Controlar cuando se cancela (no bateria o todos en meta)
     }
@@ -470,17 +472,15 @@ public class Ship extends SingleAgent {
     protected void chooseFinder() {
         int numBird = 0, numFalcon = 0, numFly = 0;
         
-        
-        
         for (int i = 0; i < this.roles.length; i++) {
             switch (roles[i]) {
-                case 0:
+                case 1:
                     numBird++;
                     break;
-                case 1:
+                case 2:
                     numFalcon++;
                     break;
-                case 2:
+                case 0:
                     numFly++;
                     break;
             }
@@ -488,17 +488,17 @@ public class Ship extends SingleAgent {
         
         if (numBird != 0) {
             for (int i = 0; i < this.roles.length; i++) {
-                if (roles[i] == 0) this.finder = i;
+                if (roles[i] == 1) this.finder = i;
             }
         }
         else if (numFalcon != 0) {
             for (int i = 0; i < this.roles.length; i++) {
-                if (roles[i] == 1) this.finder = i;
+                if (roles[i] == 2) this.finder = i;
             }
         } 
         else {
             for (int i = 0; i < this.roles.length; i++) {
-                if (roles[i] == 2) this.finder = i;
+                if (roles[i] == 0) this.finder = i;
             }
         }
     }

@@ -153,6 +153,8 @@ public class MillenniumFalcon extends Role {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
         this.showRadar();
 
+        isFound();
+        
         if (!found) {
             if (this.datos.getFuel() <= 4) {
                 this.action = ActionsEnum.battery; // Recargar batería
@@ -207,8 +209,6 @@ public class MillenniumFalcon extends Role {
                     break;
                 }
             }
-
-            isFound();
         }
     }
 
@@ -236,14 +236,32 @@ public class MillenniumFalcon extends Role {
      * @description Actualiza los valores de casillas sin explorar para todos los movimientos desde la posicion x,y
      */
     public void calculateSubMovementActions (int x, int y, int index) {
-        movementActions[index] += checkNorth(x,y);
-        movementActions[index] += checkNorthEast(x,y);
-        movementActions[index] += checkEast(x,y);
-        movementActions[index] += checkSouthEast(x,y);
-        movementActions[index] += checkSouth(x,y);
-        movementActions[index] += checkSouthWest(x,y);
-        movementActions[index] += checkWest(x,y);
-        movementActions[index] += checkNorthWest(x,y);      
+        int result;
+        
+        result = checkNorth(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkNorthEast(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkEast(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkSouthEast(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkSouth(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkSouthWest(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkWest(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkNorthWest(x,y);
+        if (result > -1)
+            movementActions[index] += result;      
     }
     
     /**
@@ -254,7 +272,7 @@ public class MillenniumFalcon extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al norte desde x,y
      */
     private int checkNorth (int x, int y) {
-        if (this.datos.getMapPosition(x,y-1) == 1 || this.datos.getMapPosition(x,y-1) == 2) { // Obstáculos
+        if (this.radar[4][5] == 1 || this.radar[4][5] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x, y-1)) {
@@ -263,17 +281,11 @@ public class MillenniumFalcon extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-1, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-2, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-4, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-5, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+1, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+2, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+4, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+5, y-6) == -1) result++;
+            for (int i = -5; i <= +5; i++ ) {
+                if (x+i >= 0 && x+i <=499 && y-6 >= 0 && y-6 <= 499) { // Si se puede acceder
+                    if ( this.datos.getMapPosition(x+i, y-6) == -1) result++;
+                }
+            }
             
             return result;
         }
@@ -287,7 +299,7 @@ public class MillenniumFalcon extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al norte desde x,y
      */
     private int checkNorthEast (int x, int y) {
-        if (this.datos.getMapPosition(x+1,y-1) == 1 || this.datos.getMapPosition(x+1,y-1) == 2) { // Obstáculos
+        if (this.radar[4][6] == 1 || this.radar[4][6] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x+1, y-1)) {
@@ -296,29 +308,48 @@ public class MillenniumFalcon extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x-4, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-2, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-1, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+1, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+2, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+4, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+5, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-5) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-4) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-2) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-1) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+1) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+2) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+4) == -1) result++;
-            
-            
+            if (x-4 >= 0 && x-4 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x-4, y-6) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x-3, y-6) == -1) result++;
+            if (x-2 >= 0 && x-2 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x-2, y-6) == -1) result++;
+            if (x-1 >= 0 && x-1 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x-1, y-6) == -1) result++;
+            if (x >= 0 && x <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x, y-6) == -1) result++;
+            if (x+1 >= 0 && x+1 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x+1, y-6) == -1) result++;
+            if (x+2 >= 0 && x+2 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x+2, y-6) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x+3, y-6) == -1) result++;
+            if (x+4 >= 0 && x+4 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x+4, y-6) == -1) result++;
+            if (x+5 >= 0 && x+5 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x+5, y-6) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x+6, y-6) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y-5 >= 0 && y-5 <= 499)
+                if (this.datos.getMapPosition(x+6, y-5) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y-4 >= 0 && y-4 <= 499)
+                if (this.datos.getMapPosition(x+6, y-4) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x+6, y-3) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y-2 >= 0 && y-2 <= 499)
+                if (this.datos.getMapPosition(x+6, y-2) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y-1 >= 0 && y-1 <= 499)
+                if (this.datos.getMapPosition(x+6, y-1) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y >= 0 && y <= 499)
+                if (this.datos.getMapPosition(x+6, y) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y+1 >= 0 && y+1 <= 499)
+                if (this.datos.getMapPosition(x+6, y+1) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y+2 >= 0 && y+2 <= 499)
+                if (this.datos.getMapPosition(x+6, y+2) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x+6, y+3) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y+4 >= 0 && y+4 <= 499)
+                if (this.datos.getMapPosition(x+6, y+4) == -1) result++;
             
             return result;
         }
@@ -332,7 +363,7 @@ public class MillenniumFalcon extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al este desde x,y
      */
     private int checkEast (int x, int y) {
-        if (this.datos.getMapPosition(x+1,y) == 1 || this.datos.getMapPosition(x+1,y) == 2) { // Obstáculos
+        if (this.radar[5][6] == 1 || this.radar[5][6] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x+1, y)) {
@@ -341,17 +372,11 @@ public class MillenniumFalcon extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x+6, y) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-1) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-2) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-4) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-5) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+1) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+2) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+4) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+5) == -1) result++;
+            for (int i = -5; i <= +5; i++ ) {
+                if (x+6 >= 0 && x+6 <=499 && y+i >= 0 && y+i <= 499) { // Si se puede acceder
+                    if ( this.datos.getMapPosition(x+6, y+i) == -1) result++;
+                }
+            }
             
             return result;
         }
@@ -365,7 +390,7 @@ public class MillenniumFalcon extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al norte desde x,y
      */
     private int checkSouthEast (int x, int y) {
-        if (this.datos.getMapPosition(x+1,y+1) == 1 || this.datos.getMapPosition(x+1,y+1) == 2) { // Obstáculos
+        if (this.radar[6][6] == 1 || this.radar[6][6] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x+1, y+1)) {
@@ -374,27 +399,48 @@ public class MillenniumFalcon extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x-4, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-2, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-1, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+1, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+2, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+4, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+5, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+5) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+4) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+2) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y+1) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-1) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-2) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x+6, y-4) == -1) result++;
+            if (x-4 >= 0 && x-4 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x-4, y+6) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x-3, y+6) == -1) result++;
+            if (x-2 >= 0 && x-2 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x-2, y+6) == -1) result++;
+            if (x-1 >= 0 && x-1 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x-1, y+6) == -1) result++;
+            if (x >= 0 && x <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x, y+6) == -1) result++;
+            if (x+1 >= 0 && x+1 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x+1, y+6) == -1) result++;
+            if (x+2 >= 0 && x+2 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x+2, y+6) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x+3, y+6) == -1) result++;
+            if (x+4 >= 0 && x+4 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x+4, y+6) == -1) result++;
+            if (x+5 >= 0 && x+5 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x+5, y+6) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x+6, y+6) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y+5 >= 0 && y+5 <= 499)
+                if (this.datos.getMapPosition(x+6, y+5) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y+4 >= 0 && y+4 <= 499)
+                if (this.datos.getMapPosition(x+6, y+4) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x+6, y+3) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y+2 >= 0 && y+2 <= 499)
+                if (this.datos.getMapPosition(x+6, y+2) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y+1 >= 0 && y+1 <= 499)
+                if (this.datos.getMapPosition(x+6, y+1) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y >= 0 && y <= 499)
+                if (this.datos.getMapPosition(x+6, y) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y-1 >= 0 && y-1 <= 499)
+                if (this.datos.getMapPosition(x+6, y-1) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y-2 >= 0 && y-2 <= 499)
+                if (this.datos.getMapPosition(x+6, y-2) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x+6, y-3) == -1) result++;
+            if (x+6 >= 0 && x+6 <=499 && y-4 >= 0 && y-4 <= 499)
+                if (this.datos.getMapPosition(x+6, y-4) == -1) result++;
             
             return result;
         }
@@ -408,7 +454,7 @@ public class MillenniumFalcon extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al sur desde x,y
      */
     private int checkSouth (int x, int y) {
-        if (this.datos.getMapPosition(x,y+1) == 1 || this.datos.getMapPosition(x,y+1) == 2) { // Obstáculos
+        if (this.radar[6][5] == 1 || this.radar[6][5] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x, y+1)) {
@@ -417,17 +463,11 @@ public class MillenniumFalcon extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-1, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-2, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-4, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-5, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+1, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+2, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+4, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+5, y+6) == -1) result++;
+            for (int i = -5; i <= +5; i++ ) {
+                if (x+i >= 0 && x+i <=499 && y+6 >= 0 && y+6 <= 499) { // Si se puede acceder
+                    if ( this.datos.getMapPosition(x+i, y+6) == -1) result++;
+                }
+            }
             
             return result;
         }
@@ -441,7 +481,7 @@ public class MillenniumFalcon extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al norte desde x,y
      */
     private int checkSouthWest (int x, int y) {
-        if (this.datos.getMapPosition(x-1,y+1) == 1 || this.datos.getMapPosition(x-1,y+1) == 2) { // Obstáculos
+        if (this.radar[6][4] == 1 || this.radar[6][4] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x-1, y+1)) {
@@ -450,27 +490,48 @@ public class MillenniumFalcon extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x+4, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+2, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x+1, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-1, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-2, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-4, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-5, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+6) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+5) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+4) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+2) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+1) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-1) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-2) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-4) == -1) result++;
+            if (x+4 >= 0 && x+4 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x+4, y+6) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x+3, y+6) == -1) result++;
+            if (x+2 >= 0 && x+2 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x+2, y+6) == -1) result++;
+            if (x+1 >= 0 && x+1 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x+1, y+6) == -1) result++;
+            if (x >= 0 && x <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x, y+6) == -1) result++;
+            if (x-1 >= 0 && x-1 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x-1, y+6) == -1) result++;
+            if (x-2 >= 0 && x-2 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x-2, y+6) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x-3, y+6) == -1) result++;
+            if (x-4 >= 0 && x-4 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x-4, y+6) == -1) result++;
+            if (x-5 >= 0 && x-5 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x-5, y+6) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y+6 >= 0 && y+6 <= 499)
+                if (this.datos.getMapPosition(x-6, y+6) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y+5 >= 0 && y+5 <= 499)
+                if (this.datos.getMapPosition(x-6, y+5) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y+4 >= 0 && y+4 <= 499)
+                if (this.datos.getMapPosition(x-6, y+4) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x-6, y+3) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y+2 >= 0 && y+2 <= 499)
+                if (this.datos.getMapPosition(x-6, y+2) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y+1 >= 0 && y+1 <= 499)
+                if (this.datos.getMapPosition(x-6, y+1) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y >= 0 && y <= 499)
+                if (this.datos.getMapPosition(x-6, y) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y-1 >= 0 && y-1 <= 499)
+                if (this.datos.getMapPosition(x-6, y-1) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y-2 >= 0 && y-2 <= 499)
+                if (this.datos.getMapPosition(x-6, y-2) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x-6, y-3) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y-4 >= 0 && y-4 <= 499)
+                if (this.datos.getMapPosition(x-6, y-4) == -1) result++;
             
             return result;
         }
@@ -484,7 +545,7 @@ public class MillenniumFalcon extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al este desde x,y
      */
     private int checkWest (int x, int y) {
-        if (this.datos.getMapPosition(x-1,y) == 1 || this.datos.getMapPosition(x-1,y) == 2) { // Obstáculos
+        if (this.radar[5][4] == 1 || this.radar[5][4] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x-1, y)) {
@@ -493,17 +554,11 @@ public class MillenniumFalcon extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x-6, y) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-1) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-2) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-4) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-5) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+1) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+2) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+4) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+5) == -1) result++;
+            for (int i = -5; i <= +5; i++ ) {
+                if (x-6 >= 0 && x-6 <=499 && y+i >= 0 && y+i <= 499) { // Si se puede acceder
+                    if ( this.datos.getMapPosition(x-6, y+i) == -1) result++;
+                }
+            }
             
             return result;
         }
@@ -517,7 +572,7 @@ public class MillenniumFalcon extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al norte desde x,y
      */
     private int checkNorthWest (int x, int y) {
-        if (this.datos.getMapPosition(x-1,y-1) == 1 || this.datos.getMapPosition(x-1,y-1) == 2) { // Obstáculos
+        if (this.radar[4][4] == 1 || this.radar[4][4] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x-1, y-1)) {
@@ -526,27 +581,48 @@ public class MillenniumFalcon extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x+4, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+2, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x+1, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-1, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-2, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-4, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-5, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-6) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-5) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-4) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-2) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y-1) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+1) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+2) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x-6, y+4) == -1) result++;
+            if (x+4 >= 0 && x+4 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x+4, y-6) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x+3, y-6) == -1) result++;
+            if (x+2 >= 0 && x+2 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x+2, y-6) == -1) result++;
+            if (x+1 >= 0 && x+1 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x+1, y-6) == -1) result++;
+            if (x >= 0 && x <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x, y-6) == -1) result++;
+            if (x-1 >= 0 && x-1 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x-1, y-6) == -1) result++;
+            if (x-2 >= 0 && x-2 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x-2, y-6) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x-3, y-6) == -1) result++;
+            if (x-4 >= 0 && x-4 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x-4, y-6) == -1) result++;
+            if (x-5 >= 0 && x-5 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x-5, y-6) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y-6 >= 0 && y-6 <= 499)
+                if (this.datos.getMapPosition(x-6, y-6) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y-5 >= 0 && y-5 <= 499)
+                if (this.datos.getMapPosition(x-6, y-5) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y-4 >= 0 && y-4 <= 499)
+                if (this.datos.getMapPosition(x-6, y-4) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x-6, y-3) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y-2 >= 0 && y-2 <= 499)
+                if (this.datos.getMapPosition(x-6, y-2) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y-1 >= 0 && y-1 <= 499)
+                if (this.datos.getMapPosition(x-6, y-1) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y >= 0 && y <= 499)
+                if (this.datos.getMapPosition(x-6, y) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y+1 >= 0 && y+1 <= 499)
+                if (this.datos.getMapPosition(x-6, y+1) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x-6, y+2) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x-6, y+3) == -1) result++;
+            if (x-6 >= 0 && x-6 <=499 && y+4 >= 0 && y+4 <= 499)
+                if (this.datos.getMapPosition(x-6, y+4) == -1) result++;
             
             return result;
         }

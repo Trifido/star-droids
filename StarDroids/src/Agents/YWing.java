@@ -109,6 +109,8 @@ public class YWing extends Role {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
         this.showRadar();
         
+        isFound();
+        
         if (!found) {
             if (this.datos.getFuel() <= 1) {
                 this.action = ActionsEnum.battery; // Recargar batería
@@ -163,8 +165,9 @@ public class YWing extends Role {
                     break;
                 }
             }
-
-            isFound();
+            
+            for (int i = 0; i < this.movementActions.length; i++)
+                System.out.print(" --- " + this.movementActions[i]);
         }
     }
     
@@ -192,14 +195,32 @@ public class YWing extends Role {
      * @description Actualiza los valores de casillas sin explorar para todos los movimientos desde la posicion x,y
      */
     public void calculateSubMovementActions (int x, int y, int index) {
-        movementActions[index] += checkNorth(x,y);
-        movementActions[index] += checkNorthEast(x,y);
-        movementActions[index] += checkEast(x,y);
-        movementActions[index] += checkSouthEast(x,y);
-        movementActions[index] += checkSouth(x,y);
-        movementActions[index] += checkSouthWest(x,y);
-        movementActions[index] += checkWest(x,y);
-        movementActions[index] += checkNorthWest(x,y);      
+        int result;
+        
+        result = checkNorth(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkNorthEast(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkEast(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkSouthEast(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkSouth(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkSouthWest(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkWest(x,y);
+        if (result > -1)
+            movementActions[index] += result;
+        result = checkNorthWest(x,y);
+        if (result > -1)
+            movementActions[index] += result;      
     }
     
     /**
@@ -210,7 +231,7 @@ public class YWing extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al norte desde x,y
      */
     private int checkNorth (int x, int y) {
-        if (this.datos.getMapPosition(x,y-1) == 1 || this.datos.getMapPosition(x,y-1) == 2) { // Obstáculos
+        if (this.radar[1][2] == 1 || this.radar[1][2] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x, y-1)) {
@@ -219,12 +240,11 @@ public class YWing extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x-1, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x-2, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x+1, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x+2, y-3) == -1) result++;
-            
+            for (int i = -2; i <= +2; i++ ) {
+                if (x+i >= 0 && x+i <=499 && y-3 >= 0 && y-3 <= 499) { // Si se puede acceder
+                    if ( this.datos.getMapPosition(x+i, y-3) == -1) result++;
+                }
+            }
             return result;
         }
     }
@@ -237,7 +257,7 @@ public class YWing extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al norte desde x,y
      */
     private int checkNorthEast (int x, int y) {
-        if (this.datos.getMapPosition(x+1,y-1) == 1 || this.datos.getMapPosition(x+1,y-1) == 2) { // Obstáculos
+        if (this.radar[1][3] == 1 || this.radar[1][3] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x+1, y-1)) {
@@ -246,15 +266,24 @@ public class YWing extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x+3, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x+2, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x+1, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x-1, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y-2) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y-1) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y+1) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x+3, y-3) == -1) result++;
+            if (x+2 >= 0 && x+2 <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x+2, y-3) == -1) result++;
+            if (x+1 >= 0 && x+1 <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x+1, y-3) == -1) result++;
+            if (x >= 0 && x <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x, y-3) == -1) result++;
+            if (x-1 >= 0 && x-1 <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x-1, y-3) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y-2 >= 0 && y-2 <= 499)
+                if (this.datos.getMapPosition(x+3, y-2) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y-1 >= 0 && y-1 <= 499)
+                if (this.datos.getMapPosition(x+3, y-1) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y >= 0 && y <= 499)
+                if (this.datos.getMapPosition(x+3, y) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y+1 >= 0 && y+1 <= 499)
+                if (this.datos.getMapPosition(x+3, y+1) == -1) result++;
             
             return result;
         }
@@ -268,7 +297,7 @@ public class YWing extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al este desde x,y
      */
     private int checkEast (int x, int y) {
-        if (this.datos.getMapPosition(x+1,y) == 1 || this.datos.getMapPosition(x+1,y) == 2) { // Obstáculos
+        if (this.radar[2][3] == 1 || this.radar[2][3] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x+1, y)) {
@@ -277,11 +306,11 @@ public class YWing extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x+3, y) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y-1) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y-2) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y+1) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y+2) == -1) result++;
+            for (int i = -2; i <= +2; i++ ) {
+                if (x+3 >= 0 && x+3 <=499 && y+i >= 0 && y+i <= 499) { // Si se puede acceder
+                    if ( this.datos.getMapPosition(x+3, y+i) == -1) result++;
+                }
+            }
             
             return result;
         }
@@ -295,7 +324,7 @@ public class YWing extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al norte desde x,y
      */
     private int checkSouthEast (int x, int y) {
-        if (this.datos.getMapPosition(x+1,y+1) == 1 || this.datos.getMapPosition(x+1,y+1) == 2) { // Obstáculos
+        if (this.radar[3][3] == 1 || this.radar[3][3] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x+1, y+1)) {
@@ -304,15 +333,24 @@ public class YWing extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x+3, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x+2, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x+1, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x-1, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y-2) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y-1) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y) == -1) result++;
-            if (this.datos.getMapPosition(x+3, y+1) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x+3, y+3) == -1) result++;
+            if (x+2 >= 0 && x+2 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x+2, y+3) == -1) result++;
+            if (x+1 >= 0 && x+1 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x+1, y+3) == -1) result++;
+            if (x >= 0 && x <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x, y+3) == -1) result++;
+            if (x-1 >= 0 && x-1 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x-1, y+3) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y-2 >= 0 && y-2 <= 499)
+                if (this.datos.getMapPosition(x+3, y-2) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y-1 >= 0 && y-1 <= 499)
+                if (this.datos.getMapPosition(x+3, y-1) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y >= 0 && y <= 499)
+                if (this.datos.getMapPosition(x+3, y) == -1) result++;
+            if (x+3 >= 0 && x+3 <=499 && y+1 >= 0 && y+1 <= 499)
+                if (this.datos.getMapPosition(x+3, y+1) == -1) result++;
             
             return result;
         }
@@ -326,7 +364,7 @@ public class YWing extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al sur desde x,y
      */
     private int checkSouth (int x, int y) {
-        if (this.datos.getMapPosition(x,y+1) == 1 || this.datos.getMapPosition(x,y+1) == 2) { // Obstáculos
+        if (this.radar[3][2] == 1 || this.radar[3][2] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x, y+1)) {
@@ -335,11 +373,11 @@ public class YWing extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x-1, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x-2, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x+1, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x+2, y+3) == -1) result++;
+            for (int i = -2; i <= +2; i++ ) {
+                if (x+i >= 0 && x+i <=499 && y+3 >= 0 && y+3 <= 499) { // Si se puede acceder
+                    if ( this.datos.getMapPosition(x+i, y+3) == -1) result++;
+                }
+            }
             
             return result;
         }
@@ -353,7 +391,7 @@ public class YWing extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al norte desde x,y
      */
     private int checkSouthWest (int x, int y) {
-        if (this.datos.getMapPosition(x-1,y+1) == 1 || this.datos.getMapPosition(x-1,y+1) == 2) { // Obstáculos
+        if (this.radar[3][1] == 1 || this.radar[3][1] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x-1, y+1)) {
@@ -362,15 +400,24 @@ public class YWing extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x-3, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x-2, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x-1, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x+1, y+3) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y-2) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y-1) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y+1) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x-3, y+3) == -1) result++;
+            if (x-2 >= 0 && x-2 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x-2, y+3) == -1) result++;
+            if (x-1 >= 0 && x-1 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x-1, y+3) == -1) result++;
+            if (x >= 0 && x <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x, y+3) == -1) result++;
+            if (x+1 >= 0 && x+1 <=499 && y+3 >= 0 && y+3 <= 499)
+                if (this.datos.getMapPosition(x+1, y+3) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y-2 >= 0 && y-2 <= 499)
+                if (this.datos.getMapPosition(x-3, y-2) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y-1 >= 0 && y-1 <= 499)
+                if (this.datos.getMapPosition(x-3, y-1) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y >= 0 && y <= 499)
+                if (this.datos.getMapPosition(x-3, y) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y+1 >= 0 && y+1 <= 499)
+                if (this.datos.getMapPosition(x-3, y+1) == -1) result++;
             
             return result;
         }
@@ -384,7 +431,7 @@ public class YWing extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al este desde x,y
      */
     private int checkWest (int x, int y) {
-        if (this.datos.getMapPosition(x-1,y) == 1 || this.datos.getMapPosition(x-1,y) == 2) { // Obstáculos
+        if (this.radar[2][1] == 1 || this.radar[2][1] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x-1, y)) {
@@ -393,11 +440,11 @@ public class YWing extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x-3, y) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y-1) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y-2) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y+1) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y+2) == -1) result++;
+            for (int i = -2; i < +2; i++ ) {
+                if (x-3 >= 0 && x-3 <=499 && y+i >= 0 && y+i <= 499) { // Si se puede acceder
+                    if ( this.datos.getMapPosition(x-3, y+i) == -1) result++;
+                }
+            }
             
             return result;
         }
@@ -411,7 +458,7 @@ public class YWing extends Role {
      * @description Calcula e numero de casillas sin visitar si nos movemos al norte desde x,y
      */
     private int checkNorthWest (int x, int y) {
-        if (this.datos.getMapPosition(x-1,y-1) == 1 || this.datos.getMapPosition(x-1,y-1) == 2) { // Obstáculos
+        if (this.radar[1][1] == 1 || this.radar[1][1] == 2) { // Obstáculos
             return -1;
         }
         else if (checkShips(x-1, y-1)) {
@@ -420,15 +467,24 @@ public class YWing extends Role {
         else {
             int result = 0;
             
-            if (this.datos.getMapPosition(x-3, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x-2, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x-1, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x+1, y-3) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y-2) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y-1) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y) == -1) result++;
-            if (this.datos.getMapPosition(x-3, y+1) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x-3, y-3) == -1) result++;
+            if (x-2 >= 0 && x-2 <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x-2, y-3) == -1) result++;
+            if (x-1 >= 0 && x-1 <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x-1, y-3) == -1) result++;
+            if (x >= 0 && x <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x, y-3) == -1) result++;
+            if (x+1 >= 0 && x+1 <=499 && y-3 >= 0 && y-3 <= 499)
+                if (this.datos.getMapPosition(x+1, y-3) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y-2 >= 0 && y-2 <= 499)
+                if (this.datos.getMapPosition(x-3, y-2) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y-1 >= 0 && y-1 <= 499)
+                if (this.datos.getMapPosition(x-3, y-1) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y >= 0 && y <= 499)
+                if (this.datos.getMapPosition(x-3, y) == -1) result++;
+            if (x-3 >= 0 && x-3 <=499 && y+1 >= 0 && y+1 <= 499)
+                if (this.datos.getMapPosition(x-3, y+1) == -1) result++;
             
             return result;
         }

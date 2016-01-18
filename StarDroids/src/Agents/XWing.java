@@ -32,16 +32,14 @@ public class XWing extends Role {
     }
     
     public void showRadar(){
-    
         for (int i = 0; i < 3; i++) {
-               for (int j = 0; j < 3; j++) { 
-                System.out.print( radar[i][j] + " ");
-                                     
-                
-               }
-               System.out.println();
+                for (int j = 0; j < 3; j++) { 
+                    System.out.print( radar[i][j] + " ");   
+                }
+                System.out.println();
         }
     }
+    
     /**
      * @author Alba Rios
      * @description Actualiza a true la variable found si la meta ha sido vista
@@ -102,7 +100,7 @@ public class XWing extends Role {
     @Override
     public void firstLogic() {      
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
-
+this.showRadar();
         if (!found) {
             if (this.datos.getFuel() <= 2) {
                 this.action = ActionsEnum.battery; // Recargar batería
@@ -141,7 +139,7 @@ public class XWing extends Role {
                         int border = this.radar[2][1];
                         int x = (int) this.datos.getPosition().first; 
                         int y = (int) this.datos.getPosition().second + 1;
-this.showRadar();System.out.println("Borde ------------ " + border);
+
                         if (border == 2 || checkShips(x, y)) { // Encontramos el borde -> este o una nave
                                 this.turn = true;
                                 this.turnCount += 1;
@@ -178,7 +176,7 @@ this.showRadar();System.out.println("Borde ------------ " + border);
                         int border = this.radar[0][1];
                         int x = (int) this.datos.getPosition().first; 
                         int y = (int) this.datos.getPosition().second - 1;
-System.out.println("Borde ------------ " + border);
+
                         if (border == 2 || checkShips(x, y)) { // Encontramos el borde -> este
                             this.turn = true;
                             this.turnCount += 1;
