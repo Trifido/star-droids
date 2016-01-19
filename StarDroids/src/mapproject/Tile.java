@@ -13,11 +13,11 @@ public class Tile {
     
     /**
      * 
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @param tex
+     * @param x Coordenada x del pixel del mapa
+     * @param y Coordenada y del pixel del mapa
+     * @param width Ancho del tile
+     * @param height Alto del tile
+     * @param tex Textura del tile
      * 
      * @author Alba Ríos
      */
