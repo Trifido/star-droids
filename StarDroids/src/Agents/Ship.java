@@ -244,7 +244,6 @@ public class Ship extends SingleAgent {
      * @description Envía un acknowledge de recepción de clave
      */
     private void sendACK(AgentID id) {
-        //System.out.println("I'm " + this.getName() + " sending ACK to " + id.getLocalName());
         this.out.setReceiver(id);
         this.out.setContent("ACK");
         this.out.setPerformative(ACLMessage.INFORM);
@@ -259,7 +258,6 @@ public class Ship extends SingleAgent {
         this.in = null;
         try {
             this.in = this.receiveACLMessage();
-            //System.out.println("ACK received");
         } catch (InterruptedException ex) {
             Logger.getLogger(Ship.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -376,9 +374,6 @@ public class Ship extends SingleAgent {
                     if (!this.chosen) {
                         this.chooseFinder();
                         this.chosen = true;
-                        
-                        for (int i = 0 ; i < roles.length; i++)
-                            System.out.println(this.getName() + " - Role [" + i + "] = " + roles[i]); //Muestra roles
                     }
                 
                     if (!this.role.getFound()) { // Si no se ha encontrado la meta                  
@@ -419,7 +414,6 @@ public class Ship extends SingleAgent {
                         if( this.getName().equals(AgentsNames.leaderShip) ){
                         
                             this.paint();
-                            System.out.println("he pintado como deberia");
                         }
                             
                         System.out.println("----------------------- META VISUALIZADA! ---------------------");
@@ -538,7 +532,6 @@ public class Ship extends SingleAgent {
         out.setReceiver(nextAgent);
         out.setContent(this.token.toJson().toString()); //this should be token
         out.setPerformative(ACLMessage.INFORM);
-        //System.out.println(this.getName() + " send token to " + nextAgent.name);
         this.send(out);
     }
 
@@ -547,12 +540,10 @@ public class Ship extends SingleAgent {
      * @description Espera y recepción del token
      */
     protected void waitToken() throws InterruptedException {
-        //System.out.println(this.getName() + " Waiting token");
         ACLMessage in = new ACLMessage();
         in = this.receiveACLMessage();
         if (in.getPerformativeInt() == ACLMessage.INFORM) {
             this.token = new Token(Json.parse(in.getContent()).asObject());
-            //System.out.println(this.getName() + " received token");
         }
     }
 

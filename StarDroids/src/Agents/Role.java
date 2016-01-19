@@ -170,13 +170,6 @@ public abstract class Role {
     public void parseTokenAgent(Token obj) {
         ArrayList<JsonObject> aux = obj.getShipData(); 
                 
-        System.out.println(aux.get(0).toString());
-        System.out.println(aux.get(1).toString());
-        System.out.println(aux.get(2).toString());
-        System.out.println(aux.get(3).toString());
-        
-        
-        
         for( int ship_number = 0; ship_number < 4; ship_number++ ){
         
             if(aux.get( ship_number ).toString().length() > 2) {
@@ -232,13 +225,10 @@ public abstract class Role {
                 
                     int theIndex = sensor.get(index).asInt();
                     if( theIndex == 3 && this.found == false ){
-                        System.out.println("aha1");
                         this.found = true;
                         this.goal.first = x;
                         this.goal.second = y;
-                        System.out.println("aha2");
                         this.datos.setGoalPosition( x,y  );
-                        System.out.println("aha3");
                     }
                     this.datos.setWorldMap(i, j, theIndex);
                 }

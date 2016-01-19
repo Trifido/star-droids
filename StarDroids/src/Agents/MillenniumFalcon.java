@@ -678,6 +678,7 @@ public class MillenniumFalcon extends Role {
     @Override
     public void secondLogic() {
         System.out.println("GOAL: " + goal.first + " , " + goal.second);
+        calculateMiniRadar();
         heuristica= new Algoritmo(goal, this.datos.getPosition(), this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel(), this.miniRadar);
         this.action= heuristica.heuristic();
         System.out.println("Action= " + this.action);
