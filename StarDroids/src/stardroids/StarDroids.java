@@ -8,7 +8,8 @@ import es.upv.dsic.gti_ia.core.AgentsConnection;
 import mapproject.MapProject;
 
 /**
- *
+ *  Main principal del proyecto.
+ * 
  * @author Alberto Meana
  */
 public class StarDroids {
@@ -33,12 +34,7 @@ public class StarDroids {
         ship3.start();
         ship4.start();
         
-        System.out.println( "Comenzando ejecución" );
-        
         // Iniciar la interfaz
         map.startInterface();
-        
-        System.out.println("ok");
     }
-
 }

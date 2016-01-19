@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import Yoda.*;
 
 /**
+ * Clase que implementa la interfaz de Yoda.
  *
  * @author Alberto Meana
  */
@@ -15,6 +16,13 @@ public class YodaPanel extends javax.swing.JFrame {
 
     private Yoda yoda;
     
+    /**
+     * Constructor por defecto de la interfaz de yoda.
+     * 
+     * 
+     * @param yoda Instancia de Yoda.
+     * @author Alberto Meana
+     */
     public YodaPanel( Yoda yoda) {
         
         initComponents();

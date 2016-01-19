@@ -5,7 +5,7 @@ import org.newdawn.slick.opengl.Texture;
 /**
  * Clase que contiene el mapa del mundo
  *
- * @author Alba Ríos
+ * @author Alba Ríos, Alberto Meana
  */
 public class TileGrid {
     
@@ -19,7 +19,7 @@ public class TileGrid {
     /**
      * Constructor que crea un mapa
      * 
-     * @author Alba Ríos
+     * @author Alba Ríos, Alberto Meana
      */
     public TileGrid(){
         empty = QuickLoad((TileType.Grass).textureName);
@@ -45,7 +45,7 @@ public class TileGrid {
      * 
      * @param newMap Matriz de enteros con la información del mapa
      * 
-     * @author Alba Ríos
+     * @author Alba Ríos, Alberto Meana
      */
     public TileGrid(int[][] newMap){
         empty = QuickLoad((TileType.Grass).textureName);
@@ -86,7 +86,7 @@ public class TileGrid {
      * @param yCoord Coordenada y de la localización del tile en el mapa
      * @param type Tipo de textura a la que se va a actualizar el tile 
      *
-     * @author Alba Ríos
+     * @author Alba Ríos, Alberto Meana
      */
     public void setTile(int xCoord, int yCoord, TileType type){
         switch(type){

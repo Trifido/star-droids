@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Clase que implementa a shenron, para nosotros, Yoda.
  *
  * @author Alberto Meana
  */
@@ -18,7 +19,13 @@ public class Yoda extends SingleAgent {
     private ACLMessage in = new ACLMessage();
     private JsonObject msg;
     private YodaPanel yodapanel;
-
+    
+    /**
+     * Constructor del agente Yoda por defecto
+     * 
+     * @param id Id del agente
+     * @throws Exception 
+     */
     public Yoda(AgentID id) throws Exception {
         super(id);
         this.out.setSender(this.getAid());
@@ -27,13 +34,23 @@ public class Yoda extends SingleAgent {
         this.in = null;
         this.yodapanel = new YodaPanel(this);
     }
-
+    
+    /**
+     * Metodo de ejecucion del agente
+     * 
+     * @author Alberto Meana
+     */
     @Override
     public void execute() {
         this.yodapanel.setVisible(true);
         while(true) {}
     }
-
+    
+    /**
+     * Método que manda una peticion a shenron de levantar de nuevo el server.
+     * 
+     * @author Alberto Meana
+     */
     public void sendRequest() {
         this.msg.add("user" , "Canmaior");
         this.msg.add("password" , "Ishiguro");
@@ -41,7 +58,11 @@ public class Yoda extends SingleAgent {
         this.out.setPerformative(ACLMessage.REQUEST);
         this.send(this.out);
     }
-
+    /**
+     * Metodo que manda el query de shenron al server.
+     * 
+     * @author Alberto Meana
+     */
     public void sendQuery() {
         this.msg.add("user" , "Canmaior");
         this.msg.add("password" , "Ishiguro");
@@ -50,6 +71,12 @@ public class Yoda extends SingleAgent {
         this.send(this.out);
     }
 
+    /**
+     * Método que devuelve lo que manda el servidor y lo enseña en la interfaz.
+     * 
+     * @author Alberto Meana
+     * @return El string conteniendo la cadena del resultado devuelto.
+     */
     public String getResult() {
         this.in = null;
         try {
