@@ -225,6 +225,7 @@ public class Ship extends SingleAgent {
     }
 
     /**
+     * Metodo que realiza el cancel.
      * @author Alberto Meana
      */
     private void cancel() {
@@ -264,6 +265,7 @@ public class Ship extends SingleAgent {
     }
     
     /**
+     * Metodo que envia la Key a id
      * @author Alberto Meana
      */
     private void sendKey(AgentID id) {
@@ -274,7 +276,7 @@ public class Ship extends SingleAgent {
     }
 
     /**
-     *
+     *  Metodo que implementa la recepcion de un mensaje
      * @autor Rafael Ruiz
      *
      * @throws InterruptedException
@@ -548,6 +550,7 @@ public class Ship extends SingleAgent {
     }
 
     /**
+     * Metodo que invoca la decodificacion del token por ROl.
      * @author Rafael Ruiz
      */
     public void parseToken()

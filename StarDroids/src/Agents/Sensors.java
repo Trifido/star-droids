@@ -22,7 +22,7 @@ public class Sensors {
     
     /**
      * Constructor por defecto
-     * 
+     * @author Alberto Meana
      */
     public Sensors() {
         this.myFuel = 0;
@@ -52,7 +52,7 @@ public class Sensors {
     }
     
     
-    // SETTERS & GETTERS
+    // SETTERS & GETTERS ( Alberto Meana, Rafael Ruiz, Vicente Martinez )
     
     public void setFuel(int i) {
         this.myFuel = i;

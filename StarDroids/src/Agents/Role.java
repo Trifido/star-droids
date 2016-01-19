@@ -6,7 +6,7 @@ import helpers.Pair;
 import java.util.ArrayList;
 
 /**
- * 
+ * Clase que abstrae el rol de los agentes.
  * @author Andres Ortiz, Vicente Martínez, Alba Rios, Alberto Meana, Rafael Ruiz
  */
 public abstract class Role {
@@ -22,7 +22,10 @@ public abstract class Role {
     //Variables para secondLogic
     protected int[][] miniRadar;
 
-    // Constructor
+    /**
+     * Constructor por defecto del rol.
+     * @author Alberto Meana
+     */
     public Role() {
         this.datos = new Sensors();
         this.action = ActionsEnum.sleep;
@@ -38,16 +41,31 @@ public abstract class Role {
         miniRadar = new int[3][3];
     }
 
-    // Basic logic classes
+    /**
+     * Abstraccion de la primera logica en base al rol
+     * @author Andres Ortiz
+     */
     public abstract void firstLogic();
+    
+    /**
+     * Abstraccion de la segunda logica en base al rol
+     * @author Andres Ortiz
+     */
     public abstract void secondLogic();
     
-    // Comprobar si se ha visto la meta
+    /**
+     * Abstraccion de la comprobacion de la meta
+     * @author Andres Ortiz
+     */
     protected abstract void isFound();
-    // Pasar de posición de rada a mundo
+    
+    /**
+     * Abstraccion del paso de coordenadas de mundo a cartesianas.
+     * @author Alba Rios
+     */
     protected abstract Pair<Integer,Integer> mapToWorld (int x, int y);
     
-    // Get 
+    // Get & Set ( Alberto Meana, Alba Rios, Vicente Martinez)
     public ActionsEnum getAction() {
         return this.action;
     }
@@ -134,7 +152,7 @@ public abstract class Role {
     /**
      * @author Rafael Ruiz, Andrés Ortiz
      * @description rellena la estructura de datos de los sensores a partir de un mensaje
-     * @param in 
+     * @param in mensaje que se procesa
      */
     public JsonObject fillSensors(ACLMessage in) {
         JsonObject message = new JsonObject();
@@ -164,8 +182,9 @@ public abstract class Role {
     protected abstract void calculateMiniRadar();
          
     /**
-     * 
+     * Conversion del token a la ED.
      * @author Rafael Ruiz, Alberto Meana
+     * @param obj el token que se convierte
      */
     public void parseTokenAgent(Token obj) {
         ArrayList<JsonObject> aux = obj.getShipData(); 
@@ -202,7 +221,11 @@ public abstract class Role {
         }
     }
     
-    
+    /**
+     * Metodo que devuelve los roles de todos los agentes
+     * @author Rafael Ruiz
+     * @return Los roles de los agentes 
+     */
     public int[] getRoles()
     {
         return this.roles;
@@ -210,8 +233,12 @@ public abstract class Role {
     
         
     /**
-     * 
+     * Metodo que rellena el mundo conforme a lo escaneado
      * @author Rafael Ruiz, Alberto Meana
+     * @param a Elemento que se resta a la posicion actual para los bucles for.
+     * @param b Elemento que se suma a la posicion actual para los bucles for.
+     * @param sensor Los elementos que se procesan.
+     * @param n La posicion actual de la nave
      */
     protected void fillDatesShips(int a, int b, JsonArray sensor, Pair<Integer,Integer> n) {
         int x = n.first;
