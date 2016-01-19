@@ -36,6 +36,44 @@ public class Algoritmo {
         finalPoint= new double[2];
         String actionAnterior= "";
         this.battery = fuel;
+           
+        for(int i=0; i<3; i++){
+            for(int j=0; j<3; j++){
+                Pair<Integer,Integer> pos= mapToWorld(i,j);
+                world[pos.first][pos.second]= radar[i][j];
+            }
+        }
+    }
+    
+     protected Pair<Integer,Integer> mapToWorld (int x, int y) {
+        Pair<Integer,Integer> myPosition = posActual;
+        Pair<Integer,Integer> solution = new Pair(-1,-1);
+        
+        switch (x) {
+            case 0:
+                solution.first = myPosition.first - 1;
+                break;
+            case 1:
+                solution.first = myPosition.first;
+                break;
+            case 2:
+                solution.first = myPosition.first +1;
+                break;
+        }
+        
+        switch (y) {
+            case 0:
+                solution.second = myPosition.second - 1;
+                break;
+            case 1:
+                solution.second = myPosition.second;
+                break;
+            case 2:
+                solution.second = myPosition.second +1;
+                break;
+        }
+        
+        return solution;
     }
     
     /**
