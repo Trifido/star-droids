@@ -728,5 +728,6 @@ public class MillenniumFalcon extends Role {
                     this.miniRadar[i][j] = this.radar[i+4][j+4]; // Rellenar con el radar
             }
         } 
+        this.miniRadar[1][1]=0;
     }
 }

@@ -588,5 +588,6 @@ public class YWing extends Role {
                     this.miniRadar[i][j] = this.radar[i+1][j+1]; // Rellenar con el radar
             }
         }
+        this.miniRadar[1][1]=0;
     }
 }

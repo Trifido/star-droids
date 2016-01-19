@@ -248,6 +248,8 @@ this.showRadar();
                     this.miniRadar[i][j] = this.radar[i][j]; // Rellenar con el radar
             }
         }
+        this.miniRadar[1][1]=0;
+
     }
     
 }
