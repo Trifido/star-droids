@@ -416,6 +416,12 @@ public class Ship extends SingleAgent {
                         }
                     }
                     else {
+                        if( this.getName().equals(AgentsNames.leaderShip) ){
+                        
+                            this.paint();
+                            System.out.println("he pintado como deberia");
+                        }
+                            
                         System.out.println("----------------------- META VISUALIZADA! ---------------------");
                         //Heuristica 2
                         this.secondLogic();
