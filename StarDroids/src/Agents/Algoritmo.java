@@ -46,6 +46,10 @@ public class Algoritmo {
         }
     }
     
+    /**
+     * @author Alba Rios
+     * @description Transforma unas coordenadas de radar a coordenadas de mundo
+     */
      protected Pair<Integer,Integer> mapToWorld (int x, int y) {
         Pair<Integer,Integer> myPosition = posActual;
         Pair<Integer,Integer> solution = new Pair(-1,-1);
@@ -171,11 +175,11 @@ public class Algoritmo {
     }
     
     /**
-     * Método de calcular la distancia mínima entre dos casillas
-     * @param posInicial
-     * @param posFinal
+     * @description Método de calcular la distancia mínima entre dos casillas
+     * @param posInicial Posicion inicial
+     * @param posFinal Posicion final
      * @return double
-     * 
+     * @author Vicente Martinez
      */
     private double calcularDistancia(Pair<Integer,Integer> posInicial, Pair<Integer,Integer> posFinal){
         return Math.sqrt(Math.pow( (double)(posFinal.first-posInicial.first) , 2.0) + Math.pow( (double)(posFinal.second-posInicial.second), 2.0));
@@ -206,8 +210,8 @@ public class Algoritmo {
     }
     
     /**
-     * Actualizar matriz scanner
-     * @author Vicente
+     * @description Actualizar matriz scanner
+     * @author Vicente Martinez
      */
     private void updateScanner(){
         
@@ -220,7 +224,7 @@ public class Algoritmo {
     }
     
     /**
-     * Método que actualiza las matrices de los sensores.
+     * @description Método que actualiza las matrices de los sensores.
      * @author Vicente
      */
     private void updateMatrixSensor(){
@@ -228,10 +232,7 @@ public class Algoritmo {
     }
     
     /**
-     * Funcion heuristica2 algortimo basado en el algoritmo de la mano derecha, es usada
-     * cuando initHeuristic2() es true, dependiendo de las casillas adyacentes 
-     * el bot se moverá a una u otra direccion.
-     * 
+     * @description Funcion heuristica2 algortimo basado en el algoritmo de la mano derecha, es usada cuando initHeuristic2() es true, dependiendo de las casillas adyacentes el bot se moverá a una u otra direccion.
      * @return String Con la acción elegida.
      * @author Vicente Martínez
      */
@@ -366,7 +367,7 @@ public class Algoritmo {
     }
     
     /**
-     * Funciones encargadas de comprobar si es posible moverse a una dirección. 
+     * @description Funciones encargadas de comprobar si es posible moverse a una dirección. 
      * @author Vicente Martínez
      * @return Presenta o no obstaculo.
      */
@@ -396,10 +397,7 @@ public class Algoritmo {
     }
     
     /**
-     * Funcion encargada de comprobar si se inicia heuristica 2 o 1, usará heuristica1
-     * si la distancia minima es mayor a una casilla vacía adyacente, usará heuristica2
-     * si la distancia minima es menor al resto de casillas vacias adyacentes.
-     * 
+     * @description Funcion encargada de comprobar si se inicia heuristica 2 o 1, usará heuristica1 si la distancia minima es mayor a una casilla vacía adyacente, usará heuristica2 si la distancia minima es menor al resto de casillas vacias adyacentes.
      * @return boolean true Heuristica2, false Heuristica1 
      * @author Vicente Martínez
      */
@@ -455,8 +453,7 @@ public class Algoritmo {
     }
     
     /**
-     * Funcion encargada de realizar la heuristica 1, es un algoritmo Greedy que 
-     * analiza distancia a la casilla objetivo para decidir la accion.
+     * @description Funcion encargada de realizar la heuristica 1, es un algoritmo Greedy que analiza distancia a la casilla objetivo para decidir la accion.
      * 
      * @return String con la accion elegida.
      * @author Vicente Martínez
