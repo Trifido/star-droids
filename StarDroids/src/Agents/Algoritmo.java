@@ -64,26 +64,50 @@ public class Algoritmo {
         if(!isObstacle(new Pair(posActual.first-1,posActual.second-1))){    //NW
             acciones.put(calcularDistancia(new Pair(posActual.first-1,posActual.second-1), posFinal), "moveNW");
         }
+        else{
+            acciones.put(Double.POSITIVE_INFINITY, "moveNW");
+        }
         if(!isObstacle(new Pair(posActual.first,posActual.second-1))){      //N
             acciones.put(calcularDistancia(new Pair(posActual.first,posActual.second-1), posFinal), "moveN");
+        }
+        else{
+            acciones.put(Double.POSITIVE_INFINITY, "moveN");
         }
         if(!isObstacle(new Pair(posActual.first-1,posActual.second))){      //W
             acciones.put(calcularDistancia(new Pair(posActual.first-1,posActual.second), posFinal), "moveW");
         }
+        else{
+            acciones.put(Double.POSITIVE_INFINITY, "moveW");
+        }
         if(!isObstacle(new Pair(posActual.first+1,posActual.second+1))){    //SE
             acciones.put(calcularDistancia(new Pair(posActual.first+1,posActual.second+1), posFinal), "moveSE");
+        }
+        else{
+            acciones.put(Double.POSITIVE_INFINITY, "moveSE");
         }
         if(!isObstacle(new Pair(posActual.first,posActual.second+1))){      //S
             acciones.put(calcularDistancia(new Pair(posActual.first,posActual.second+1), posFinal), "moveS");
         }
+        else{
+            acciones.put(Double.POSITIVE_INFINITY, "moveS");
+        }
         if(!isObstacle(new Pair(posActual.first+1,posActual.second))){      //E
             acciones.put(calcularDistancia(new Pair(posActual.first+1,posActual.second), posFinal), "moveE");
+        }
+        else{
+            acciones.put(Double.POSITIVE_INFINITY, "moveE");
         }
         if(!isObstacle(new Pair(posActual.first+1,posActual.second-1))){    //NE
             acciones.put(calcularDistancia(new Pair(posActual.first+1,posActual.second-1), posFinal), "moveNE");
         }
+        else{
+            acciones.put(Double.POSITIVE_INFINITY, "moveNE");
+        }
         if(!isObstacle(new Pair(posActual.first-1,posActual.second+1))){    //SW
             acciones.put(calcularDistancia(new Pair(posActual.first-1,posActual.second+1), posFinal), "moveSW");
+        }
+        else{
+            acciones.put(Double.POSITIVE_INFINITY, "moveSW");
         }
         
         
