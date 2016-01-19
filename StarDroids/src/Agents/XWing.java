@@ -109,7 +109,7 @@ this.showRadar();
             }
             else if (this.positioning) {
                 //this.action = ; Trasladar a la posición 0,0 (funcion vicente)
-                Algoritmo alg= new Algoritmo(new Pair(movDistance-2,movDistance-2), myPosition, this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
+                Algoritmo alg= new Algoritmo(new Pair(movDistance-2,movDistance-2), myPosition, this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel(), this.miniRadar);
                 this.action= alg.heuristic1();
 
                 if (myPosition.first == movDistance-2 && myPosition.second == movDistance-2) 
@@ -198,7 +198,7 @@ this.showRadar();
     @Override
     public void secondLogic() {
         System.out.println("GOAL: " + goal.first + " , " + goal.second);
-        heuristica= new Algoritmo(goal, this.datos.getPosition(), this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel());
+        heuristica= new Algoritmo(goal, this.datos.getPosition(), this.datos.getWorldMap(), this.datos.getAllShips(), this.datos.getFuel(), this.miniRadar);
         this.action= heuristica.heuristic1();
         System.out.println("Action= " + this.action);
     }

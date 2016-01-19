@@ -24,11 +24,11 @@ public class Algoritmo {
     private String action;
     private double minValue;
     
-    public Algoritmo(Pair<Integer,Integer> posFinal, Pair<Integer,Integer> posActual, Integer[][]world, Pair<Integer,Integer> ships[], int fuel){
+    public Algoritmo(Pair<Integer,Integer> posFinal, Pair<Integer,Integer> posActual, Integer[][]world, Pair<Integer,Integer> ships[], int fuel, int[][]radar){
         this.posFinal= posFinal;
         this.posActual= posActual;
         this.world= world;
-        radar= new int[3][3];
+        this.radar= radar;
         this.minValueFind= Double.POSITIVE_INFINITY;
         scanner= new double [3][3];
         shipsPosition= ships;
@@ -60,27 +60,30 @@ public class Algoritmo {
         if(!isObstacle(new Pair(posActual.first-1,posActual.second-1))){    //NW
             acciones.put(calcularDistancia(new Pair(posActual.first-1,posActual.second-1), posFinal), "moveNW");
         }
-        if(!isObstacle(new Pair(posActual.first,posActual.second-1))){      //N
-            acciones.put(calcularDistancia(new Pair(posActual.first,posActual.second-1), posFinal), "moveN");
+        if(!isObstacle(new Pair(posActual.first-1,posActual.second))){      //N
+            acciones.put(calcularDistancia(new Pair(posActual.first-1,posActual.second), posFinal), "moveN");
         }
-        if(!isObstacle(new Pair(posActual.first-1,posActual.second))){      //W
-            acciones.put(calcularDistancia(new Pair(posActual.first-1,posActual.second), posFinal), "moveW");
+        if(!isObstacle(new Pair(posActual.first,posActual.second-1))){      //W
+            acciones.put(calcularDistancia(new Pair(posActual.first,posActual.second-1), posFinal), "moveW");
         }
         if(!isObstacle(new Pair(posActual.first+1,posActual.second+1))){    //SE
             acciones.put(calcularDistancia(new Pair(posActual.first+1,posActual.second+1), posFinal), "moveSE");
         }
-        if(!isObstacle(new Pair(posActual.first,posActual.second+1))){      //S
-            acciones.put(calcularDistancia(new Pair(posActual.first,posActual.second+1), posFinal), "moveS");
+        if(!isObstacle(new Pair(posActual.first+1,posActual.second))){      //S
+            acciones.put(calcularDistancia(new Pair(posActual.first+1,posActual.second), posFinal), "moveS");
         }
-        if(!isObstacle(new Pair(posActual.first+1,posActual.second))){      //E
-            acciones.put(calcularDistancia(new Pair(posActual.first+1,posActual.second), posFinal), "moveE");
+        if(!isObstacle(new Pair(posActual.first,posActual.second+1))){      //E
+            acciones.put(calcularDistancia(new Pair(posActual.first,posActual.second+1), posFinal), "moveE");
         }
-        if(!isObstacle(new Pair(posActual.first+1,posActual.second-1))){    //NE
-            acciones.put(calcularDistancia(new Pair(posActual.first+1,posActual.second-1), posFinal), "moveNE");
+        if(!isObstacle(new Pair(posActual.first-1,posActual.second+1))){    //NE
+            acciones.put(calcularDistancia(new Pair(posActual.first-1,posActual.second+1), posFinal), "moveNE");
         }
-        if(!isObstacle(new Pair(posActual.first-1,posActual.second+1))){    //SW
-            acciones.put(calcularDistancia(new Pair(posActual.first-1,posActual.second+1), posFinal), "moveSW");
+        if(!isObstacle(new Pair(posActual.first+1,posActual.second-1))){    //SW
+            acciones.put(calcularDistancia(new Pair(posActual.first+1,posActual.second-1), posFinal), "moveSW");
         }
+        
+        System.out.println("POSFX: " + posFinal.first + " , POSFY: " + posFinal.second);
+        System.out.println("POSACTUAL= " + this.posActual.first + " , " + this.posActual.second);
         
         Iterator i = acciones.entrySet().iterator();
         // Display elements
@@ -89,13 +92,19 @@ public class Algoritmo {
            if((double)me.getKey()<minDistancia){
                minDistancia= (double)me.getKey();
                action= (String) me.getValue();
+               System.out.println(" --------Accion: " + action + "  Valor: " + me.getKey());
            }
         }
-        i = acciones.entrySet().iterator();
+        /*i = acciones.entrySet().iterator();
         while(i.hasNext()) {
            Map.Entry me = (Map.Entry)i.next();
+           
                //System.out.println((double)me.getKey() + ": " + (String) me.getValue());
-        }
+        }*/
+        
+        System.out.println("MinDistancia= " + minDistancia);
+        System.out.println(action);
+        
         
         return action;
     }
@@ -108,8 +117,6 @@ public class Algoritmo {
      * 
      */
     private double calcularDistancia(Pair<Integer,Integer> posInicial, Pair<Integer,Integer> posFinal){
-        //System.out.println("POSFINAL: " + posFinal.first + ", " + posFinal.second);
-        //System.out.println("DISTANCIA: " + Math.sqrt(Math.pow( (double)(posFinal.first-posInicial.first) , 2.0) + Math.pow( (double)(posFinal.second-posInicial.second), 2.0)));
         return Math.sqrt(Math.pow( (double)(posFinal.first-posInicial.first) , 2.0) + Math.pow( (double)(posFinal.second-posInicial.second), 2.0));
     }
 
@@ -118,55 +125,58 @@ public class Algoritmo {
      * Actualiar matriz radar y control por si hay un dron cercano
      * @author Vicente
      */
-    private void updateRadar(){
+    /*private void updateRadar(){
         //Para controlar el fuera de mapa
         if(posActual.first == 0)
             posActual.first= 1;
         if(posActual.second == 0)
             posActual.second= 1;
         
+        int posXini= posActual.first-1;
+        int posXfin= posActual.first+1;
+        int posYini= posActual.second-1;
+        int posYfin= posActual.second+1;
         
-        for(int i=0; i<3; i++){
-            for(int j=0; j<3; j++){
-                //System.out.println("RADAR: " + (posActual.first+i) + " , " + (posActual.second+j));
-                if( (shipsPosition[1].first == (posActual.first+i-1)) && (shipsPosition[1].second == (posActual.second+j-1)) )
-                    radar[i][j]= 2;
-                else if( (shipsPosition[2].first == (posActual.first+i-1)) && (shipsPosition[2].second == (posActual.second+j-1)) )
-                    radar[i][j]= 2;
-                else if( (shipsPosition[3].first == (posActual.first+i-1)) && (shipsPosition[3].second == (posActual.second+j-1)) )
-                    radar[i][j]= 2;
-                else if((posActual.first+i-1 >= 0) && (posActual.second+j-1 >= 0) && (posActual.first+i-1 <= 499) && (posActual.second+j-1 <= 499)){                                                             //acceda a partes de world que no existen
-                        radar[i][j]= world[posActual.first+i-1][posActual.second+j-1];
-                }else
-                {
-                    radar[i][j] = 2;
+        //Pair<Integer, Integer> ships[]= new Pair[3];
+        
+        int aux=0;
+        for(int i=0; i<4; i++){
+            if((shipsPosition[i].first>=posXini) && (shipsPosition[i].first<=posXfin) &&
+                (shipsPosition[i].second>=posYini) && (shipsPosition[i].second<=posYfin)){
+                if((shipsPosition[i].first!=posActual.first) && (shipsPosition[i].second!=posActual.second)){
+                    miniRadar[aux]= shipsPosition[i];
+                    aux++;
                 }
-            
             }
         }
-    }
+        
+        for(int i=0; i<3; i++){
+            
+        }
+    }*/
     
     private ActionsEnum actionEnum(String act)
     {
         if (act == "moveN")
             return ActionsEnum.moveN;
-        else if (act == "moveS" )
+        if (act == "moveS" )
             return ActionsEnum.moveS;
-        else if (act == "moveE")
+        if (act == "moveE")
             return ActionsEnum.moveE;
-        else if (act == "moveW") 
+        if (act == "moveW") 
             return ActionsEnum.moveW;
-        else if (act == "moveNE")
+        if (act == "moveNE")
             return ActionsEnum.moveNE;
-        else if (act == "moveNW") 
+        if (act == "moveNW") 
             return ActionsEnum.moveNW;
-        else if (act == "moveSW") 
+        if (act == "moveSW") 
             return ActionsEnum.moveSW;
-        else if (act == "refuel") 
+        if (act == "refuel") 
             return ActionsEnum.battery;
-        else 
+        if (act == "moveSE") 
             return ActionsEnum.moveSE;
-        
+        System.out.println("-------------------------- No conoce la orden --------------------------");
+            return ActionsEnum.moveS;
     }
     
     /**
@@ -178,10 +188,8 @@ public class Algoritmo {
         System.out.println("UPDATE SCANNER");
         for(int i=0; i<3; i++){
             for(int j=0; j<3; j++){
-                //System.out.println((posActual.first+i) + " , " + (posActual.second+j));
-                scanner[i][j]= calcularDistancia(new Pair(posActual.first+i,posActual.second+j), posFinal);
+                scanner[i][j]= calcularDistancia(new Pair(posActual.first+i-1,posActual.second+j-1), posFinal);
             }
-            System.out.println();
         }
     }
     
@@ -190,7 +198,7 @@ public class Algoritmo {
      * @author Vicente
      */
     private void updateMatrixSensor(){
-        updateRadar();
+        //updateRadar();
         updateScanner();
     }
     
@@ -438,15 +446,16 @@ public class Algoritmo {
      * @return String
      */
     public ActionsEnum heuristic(){
-      /*  if(this.battery < 2){
+        if(this.battery <=4){
             System.out.println("Bot: REFUEL");
-            return "refuel";
-        }*/
-        //Si el bot está sobre la casilla 2 (objetivo), fin
+            return ActionsEnum.battery;
+        }
+        //Si el bot está sobre la casilla 3 (objetivo), fin
         
         updateMatrixSensor();
         
-        if(world[posActual.first][posActual.second] == 3){
+        if(radar[1][1] == 3){
+            System.out.println("POSFINAL= " + this.posActual.first + " , " + this.posActual.second);
             System.out.println("Bot: FOUND");
             return actionEnum("found");
         }
