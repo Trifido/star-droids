@@ -102,7 +102,7 @@ public class XWing extends Role {
     @Override
     public void firstLogic() {      
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
-this.showRadar();
+
         if (!found) {
             if (this.datos.getFuel() <= 2) {
                 this.action = ActionsEnum.battery; // Recargar batería
@@ -240,8 +240,8 @@ this.showRadar();
      */
     @Override
     protected void calculateMiniRadar() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int j= 0; j < 3; j++) {
+            for (int i = 0; i < 3; i++) {
                 Pair<Integer,Integer> coord = mapToWorld(i,j);
                 if (checkShips(coord.first, coord.second)) // Si hay otra nave ahí
                     this.miniRadar[i][j] = 2; // Rellenar con un 2

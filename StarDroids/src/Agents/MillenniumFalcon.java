@@ -154,9 +154,6 @@ public class MillenniumFalcon extends Role {
     @Override
     public void firstLogic() {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
-        this.showRadar();
-
-        
         
         if (!found) {
             if (this.datos.getFuel() <= 4) {
