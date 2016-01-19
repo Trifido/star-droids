@@ -40,7 +40,8 @@ public class Algoritmo {
         for(int i=0; i<3; i++){
             for(int j=0; j<3; j++){
                 Pair<Integer,Integer> pos= mapToWorld(i,j);
-                world[pos.first][pos.second]= radar[i][j];
+                if (pos.first >= 0 && pos.first <=499 && pos.second >= 0 && pos.second <= 499)
+                    world[pos.first][pos.second]= radar[i][j];
             }
         }
     }
