@@ -11,7 +11,6 @@ import helpers.Pair;
 public class XWing extends Role {
     //Or fly (mosca)
 
-    
     private Algoritmo heuristica;
 
     // Variables de modo búsqueda de objetivo
@@ -55,7 +54,6 @@ public class XWing extends Role {
                }
             } 
         }
-        System.out.println("isFound= " + this.found);
     }
     
     /**
@@ -195,6 +193,10 @@ public class XWing extends Role {
         }
     }
 
+    /**
+     * @author Vicente Martinez
+     * @description Selecciona la acción a realizar en el modo moverse al objetivo
+     */
     @Override
     public void secondLogic() {
         System.out.println("GOAL: " + goal.first + " , " + goal.second);
@@ -206,7 +208,7 @@ public class XWing extends Role {
 
      /**
      *
-     * @author Andrés Ortiz Corrales y Rafael Ruiz
+     * @author Andrés Ortiz Corrales, Rafael Ruiz
      * @description Almacenamiento de datos de sensor particular a la mosca
      */
     @Override
