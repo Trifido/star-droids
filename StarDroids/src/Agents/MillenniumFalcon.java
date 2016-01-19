@@ -702,8 +702,8 @@ public class MillenniumFalcon extends Role {
         int y = (Integer) this.datos.getPosition().second;
         int index = 0;
 
-        for(int j = y-5 ; j < y+5; j++) {
-            for(int i = x-5 ; i < x+5; i++) {
+        for(int j = y-5 ; j <= y+5; j++) {
+            for(int i = x-5 ; i <= x+5; i++) {
                 if(i>=0 && i<=499 && j>=0 && j<=499)
                     this.datos.setWorldMap(i, j, sensor.get(index).asInt());
                 index++;
@@ -717,9 +717,9 @@ public class MillenniumFalcon extends Role {
      */
     @Override
     protected void calculateMiniRadar() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                Pair<Integer,Integer> coord = mapToWorld(i+4,j+4);
+        for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < 3; i++) {
+                Pair<Integer,Integer> coord = mapToWorld(j+4,i+4);
                 if (checkShips(coord.first, coord.second)) // Si hay otra nave ahí
                     this.miniRadar[i][j] = 2; // Rellenar con un 2
                 else

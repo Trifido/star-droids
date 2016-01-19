@@ -39,7 +39,7 @@ public class Algoritmo {
            
         for(int j=0; j<3; j++){
             for(int i=0; i<3; i++){
-                Pair<Integer,Integer> pos= mapToWorld(i,j);
+                Pair<Integer,Integer> pos= mapToWorld(j,i);
                 if (pos.first >= 0 && pos.first <=499 && pos.second >= 0 && pos.second <= 499)
                     world[pos.first][pos.second]= radar[i][j];
             }

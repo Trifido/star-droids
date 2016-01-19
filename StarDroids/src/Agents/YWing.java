@@ -564,8 +564,8 @@ public class YWing extends Role {
         int y = (Integer) this.datos.getPosition().second;
         int index = 0;
 
-        for(int j = y-2 ; j < y+2; j++) {
-            for(int i = x-2 ; i < x+2; i++) {
+        for(int j = y-2 ; j <= y+2; j++) {
+            for(int i = x-2 ; i <= x+2; i++) {
                 if(i>=0 && i<=499 && j>=0 && j<=499)
                     this.datos.setWorldMap(i, j, sensor.get(index).asInt());
                 index++;
@@ -579,9 +579,9 @@ public class YWing extends Role {
      */
     @Override
     protected void calculateMiniRadar() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                Pair<Integer,Integer> coord = mapToWorld(i+1,j+1);
+        for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < 3; i++) {
+                Pair<Integer,Integer> coord = mapToWorld(j+1,i+1);
                 if (checkShips(coord.first, coord.second)) // Si hay otra nave ahí
                     this.miniRadar[i][j] = 2; // Rellenar con un 2
                 else
