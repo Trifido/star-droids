@@ -112,8 +112,6 @@ public class YWing extends Role {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
         this.showRadar();
         
-        isFound();
-        
         if (!found) {
             if (this.datos.getFuel() <= 1) {
                 this.action = ActionsEnum.battery; // Recargar batería
@@ -182,6 +180,7 @@ public class YWing extends Role {
                 System.out.println();*/
             }
         }
+        isFound();
        
     }
     

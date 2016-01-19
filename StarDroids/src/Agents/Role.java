@@ -228,8 +228,21 @@ public abstract class Role {
         
         for(int j = y-a ; j < y+b; j++) {
             for(int i = x-a ; i < x+b; i++) {
-                if(i>=0 && i<=499 && j>=0 && j<=499)
-                    this.datos.setWorldMap(i, j, sensor.get(index).asInt());
+                if(i>=0 && i<=499 && j>=0 && j<=499){
+                
+                    int theIndex = sensor.get(index).asInt();
+                    if( theIndex == 3 && this.found == false ){
+                        System.out.println("aha1");
+                        this.found = true;
+                        this.goal.first = x;
+                        this.goal.second = y;
+                        System.out.println("aha2");
+                        this.datos.setGoalPosition( x,y  );
+                        System.out.println("aha3");
+                    }
+                    this.datos.setWorldMap(i, j, theIndex);
+                }
+                    
                 index++;
             }
         }

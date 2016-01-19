@@ -156,7 +156,7 @@ public class MillenniumFalcon extends Role {
         Pair<Integer,Integer> myPosition = this.datos.getPosition();
         this.showRadar();
 
-        isFound();
+        
         
         if (!found) {
             if (this.datos.getFuel() <= 4) {
@@ -225,6 +225,7 @@ public class MillenniumFalcon extends Role {
                 System.out.println();*/
             }
         }
+        isFound();
     }
     
      /**

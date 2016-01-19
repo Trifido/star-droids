@@ -38,7 +38,7 @@ public class StarDroids {
         // Iniciar la interfaz
         map.startInterface();
         
-        //System.out.println("ok");
+        System.out.println("ok");
     }
 
 }

@@ -36,7 +36,9 @@ public class Sensors {
                 this.worldMap[i][j] = new Integer(-1); //unknown
         
         this.myPosition = new Pair(-1,-1);
+        this.goalPosition = new Pair(-1,-1);
         this.shipsPosition = new Pair[4];
+        
         
         for (int i = 0; i < 4 ; i++)
             this.shipsPosition[i] = new Pair(-1,-1);

@@ -17,7 +17,7 @@ public class Resurrection {
 
     public static void main(String[] args) throws Exception {
         AgentsConnection.connect("isg2.ugr.es", 6000, "test", "Canmaior", "Ishiguro", false);
-        Yoda yoda = new Yoda(new AgentID("Yodaa"));
+        Yoda yoda = new Yoda(new AgentID("Yodaaaa"));
         yoda.start();
     }
 
